@@ -1002,6 +1002,24 @@
       const k = guildKeys[el.getAttribute('data-guild')];
       if (k) el.setAttribute('aria-label', ui(k) + ' — ' + ui('gldOpen'));
     });
+    $$('[data-i18n-ext]').forEach(a => {
+      const name = (a.textContent || '').replace(/\s+/g, ' ').trim();
+      if (name) a.setAttribute('aria-label', name + ' — ' + ui('extNew'));
+    });
+    const SITE = 'https://peterdinis611.github.io/Bardejov-Presentation/';
+    const ogLoc = { sk: 'sk_SK', cs: 'cs_CZ', en: 'en_GB', pl: 'pl_PL', hu: 'hu_HU', uk: 'uk_UA' };
+    const og = document.querySelector('meta[property="og:locale"]');
+    if (og) og.setAttribute('content', ogLoc[lang] || 'sk_SK');
+    const ogt = document.querySelector('meta[property="og:title"]');
+    if (ogt && metaPack.title) ogt.setAttribute('content', metaPack.title);
+    const ogd = document.querySelector('meta[property="og:description"]');
+    if (ogd && metaPack.description) ogd.setAttribute('content', metaPack.description);
+    const ogu = document.querySelector('meta[property="og:url"]');
+    if (ogu) ogu.setAttribute('content', SITE + (lang === 'sk' ? '' : '?lang=' + lang));
+    const twt = document.querySelector('meta[name="twitter:title"]');
+    if (twt && metaPack.title) twt.setAttribute('content', metaPack.title);
+    const twd = document.querySelector('meta[name="twitter:description"]');
+    if (twd && metaPack.description) twd.setAttribute('content', metaPack.description);
     splitHeadingWords();
     shown.forEach(el => { if (el.isConnected) el.classList.add('rv-in'); });
     $$('#hero .mask-line, #hero [data-rv]').forEach(el => el.classList.add('rv-in'));
@@ -1035,6 +1053,10 @@
   }
   function wireLang() {
     lang = detectLang();
+    try {
+      const q = new URLSearchParams(location.search).get('lang');
+      if (q && window.BV && window.BV.I18N && window.BV.I18N[q]) localStorage.setItem('bv-lang', q);
+    } catch (e) {}
     applyI18n();
     $$('#lingua [data-lang]').forEach(b => {
       b.addEventListener('click', () => setLang(b.getAttribute('data-lang')));
@@ -1145,8 +1167,46 @@
     $$('.chip').forEach(chip => {
       chip.addEventListener('click', () => {
         const map = ['gate', 'pathways', 'lessons', 'eternity'];
-        const target = document.getElementById(map[chip.getAttribute('data-chip')]);
-        if (target) target.scrollIntoView({ behavior: REDUCE ? 'auto' : 'smooth', block: 'start' });
+        goToId(map[chip.getAttribute('data-chip')]);
+      });
+    });
+  }
+
+  function openLesson(art) {
+    if (!art || !art.classList.contains('les')) return;
+    $$('.les').forEach(el => {
+      el.classList.remove('is-open');
+      const row = $('.les-row', el);
+      if (row) row.setAttribute('aria-expanded', 'false');
+    });
+    art.classList.add('is-open');
+    const btn = $('.les-row', art);
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+  }
+  function closeNav() {
+    if (!nav) return;
+    nav.classList.remove('menu-open');
+    const burger = $('.nav-burger');
+    if (burger) burger.classList.remove('active');
+    document.documentElement.classList.remove('nav-open');
+  }
+  function goToId(id, instant) {
+    if (!id) return false;
+    const el = document.getElementById(id);
+    if (!el) return false;
+    if (el.classList.contains('les')) openLesson(el);
+    el.scrollIntoView({ behavior: (instant || REDUCE) ? 'auto' : 'smooth', block: 'start' });
+    return true;
+  }
+  function wireAnchors() {
+    $$('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = (a.getAttribute('href') || '').replace(/^#/, '');
+        if (!id) return;
+        if (!goToId(id)) return;
+        e.preventDefault();
+        closeNav();
+        try { history.replaceState(null, '', '#' + id); } catch (err) {}
       });
     });
   }
@@ -1449,6 +1509,8 @@
     wireForeground();
     loadWeather();
     setIter('2h');
+    const hash = (location.hash || '').replace(/^#/, '');
+    if (hash) setTimeout(() => goToId(hash, true), 60);
   }
 
   function boot() {
@@ -1457,6 +1519,7 @@
     wireLang();
     wireRail();
     wireNav();
+    wireAnchors();
     wireCursor();
     wireWalk();
     window.addEventListener('scroll', onScroll, { passive: true });

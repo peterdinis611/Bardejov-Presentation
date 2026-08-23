@@ -57,7 +57,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:none}
     linear-gradient(180deg, rgba(16,10,8,.22), transparent 18%, transparent 78%, rgba(16,10,8,.42));
 }
 .page{ position:relative; z-index:10; }
-.hero, .sec, .foot{ scroll-margin-top:calc(var(--nav-h) + 12px); }
+.hero, .sec, .foot, .les{ scroll-margin-top:calc(var(--nav-h) + 12px); }
 
 .eyebrow{
   font-size:10px; font-weight:500; letter-spacing:.22em; text-transform:uppercase;
