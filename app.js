@@ -975,11 +975,18 @@
     if (desc && metaPack.description) desc.setAttribute('content', metaPack.description);
     const spec = ((window.BV && window.BV.LANGS) || []).find(l => l.id === lang);
     document.documentElement.lang = (spec && spec.html) || lang;
-    $$('#lingua [data-lang]').forEach(b => {
-      b.setAttribute('aria-pressed', b.getAttribute('data-lang') === lang ? 'true' : 'false');
+    const now = $('#lingua-now');
+    if (now) now.textContent = (spec && spec.label) || (lang || 'sk').toUpperCase();
+    $$('#lingua-list [data-lang]').forEach(el => {
+      el.setAttribute('aria-selected', el.getAttribute('data-lang') === lang ? 'true' : 'false');
     });
     const lingua = $('#lingua');
+    const linguaBtn = $('#lingua-btn');
     if (lingua) lingua.setAttribute('aria-label', ui('lingua'));
+    if (linguaBtn) {
+      const nm = (spec && spec.name) || '';
+      linguaBtn.setAttribute('aria-label', ui('lingua') + (nm ? ' — ' + nm : ''));
+    }
     const snd = $('#snd');
     if (snd) snd.setAttribute('aria-label', bus.enabled ? ui('soundOff') : ui('soundOn'));
     const burger = $('.nav-burger');
@@ -1051,6 +1058,17 @@
     if (sheetOpen && sheetId) openSheet(sheetId, $('#sheet') && $('#sheet').classList.contains('compact'));
     if (touring) lastCaption = '';
   }
+  function setLinguaOpen(open) {
+    const box = $('#lingua');
+    const btn = $('#lingua-btn');
+    if (!box || !btn) return;
+    box.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) {
+      const sel = $('#lingua-list [aria-selected="true"]');
+      if (sel) sel.focus();
+    }
+  }
   function wireLang() {
     lang = detectLang();
     try {
@@ -1058,8 +1076,44 @@
       if (q && window.BV && window.BV.I18N && window.BV.I18N[q]) localStorage.setItem('bv-lang', q);
     } catch (e) {}
     applyI18n();
-    $$('#lingua [data-lang]').forEach(b => {
-      b.addEventListener('click', () => setLang(b.getAttribute('data-lang')));
+    const box = $('#lingua');
+    const btn = $('#lingua-btn');
+    if (!box || !btn) return;
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      setLinguaOpen(!box.classList.contains('open'));
+    });
+    btn.addEventListener('keydown', e => {
+      if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        setLinguaOpen(true);
+      }
+    });
+    $$('#lingua-list [data-lang]').forEach(el => {
+      el.addEventListener('click', () => {
+        setLang(el.getAttribute('data-lang'));
+        setLinguaOpen(false);
+        btn.focus();
+      });
+      el.addEventListener('keydown', e => {
+        const opts = $$('#lingua-list [data-lang]');
+        const i = opts.indexOf(el);
+        if (e.key === 'ArrowDown') { e.preventDefault(); opts[(i + 1) % opts.length].focus(); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); opts[(i - 1 + opts.length) % opts.length].focus(); }
+        else if (e.key === 'Home') { e.preventDefault(); opts[0].focus(); }
+        else if (e.key === 'End') { e.preventDefault(); opts[opts.length - 1].focus(); }
+        else if (e.key === 'Escape') { e.preventDefault(); setLinguaOpen(false); btn.focus(); }
+        else if (e.key === 'Tab') { setLinguaOpen(false); }
+      });
+    });
+    document.addEventListener('click', e => {
+      if (!box.contains(e.target)) setLinguaOpen(false);
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && box.classList.contains('open')) {
+        setLinguaOpen(false);
+        btn.focus();
+      }
     });
   }
 
@@ -1155,6 +1209,7 @@
     const burger = $('.nav-burger');
     const links = $('#navlinks');
     burger.addEventListener('click', () => {
+      setLinguaOpen(false);
       const open = nav.classList.toggle('menu-open');
       burger.classList.toggle('active', open);
       document.documentElement.classList.toggle('nav-open', open);
