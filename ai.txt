@@ -1,0 +1,5 @@
+# AI scraping / training policy for Bardejov
+# Search indexing is declared separately in robots.txt.
+
+User-Agent: *
+Disallow: /

@@ -1,0 +1,150 @@
+# Bardejov - Civitas regia
+# Search engines may index. AI training and aggressive scrapers may not.
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: SeznamBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# --- AI training / dataset crawlers ---
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Claude-SearchBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: ByteDance
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+User-agent: meta-externalfetcher
+Disallow: /
+
+User-agent: Cohere-ai
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: cohere-training-data-crawler
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: ImagesiftBot
+Disallow: /
+
+User-agent: img2dataset
+Disallow: /
+
+User-agent: Timpibot
+Disallow: /
+
+User-agent: YouBot
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: PhindBot
+Disallow: /
+
+User-agent: magpie-crawler
+Disallow: /
+
+User-agent: omgili
+Disallow: /
+
+User-agent: omgilibot
+Disallow: /
+
+User-agent: Scrapy
+Disallow: /
+
+User-agent: crawl
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: Ai2Bot
+Disallow: /
+
+User-agent: AI2Bot
+Disallow: /
+
+User-agent: iaskspider
+Disallow: /
+
+User-agent: Webzio-Extended
+Disallow: /
+
+User-agent: *
+Allow: /
+Disallow: /i18n_build.py
+Disallow: /i18n_en.py
+Disallow: /i18n_east.py
+Disallow: /i18n_huuk.py
+Disallow: /i18n_rest.py
+Disallow: /404.html
+Disallow: /500.html
+Disallow: /tdm-policy.txt
+Disallow: /ai.txt
+Crawl-delay: 2
+
+Sitemap: https://peterdinis611.github.io/Bardejov-Presentation/sitemap.xml

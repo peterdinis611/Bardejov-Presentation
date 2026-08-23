@@ -1,0 +1,10 @@
+Bardejov - Civitas regia
+Text and data mining reservation
+
+TDM rights in this site are reserved under Article 4 of EU Directive 2019/790
+(DSM Directive) and equivalent national rules.
+
+Machine learning, dataset compilation and AI training are not licensed.
+Classic search-engine indexing remains permitted as declared in robots.txt.
+
+Contact: the repository owner of peterdinis611/Bardejov-Presentation on GitHub.
