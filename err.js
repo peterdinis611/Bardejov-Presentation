@@ -66,6 +66,8 @@
     document.documentElement.lang = (spec && spec.html) || lang;
     const now = $('#lingua-now');
     if (now) now.textContent = (spec && spec.label) || (lang || 'sk').toUpperCase();
+    const flag = $('#lingua-flag');
+    if (flag) flag.className = 'flag flag-' + lang;
     $$('#lingua-list [data-lang]').forEach(el => {
       el.setAttribute('aria-selected', el.getAttribute('data-lang') === lang ? 'true' : 'false');
     });

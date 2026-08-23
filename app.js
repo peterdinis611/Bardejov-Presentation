@@ -1,3 +1,5 @@
+import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/three.module.min.js';
+
 /* Bardejov — dusk walk through a live UNESCO square */
 (function () {
   const REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -755,7 +757,7 @@
   }
 
   function initHots() {
-    if (!window.THREE) return;
+    if (!THREE) return;
     hotVecs = HOT_DEF.map(h => ({
       place: h.place,
       v: new THREE.Vector3(h.p[0], h.p[1], h.p[2]),
@@ -865,7 +867,7 @@
   }
 
   function initGL() {
-    if (!window.THREE) throw new Error('three missing');
+    if (!THREE) throw new Error('three missing');
     renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
     renderer.setSize(vpW(), vpH(), false);
@@ -977,6 +979,8 @@
     document.documentElement.lang = (spec && spec.html) || lang;
     const now = $('#lingua-now');
     if (now) now.textContent = (spec && spec.label) || (lang || 'sk').toUpperCase();
+    const flag = $('#lingua-flag');
+    if (flag) flag.className = 'flag flag-' + lang;
     $$('#lingua-list [data-lang]').forEach(el => {
       el.setAttribute('aria-selected', el.getAttribute('data-lang') === lang ? 'true' : 'false');
     });
