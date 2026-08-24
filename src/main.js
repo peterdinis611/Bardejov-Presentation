@@ -645,6 +645,7 @@ import { I18N, LANGS } from './lang.js';
   let ttsVoice = null;
   let ttsVoiceLang = '';
   let ttsKey = '';
+  let ttsKeep = 0;
   const HOT_DEF = [
     { place: 'hall', p: [0, 2.7, 0.15] },
     { place: 'basilica', p: [0, 9.6, -8.5] },
@@ -709,9 +710,16 @@ import { I18N, LANGS } from './lang.js';
     return t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
   }
 
+  function clearTtsKeep() {
+    if (ttsKeep) {
+      clearInterval(ttsKeep);
+      ttsKeep = 0;
+    }
+  }
   function stopSpeech() {
     ttsUtter = null;
     ttsKey = '';
+    clearTtsKeep();
     try {
       window.speechSynthesis?.cancel();
     } catch {}
@@ -805,6 +813,7 @@ import { I18N, LANGS } from './lang.js';
         if (ttsUtter !== u) return;
         ttsUtter = null;
         ttsKey = '';
+        clearTtsKeep();
         syncSpeakButtons();
       };
       u.onend = done;
@@ -812,14 +821,19 @@ import { I18N, LANGS } from './lang.js';
       synth.speak(u);
       syncSpeakButtons();
       if (/Chrome|Chromium|Edg\//.test(navigator.userAgent)) {
-        setTimeout(() => {
-          if (ttsUtter !== u || !synth.speaking) return;
+        clearTtsKeep();
+        ttsKeep = setInterval(() => {
+          if (ttsUtter !== u || !synth.speaking) {
+            clearTtsKeep();
+            return;
+          }
           synth.pause();
           synth.resume();
-        }, 50);
+        }, 11000);
       }
     } catch {
       ttsKey = '';
+      clearTtsKeep();
       syncSpeakButtons();
     }
   }
