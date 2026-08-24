@@ -1201,6 +1201,68 @@ import { I18N, LANGS } from './lang.js';
       el.textContent = phrase;
     });
   }
+  function setHead(sel, attr, val) {
+    const el = document.querySelector(sel);
+    if (el && val) el.setAttribute(attr, val);
+  }
+  function applySeo(metaPack, spec) {
+    const SITE = 'https://peterdinis611.github.io/Bardejov-Presentation/';
+    const pageUrl = SITE + (lang === 'sk' ? '' : `?lang=${lang}`);
+    const ogLoc = { sk: 'sk_SK', cs: 'cs_CZ', en: 'en_GB', pl: 'pl_PL', hu: 'hu_HU', uk: 'uk_UA' };
+    if (metaPack.title) document.title = metaPack.title;
+    setHead('meta[name="description"]', 'content', metaPack.description);
+    setHead('meta[name="keywords"]', 'content', metaPack.keywords);
+    setHead('meta[property="og:site_name"]', 'content', metaPack.siteName);
+    setHead('meta[property="og:locale"]', 'content', ogLoc[lang] || 'sk_SK');
+    setHead('meta[property="og:title"]', 'content', metaPack.title);
+    setHead('meta[property="og:description"]', 'content', metaPack.description);
+    setHead('meta[property="og:url"]', 'content', pageUrl);
+    setHead('meta[property="og:image:alt"]', 'content', metaPack.imageAlt);
+    setHead('meta[name="twitter:title"]', 'content', metaPack.title);
+    setHead('meta[name="twitter:description"]', 'content', metaPack.description);
+    setHead('meta[name="twitter:image:alt"]', 'content', metaPack.imageAlt);
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute('href', pageUrl);
+    const ld = document.getElementById('ld-json');
+    if (!ld) return;
+    const places = (metaPack.places || []).map((name, i, arr) => ({
+      '@type': i === arr.length - 1 ? 'TouristAttraction' : 'LandmarksOrHistoricalBuildings',
+      name,
+    }));
+    ld.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'WebSite',
+          name: metaPack.siteName || 'Bardejov UNESCO',
+          url: SITE,
+          inLanguage: spec?.html || lang,
+          description: metaPack.description,
+          keywords: metaPack.keywords,
+        },
+        {
+          '@type': 'TouristAttraction',
+          name: 'Bardejov',
+          alternateName: ['UNESCO Bardejov', 'Bártfa', 'Bardejów', 'Бардіїв'],
+          url: pageUrl,
+          image: `${SITE}assets/square.jpg`,
+          description: metaPack.description,
+          keywords: metaPack.keywords,
+          isAccessibleForFree: true,
+          touristType: ['Cultural tourism', 'Heritage tourism'],
+          address: {
+            '@type': 'PostalAddress',
+            addressLocality: 'Bardejov',
+            addressRegion: 'Prešovský kraj',
+            addressCountry: 'SK',
+          },
+          geo: { '@type': 'GeoCoordinates', latitude: 49.2944, longitude: 21.2758 },
+          sameAs: ['https://whc.unesco.org/en/list/973/', 'https://www.bardejov.sk/'],
+          containsPlace: places,
+        },
+      ],
+    });
+  }
   function applyI18n() {
     const shown = $$('.rv-in');
     resetWordReveal();
@@ -1212,10 +1274,8 @@ import { I18N, LANGS } from './lang.js';
       else el.textContent = v;
     });
     const metaPack = pack().meta || fallbackPack().meta || {};
-    if (metaPack.title) document.title = metaPack.title;
-    const desc = document.querySelector('meta[name="description"]');
-    if (desc && metaPack.description) desc.setAttribute('content', metaPack.description);
     const spec = (LANGS || []).find((l) => l.id === lang);
+    applySeo(metaPack, spec);
     document.documentElement.lang = spec?.html || lang;
     const now = $('#lingua-now');
     if (now) now.textContent = spec?.label || (lang || 'sk').toUpperCase();
@@ -1268,20 +1328,6 @@ import { I18N, LANGS } from './lang.js';
       const name = (a.textContent || '').replace(/\s+/g, ' ').trim();
       if (name) a.setAttribute('aria-label', `${name} — ${ui('extNew')}`);
     });
-    const SITE = 'https://peterdinis611.github.io/Bardejov-Presentation/';
-    const ogLoc = { sk: 'sk_SK', cs: 'cs_CZ', en: 'en_GB', pl: 'pl_PL', hu: 'hu_HU', uk: 'uk_UA' };
-    const og = document.querySelector('meta[property="og:locale"]');
-    if (og) og.setAttribute('content', ogLoc[lang] || 'sk_SK');
-    const ogt = document.querySelector('meta[property="og:title"]');
-    if (ogt && metaPack.title) ogt.setAttribute('content', metaPack.title);
-    const ogd = document.querySelector('meta[property="og:description"]');
-    if (ogd && metaPack.description) ogd.setAttribute('content', metaPack.description);
-    const ogu = document.querySelector('meta[property="og:url"]');
-    if (ogu) ogu.setAttribute('content', SITE + (lang === 'sk' ? '' : `?lang=${lang}`));
-    const twt = document.querySelector('meta[name="twitter:title"]');
-    if (twt && metaPack.title) twt.setAttribute('content', metaPack.title);
-    const twd = document.querySelector('meta[name="twitter:description"]');
-    if (twd && metaPack.description) twd.setAttribute('content', metaPack.description);
     splitHeadingWords();
     shown.forEach((el) => {
       if (el.isConnected) el.classList.add('rv-in');

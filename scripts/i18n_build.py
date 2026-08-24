@@ -23,8 +23,19 @@ def C(title, lead, body, mins, how, year=None):
 # --------------------------------------------------------------------------- SK
 sk = {
     "meta": {
-        "title": "Bardejov — Kde kameň ešte pamätá kráľov",
-        "description": "Prechádzka súmrakom cez UNESCO Bardejov: Radničné námestie, bazilika sv. Egídia, hradby a kúpele Šariša. Živé Three.js námestie a kapitoly mesta.",
+        "title": "Bardejov UNESCO — námestie, bazilika sv. Egídia a kúpele",
+        "description": "Navštívte UNESCO Bardejov: Radničné námestie, bazilika sv. Egídia, mestské hradby, židovské predmestie a Bardejovské Kúpele. Sprievodca slobodným kráľovským mestom na Šariši.",
+        "keywords": "Bardejov, UNESCO Bardejov, Radničné námestie, bazilika sv. Egídia, Bardejovské Kúpele, Šariš, slobodné kráľovské mesto, hradby Bardejov, židovské predmestie, synagóga Bardejov, Slovensko, Prešov",
+        "imageAlt": "Radničné námestie v Bardejove, lokalita UNESCO, za súmraku",
+        "siteName": "Bardejov UNESCO",
+        "places": [
+            "Radničné námestie",
+            "Bazilika sv. Egídia",
+            "Mestská radnica",
+            "Mestské hradby",
+            "Židovské predmestie",
+            "Bardejovské Kúpele",
+        ],
     },
     "ui": {
         "preLat": "Kráľovské mesto · Šariš",
@@ -359,6 +370,8 @@ for lid, pack in packs.items():
     assert not extra_ui, (lid, "ui extra", extra_ui)
     assert not missing_cat, (lid, "cat missing", missing_cat)
     assert set(pack["voice"]) == set(sk["voice"]), lid
+    assert set(pack["meta"]) == set(sk["meta"]), (lid, "meta", set(pack["meta"]) ^ set(sk["meta"]))
+    assert len(pack["meta"]["places"]) == len(sk["meta"]["places"]), lid
     assert len(pack["hints"]) == 5, lid
     assert len(pack["tour"]) == 5, lid
     assert set(pack["iters"]) == {"2h", "half", "full"}, lid

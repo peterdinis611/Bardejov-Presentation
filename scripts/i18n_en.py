@@ -1,8 +1,19 @@
 # -*- coding: utf-8 -*-
 en = {
     "meta": {
-        "title": "Bardejov — Where the stone still remembers kings",
-        "description": "A dusk walk through UNESCO Bardejov: the town square, St Giles’ basilica, the walls and the Šariš spa. A live Three.js square and the city’s chapters.",
+        "title": "Bardejov UNESCO — Town Hall Square, St Giles and spa",
+        "description": "Visit UNESCO Bardejov: Town Hall Square, the basilica of St Giles, the town walls, the Jewish suburb and Bardejov Spa. A guide to the free royal town in Šariš, Slovakia.",
+        "keywords": "Bardejov, UNESCO Bardejov, Town Hall Square, St Giles basilica, Bardejov Spa, Šariš, free royal town, Bardejov walls, Jewish suburb, Slovakia, Prešov",
+        "imageAlt": "Town Hall Square in Bardejov, a UNESCO site, at dusk",
+        "siteName": "Bardejov UNESCO",
+        "places": [
+            "Town Hall Square",
+            "Basilica of St Giles",
+            "Bardejov Town Hall",
+            "Town walls",
+            "Jewish suburb",
+            "Bardejov Spa",
+        ],
     },
     "ui": {
         "preLat": "Royal town · Šariš",

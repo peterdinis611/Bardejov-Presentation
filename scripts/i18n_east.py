@@ -1,8 +1,19 @@
 # -*- coding: utf-8 -*-
 pl = {
     "meta": {
-        "title": "Bardejów — Gdzie kamień wciąż pamięta królów",
-        "description": "Spacer o zmierzchu przez UNESCO Bardejów: rynek, bazylika św. Idziego, mury i uzdrowisko Szaryszu. Żywy rynek Three.js i rozdziały miasta.",
+        "title": "Bardejów UNESCO — rynek, bazylika św. Idziego i uzdrowisko",
+        "description": "Odwiedź UNESCO Bardejów: Rynek Ratuszowy, bazylika św. Idziego, mury miejskie, żydowskie przedmieście i Bardejovské Kúpele. Przewodnik po wolnym mieście królewskim na Szaryszu.",
+        "keywords": "Bardejów, UNESCO Bardejów, Rynek Ratuszowy, bazylika św. Idziego, Bardejovské Kúpele, Szarysz, wolne miasto królewskie, mury Bardejów, żydowskie przedmieście, Słowacja, Preszów",
+        "imageAlt": "Rynek Ratuszowy w Bardejowie, wpis UNESCO, o zmierzchu",
+        "siteName": "Bardejów UNESCO",
+        "places": [
+            "Rynek Ratuszowy",
+            "Bazylika św. Idziego",
+            "Ratusz",
+            "Mury miejskie",
+            "Żydowskie przedmieście",
+            "Bardejovské Kúpele",
+        ],
     },
     "ui": {
         "preLat": "Królewskie miasto · Szarysz",

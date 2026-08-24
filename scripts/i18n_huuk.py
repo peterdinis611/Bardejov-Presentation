@@ -1,8 +1,19 @@
 # -*- coding: utf-8 -*-
 hu = {
     "meta": {
-        "title": "Bártfa — Ahol a kő még királyokra emlékszik",
-        "description": "Alkonyi séta az UNESCO Bártfán: a városháza tér, Szent Egyed-bazilika, a várfalak és a Sáros fürdő. Élő Three.js tér és a város fejezetei.",
+        "title": "Bártfa UNESCO — városháza tér, Szent Egyed és fürdő",
+        "description": "Látogasson az UNESCO Bártfára: Városháza tér, Szent Egyed-bazilika, városfalak, zsidó külváros és Bártfafürdő. Útmutató a szabad királyi városhoz Sárosban.",
+        "keywords": "Bártfa, UNESCO Bártfa, Városháza tér, Szent Egyed-bazilika, Bártfafürdő, Sáros, szabad királyi város, bártfai várfal, zsidó külváros, Szlovákia, Eperjes",
+        "imageAlt": "A bártfai Városháza tér, UNESCO-helyszín, alkonyatkor",
+        "siteName": "Bártfa UNESCO",
+        "places": [
+            "Városháza tér",
+            "Szent Egyed-bazilika",
+            "Városháza",
+            "Városfalak",
+            "Zsidó külváros",
+            "Bártfafürdő",
+        ],
     },
     "ui": {
         "preLat": "Királyi város · Sáros",
@@ -319,8 +330,19 @@ hu = {
 
 uk = {
     "meta": {
-        "title": "Бардіїв — Де камінь ще пам’ятає королів",
-        "description": "Прогулянка смерком крізь ЮНЕСКО Бардіїв: ратушна площа, базиліка св. Егідія, мури й купелі Шариша. Жива площа Three.js і розділи міста.",
+        "title": "Бардіїв ЮНЕСКО — ратушна площа, св. Егідій і купелі",
+        "description": "Відвідайте ЮНЕСКО Бардіїв: Ратушна площа, базиліка св. Егідія, міські мури, єврейське передмістя та Бардіївські Купелі. Провідник вільним королівським містом на Шариші.",
+        "keywords": "Бардіїв, ЮНЕСКО Бардіїв, Ратушна площа, базиліка св. Егідія, Бардіївські Купелі, Шариш, вільне королівське місто, мури Бардієва, єврейське передмістя, Словаччина, Пряшів",
+        "imageAlt": "Ратушна площа в Бардієві, об’єкт ЮНЕСКО, у сутінках",
+        "siteName": "Бардіїв ЮНЕСКО",
+        "places": [
+            "Ратушна площа",
+            "Базиліка св. Егідія",
+            "Ратуша",
+            "Міські мури",
+            "Єврейське передмістя",
+            "Бардіївські Купелі",
+        ],
     },
     "ui": {
         "preLat": "Королівське місто · Шариш",

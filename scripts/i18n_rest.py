@@ -3,8 +3,19 @@
 
 cs = {
     "meta": {
-        "title": "Bardejov — Kde kámen ještě pamatuje krále",
-        "description": "Procházka soumrakem přes UNESCO Bardejov: radniční náměstí, bazilika sv. Jiljí, hradby a lázně Šariše. Živé Three.js náměstí a kapitoly města.",
+        "title": "Bardejov UNESCO — radniční náměstí, sv. Jiljí a lázně",
+        "description": "Navštivte UNESCO Bardejov: radniční náměstí, bazilika sv. Jiljí, městské hradby, židovské předměstí a Bardejovské lázně. Průvodce svobodným královským městem na Šariši.",
+        "keywords": "Bardejov, UNESCO Bardejov, radniční náměstí, bazilika sv. Jiljí, Bardejovské lázně, Šariš, svobodné královské město, hradby Bardejov, židovské předměstí, Slovensko, Prešov",
+        "imageAlt": "Radniční náměstí v Bardejově, lokalita UNESCO, za soumraku",
+        "siteName": "Bardejov UNESCO",
+        "places": [
+            "Radniční náměstí",
+            "Bazilika sv. Jiljí",
+            "Městská radnice",
+            "Městské hradby",
+            "Židovské předměstí",
+            "Bardejovské lázně",
+        ],
     },
     "ui": {
         "preLat": "Královské město · Šariš",
