@@ -136,11 +136,7 @@ Disallow: /
 
 User-agent: *
 Allow: /
-Disallow: /i18n_build.py
-Disallow: /i18n_en.py
-Disallow: /i18n_east.py
-Disallow: /i18n_huuk.py
-Disallow: /i18n_rest.py
+Disallow: /scripts/
 Disallow: /404.html
 Disallow: /500.html
 Disallow: /tdm-policy.txt

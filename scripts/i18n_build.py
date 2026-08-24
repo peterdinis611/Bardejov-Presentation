@@ -364,13 +364,12 @@ for lid, pack in packs.items():
     for key in ("gateK", "pathK", "lesK", "annK", "gldK", "altK", "subK", "walkK"):
         pack["ui"][key] = _re.sub(r"^.*? — ", "", pack["ui"][key], count=1)
 
-out = Path(__file__).with_name("lang.js")
+out = Path(__file__).resolve().parent.parent / "src" / "lang.js"
 payload = json.dumps(packs, ensure_ascii=False)
 out.write_text(
     "/* Bardejov — dusk-walk translations */\n"
-    "window.BV = window.BV || {};\n"
-    "window.BV.LANGS = " + json.dumps(LANGS, ensure_ascii=False) + ";\n"
-    "window.BV.I18N = " + payload + ";\n",
+    "export const LANGS = " + json.dumps(LANGS, ensure_ascii=False) + ";\n"
+    "export const I18N = " + payload + ";\n",
     encoding="utf-8",
 )
 print("wrote", out, "bytes", out.stat().st_size)

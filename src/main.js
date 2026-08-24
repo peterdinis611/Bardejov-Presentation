@@ -1,7 +1,9 @@
-import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/three.module.min.js';
+import * as THREE from 'three';
+import './styles.css';
+import { I18N, LANGS } from './lang.js';
 
 /* Bardejov — dusk walk through a live UNESCO square */
-(function () {
+(() => {
   const REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const $ = (s, r) => (r || document).querySelector(s);
   const $$ = (s, r) => [].slice.call((r || document).querySelectorAll(s));
@@ -22,7 +24,7 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     synagogue: { lat: 'SYNAGOGA', year: '18. st.', photo: 'assets/synagogue.jpg' },
     mikve: { lat: 'MIQVEH', year: 'suterén', photo: 'assets/synagogue.jpg' },
     midrash: { lat: 'BETH HAMIDRASH', year: '18. st.', photo: 'assets/synagogue.jpg' },
-    spa: { lat: 'AQUAE', year: 'pramene', photo: 'assets/spa.jpg' }
+    spa: { lat: 'AQUAE', year: 'pramene', photo: 'assets/spa.jpg' },
   };
   const GUILDS = {
     weavers: { lat: 'TEXTORES', year: '1480', photo: 'assets/houses.jpg' },
@@ -33,7 +35,7 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     furriers: { lat: 'PELLIONES', year: 'cesta', photo: 'assets/houses.jpg' },
     gold: { lat: 'AURIFABRI', year: 'erb', photo: 'assets/radnica.jpg' },
     sieves: { lat: 'CRIBRARII', year: '1485', photo: 'assets/basilica.jpg' },
-    farmers: { lat: 'AGRICOLAE', year: '1480', photo: 'assets/basilica.jpg' }
+    farmers: { lat: 'AGRICOLAE', year: '1480', photo: 'assets/basilica.jpg' },
   };
   const ALTARS = {
     andrew: { lat: 'ANDREAS', year: '1440–1460', photo: 'assets/altars/andrew.jpg' },
@@ -46,42 +48,42 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     apollonia: { lat: 'APOLLONIA', year: '1485', photo: 'assets/altars/apollonia.jpg' },
     nativity: { lat: 'NATIVITAS', year: '1480–1490', photo: 'assets/altars/nativity.jpg' },
     erasmus: { lat: 'ERASMUS', year: 'cech', photo: 'assets/altars/erasmus.jpg' },
-    sorrows: { lat: 'VIR DOLORUM', year: '1500–1510', photo: 'assets/altars/sorrows.jpg' }
+    sorrows: { lat: 'VIR DOLORUM', year: '1500–1510', photo: 'assets/altars/sorrows.jpg' },
   };
   const ERAS = {
-    '1241': { lat: 'TATARI', year: '1241', photo: 'assets/square.jpg' },
-    '1365': { lat: 'IUS GLADII', year: '1365', photo: 'assets/radnica.jpg' },
-    '1376': { lat: 'CIVITAS', year: '1376', photo: 'assets/square.jpg' },
-    '1505': { lat: 'CURIA', year: '1505', photo: 'assets/radnica.jpg' },
+    1241: { lat: 'TATARI', year: '1241', photo: 'assets/square.jpg' },
+    1365: { lat: 'IUS GLADII', year: '1365', photo: 'assets/radnica.jpg' },
+    1376: { lat: 'CIVITAS', year: '1376', photo: 'assets/square.jpg' },
+    1505: { lat: 'CURIA', year: '1505', photo: 'assets/radnica.jpg' },
     '18c': { lat: 'SUBURBIUM', year: 'XVIII', photo: 'assets/synagogue.jpg' },
-    '2000': { lat: 'UNESCO', year: '2000', photo: 'assets/square-wide.jpg' }
+    2000: { lat: 'UNESCO', year: '2000', photo: 'assets/square-wide.jpg' },
   };
   const ITERS = {
     '2h': {
       cap: 'FORUM · 2 HORAE',
       path: 'M298 196 L298 98 L168 98',
       on: ['square', 'hall', 'basilica', 'walls'],
-      ids: ['square', 'basilica', 'walls']
+      ids: ['square', 'basilica', 'walls'],
     },
     half: {
       cap: 'MOENIA · DIES MEDIUS',
       path: 'M298 196 L298 98 L168 98 L132 360',
       on: ['square', 'hall', 'basilica', 'walls', 'suburb'],
-      ids: ['hall', 'basilica', 'walls', 'synagogue']
+      ids: ['hall', 'basilica', 'walls', 'synagogue'],
     },
     full: {
       cap: 'AQUAE · DIES TOTUS',
       path: 'M298 196 L298 98 L168 98 L132 360 M298 196 L478 90 L520 64',
       on: ['square', 'hall', 'basilica', 'walls', 'suburb', 'spa'],
-      ids: ['hall', 'synagogue', 'square', 'spa']
-    }
+      ids: ['hall', 'synagogue', 'square', 'spa'],
+    },
   };
   const TOUR_PATH = [
     { at: 0, p: [0.2, 3.5, 8.8], t: [0, 4.2, -8], fov: 38, lat: 'FORUM' },
     { at: 7, p: [-4.8, 2.3, 4.6], t: [0.1, 2.6, -1.1], fov: 44, lat: 'CURIA' },
     { at: 15, p: [1.4, 5.2, 2.4], t: [0, 7.4, -12], fov: 36, lat: 'BASILICA' },
     { at: 23, p: [8.8, 3.8, -1.2], t: [-2, 2.8, -8], fov: 42, lat: 'MOENIA' },
-    { at: 32, p: [0.15, 3.55, 8.6], t: [0, 4.4, -9], fov: 38, lat: 'CIVITAS' }
+    { at: 32, p: [0.15, 3.55, 8.6], t: [0, 4.4, -9], fov: 38, lat: 'CIVITAS' },
   ];
   let lang = 'sk';
   let iterKey = '2h';
@@ -91,60 +93,77 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
   const cursor = $('#cursor');
   const grain = $('#grain');
 
-  function vpW() { return window.innerWidth; }
-  function vpH() { return window.innerHeight; }
-  function setVW() { root.style.setProperty('--vw', vpW() + 'px'); }
+  function vpW() {
+    return window.innerWidth;
+  }
+  function vpH() {
+    return window.innerHeight;
+  }
+  function setVW() {
+    root.style.setProperty('--vw', `${vpW()}px`);
+  }
 
   let load = 0;
   function setLoad(n) {
     load = Math.max(load, Math.min(100, n | 0));
-    preFill.style.right = (100 - load) + '%';
+    preFill.style.right = `${100 - load}%`;
     prePct.textContent = String(load);
-    preEl.style.setProperty('--p', load + '%');
+    preEl.style.setProperty('--p', `${load}%`);
     if (preHint) {
       const hints = pack().hints || [];
       const marks = [0, 24, 48, 72, 90];
       let text = hints[0] || '';
-      marks.forEach((m, i) => { if (load >= m && hints[i]) text = hints[i]; });
+      marks.forEach((m, i) => {
+        if (load >= m && hints[i]) text = hints[i];
+      });
       if (preHint.textContent !== text) preHint.textContent = text;
     }
   }
 
   function makeGrain() {
     const c = document.createElement('canvas');
-    c.width = 180; c.height = 180;
+    c.width = 180;
+    c.height = 180;
     const x = c.getContext('2d');
     const img = x.createImageData(180, 180);
     for (let i = 0; i < img.data.length; i += 4) {
       const v = 80 + Math.random() * 140;
-      img.data[i] = v; img.data[i + 1] = v; img.data[i + 2] = v; img.data[i + 3] = 255;
+      img.data[i] = v;
+      img.data[i + 1] = v;
+      img.data[i + 2] = v;
+      img.data[i + 3] = 255;
     }
     x.putImageData(img, 0, 0);
-    grain.style.backgroundImage = 'url(' + c.toDataURL('image/png') + ')';
+    grain.style.backgroundImage = `url(${c.toDataURL('image/png')})`;
   }
 
   /* -------------------------------------------------------------- Three.js */
   const canvas = $('#gl');
-  let renderer, scene, camera, town, lanterns = [];
+  let renderer,
+    scene,
+    camera,
+    town,
+    lanterns = [];
   let moon, wordMesh;
   let curveP, curveT;
   const RIG = { prog: 0, smooth: 0, mx: 0, my: 0, tmx: 0, tmy: 0, intro: 0 };
   const GWALL = { x: 0, user: 0, primed: false, root: null, track: null, moved: 0, drift: true };
   const ROOD = { x: 0, user: 0, primed: false, root: null, track: null, moved: 0, drift: false };
   const CAM = [
-    { p: [  0.15,  3.55,  8.6 ], t: [  0.0, 4.4, -9.0 ], fov: 38 },
-    { p: [ -3.8,   2.25,  5.2 ], t: [  0.6, 3.2, -3.4 ], fov: 46 },
-    { p: [  6.8,   3.05,  1.6 ], t: [ -1.4, 3.0, -8.2 ], fov: 42 },
-    { p: [ -0.8,   2.05, -1.2 ], t: [  0.2, 6.2, -14.0 ], fov: 40 },
-    { p: [ -7.4,   3.2,   2.8 ], t: [ -1.6, 2.4, -5.2 ], fov: 44 },
-    { p: [  0.2,  13.6,   1.2 ], t: [  0.0, 0.4, -8.0 ], fov: 50 },
-    { p: [  0.0,   8.6,   4.4 ], t: [  0.0, 3.8, -10.0 ], fov: 44 },
-    { p: [  1.6,  11.2,  10.4 ], t: [  0.0, 1.8, -6.0 ], fov: 48 }
+    { p: [0.15, 3.55, 8.6], t: [0.0, 4.4, -9.0], fov: 38 },
+    { p: [-3.8, 2.25, 5.2], t: [0.6, 3.2, -3.4], fov: 46 },
+    { p: [6.8, 3.05, 1.6], t: [-1.4, 3.0, -8.2], fov: 42 },
+    { p: [-0.8, 2.05, -1.2], t: [0.2, 6.2, -14.0], fov: 40 },
+    { p: [-7.4, 3.2, 2.8], t: [-1.6, 2.4, -5.2], fov: 44 },
+    { p: [0.2, 13.6, 1.2], t: [0.0, 0.4, -8.0], fov: 50 },
+    { p: [0.0, 8.6, 4.4], t: [0.0, 3.8, -10.0], fov: 44 },
+    { p: [1.6, 11.2, 10.4], t: [0.0, 1.8, -6.0], fov: 48 },
   ];
 
   function cvs(w, h) {
     const c = document.createElement('canvas');
-    c.width = w; c.height = h;
+    c.width = w;
+    c.height = h;
     return { c, x: c.getContext('2d') };
   }
   function tx(el, o) {
@@ -159,12 +178,13 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
 
   function texCobble() {
     const { c, x } = cvs(512, 512);
-    x.fillStyle = '#4a4038'; x.fillRect(0, 0, 512, 512);
+    x.fillStyle = '#4a4038';
+    x.fillRect(0, 0, 512, 512);
     for (let y = 0; y < 512; y += 14) {
       const off = (y / 14) % 2 ? 10 : 0;
       for (let px = -10; px < 512; px += 20) {
         const n = 70 + Math.random() * 50;
-        x.fillStyle = 'rgb(' + (n + 18) + ',' + (n + 8) + ',' + (n - 8) + ')';
+        x.fillStyle = `rgb(${n + 18},${n + 8},${n - 8})`;
         x.beginPath();
         x.ellipse(px + off + 10, y + 7, 8 + Math.random() * 2, 5.5, 0, 0, Math.PI * 2);
         x.fill();
@@ -176,10 +196,10 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
   }
   function texPlaster(r, g, b) {
     const { c, x } = cvs(256, 256);
-    x.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
+    x.fillStyle = `rgb(${r},${g},${b})`;
     x.fillRect(0, 0, 256, 256);
     for (let i = 0; i < 900; i++) {
-      x.fillStyle = 'rgba(0,0,0,' + (Math.random() * 0.07) + ')';
+      x.fillStyle = `rgba(0,0,0,${Math.random() * 0.07})`;
       x.fillRect(Math.random() * 256, Math.random() * 256, 2, 2);
     }
     x.fillStyle = 'rgba(255,255,255,.08)';
@@ -190,7 +210,8 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
   }
   function texRoof() {
     const { c, x } = cvs(256, 256);
-    x.fillStyle = '#7a2816'; x.fillRect(0, 0, 256, 256);
+    x.fillStyle = '#7a2816';
+    x.fillRect(0, 0, 256, 256);
     for (let y = 0; y < 256; y += 8) {
       x.fillStyle = y % 16 ? '#9a3418' : '#6a1e10';
       x.fillRect(0, y, 256, 6);
@@ -201,11 +222,12 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
   }
   function texBrick() {
     const { c, x } = cvs(256, 256);
-    x.fillStyle = '#3a2a24'; x.fillRect(0, 0, 256, 256);
+    x.fillStyle = '#3a2a24';
+    x.fillRect(0, 0, 256, 256);
     for (let y = 0; y < 256; y += 12) {
       const off = (y / 12) % 2 ? 14 : 0;
       for (let px = -14; px < 256; px += 28) {
-        x.fillStyle = 'rgb(' + (90 + Math.random() * 40) + ',' + (42 + Math.random() * 18) + ',' + (32 + Math.random() * 12) + ')';
+        x.fillStyle = `rgb(${90 + Math.random() * 40},${42 + Math.random() * 18},${32 + Math.random() * 12})`;
         x.fillRect(px + off + 1, y + 1, 25, 10);
       }
     }
@@ -215,28 +237,64 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     const { c, x } = cvs(8, 512);
     const g = x.createLinearGradient(0, 0, 0, 512);
     g.addColorStop(0, '#1a141c');
-    g.addColorStop(.42, '#24160f');
-    g.addColorStop(.72, '#3a1c12');
+    g.addColorStop(0.42, '#24160f');
+    g.addColorStop(0.72, '#3a1c12');
     g.addColorStop(1, '#120c09');
-    x.fillStyle = g; x.fillRect(0, 0, 8, 512);
+    x.fillStyle = g;
+    x.fillRect(0, 0, 8, 512);
     return c;
   }
 
   function gableRoof(w, d, h) {
     const geo = new THREE.BufferGeometry();
-    const hw = w / 2, hd = d / 2;
+    const hw = w / 2,
+      hd = d / 2;
     const pos = new Float32Array([
-      -hw, 0, -hd,  hw, 0, -hd,  0, h, -hd,
-      -hw, 0,  hd,  0, h,  hd,  hw, 0,  hd,
-      -hw, 0, -hd,  -hw, 0, hd,  0, h, hd,  0, h, -hd,
-       hw, 0, -hd,  0, h, -hd,  0, h, hd,  hw, 0, hd
+      -hw,
+      0,
+      -hd,
+      hw,
+      0,
+      -hd,
+      0,
+      h,
+      -hd,
+      -hw,
+      0,
+      hd,
+      0,
+      h,
+      hd,
+      hw,
+      0,
+      hd,
+      -hw,
+      0,
+      -hd,
+      -hw,
+      0,
+      hd,
+      0,
+      h,
+      hd,
+      0,
+      h,
+      -hd,
+      hw,
+      0,
+      -hd,
+      0,
+      h,
+      -hd,
+      0,
+      h,
+      hd,
+      hw,
+      0,
+      hd,
     ]);
     geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    geo.setIndex([
-      0,1,2, 3,4,5,
-      6,7,8, 6,8,9,
-      10,11,12, 10,12,13
-    ]);
+    geo.setIndex([0, 1, 2, 3, 4, 5, 6, 7, 8, 6, 8, 9, 10, 11, 12, 10, 12, 13]);
     geo.computeVertexNormals();
     return geo;
   }
@@ -260,15 +318,19 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     const h = 1.05 + stories * 1.05;
     const wall = new THREE.MeshStandardMaterial({
       map: tx(plaster, { repeat: [1.4, stories] }),
-      roughness: 0.92, metalness: 0.02
+      roughness: 0.92,
+      metalness: 0.02,
     });
     const body = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), wall);
     body.position.y = h / 2;
-    body.castShadow = true; body.receiveShadow = true;
+    body.castShadow = true;
+    body.receiveShadow = true;
     g.add(body);
     const roofMat = new THREE.MeshStandardMaterial({
       map: roofTex,
-      roughness: 0.78, metalness: 0.04, color: 0xc44520
+      roughness: 0.78,
+      metalness: 0.04,
+      color: 0xc44520,
     });
     const roof = new THREE.Mesh(gableRoof(w + 0.18, d + 0.18, 0.85 + stories * 0.12), roofMat);
     roof.position.y = h;
@@ -306,17 +368,26 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     const g = new THREE.Group();
     const stone = new THREE.MeshStandardMaterial({
       map: tx(plaster, { repeat: [2.4, 2] }),
-      roughness: 0.9, color: 0xc8b49a
+      roughness: 0.9,
+      color: 0xc8b49a,
     });
     const nave = new THREE.Mesh(new THREE.BoxGeometry(5.6, 5.2, 12.4), stone);
     nave.position.set(0, 2.6, -14.6);
     nave.castShadow = true;
     g.add(nave);
-    const roofMat = new THREE.MeshStandardMaterial({ map: tx(roofC, { repeat: [3, 2] }), roughness: 0.76, color: 0xa83218 });
+    const roofMat = new THREE.MeshStandardMaterial({
+      map: tx(roofC, { repeat: [3, 2] }),
+      roughness: 0.76,
+      color: 0xa83218,
+    });
     const roof = new THREE.Mesh(gableRoof(6.2, 13, 2.1), roofMat);
     roof.position.set(0, 5.2, -14.6);
     g.add(roof);
-    const brick = new THREE.MeshStandardMaterial({ map: tx(brickC, { repeat: [1.2, 3] }), roughness: 0.88, color: 0x8a5a44 });
+    const brick = new THREE.MeshStandardMaterial({
+      map: tx(brickC, { repeat: [1.2, 3] }),
+      roughness: 0.88,
+      color: 0x8a5a44,
+    });
     const tower = new THREE.Mesh(new THREE.BoxGeometry(2.2, 9.6, 2.2), brick);
     tower.position.set(0, 4.8, -8.6);
     tower.castShadow = true;
@@ -325,11 +396,19 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     spire.position.set(0, 11.4, -8.6);
     spire.rotation.y = Math.PI / 4;
     g.add(spire);
-    const gold = new THREE.MeshStandardMaterial({ color: 0xc9a24a, metalness: 0.7, roughness: 0.32 });
+    const gold = new THREE.MeshStandardMaterial({
+      color: 0xc9a24a,
+      metalness: 0.7,
+      roughness: 0.32,
+    });
     const ball = new THREE.Mesh(new THREE.SphereGeometry(0.16, 10, 10), gold);
     ball.position.set(0, 13.2, -8.6);
     g.add(ball);
-    const glass = new THREE.MeshBasicMaterial({ color: 0xffb060, transparent: true, opacity: 0.55 });
+    const glass = new THREE.MeshBasicMaterial({
+      color: 0xffb060,
+      transparent: true,
+      opacity: 0.55,
+    });
     const rose = new THREE.Mesh(new THREE.CircleGeometry(0.55, 16), glass);
     rose.position.set(0, 4.6, -8.48);
     g.add(rose);
@@ -340,13 +419,18 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     const g = new THREE.Group();
     const wall = new THREE.MeshStandardMaterial({
       map: tx(plaster, { repeat: [1.6, 1.4] }),
-      roughness: 0.86, color: 0xd2c0a4
+      roughness: 0.86,
+      color: 0xd2c0a4,
     });
     const body = new THREE.Mesh(new THREE.BoxGeometry(4.4, 3.6, 2.6), wall);
     body.position.y = 1.8;
     body.castShadow = true;
     g.add(body);
-    const roofMat = new THREE.MeshStandardMaterial({ map: tx(roofC, { repeat: [2, 1] }), roughness: 0.74, color: 0xb83a18 });
+    const roofMat = new THREE.MeshStandardMaterial({
+      map: tx(roofC, { repeat: [2, 1] }),
+      roughness: 0.74,
+      color: 0xb83a18,
+    });
     const roof = new THREE.Mesh(gableRoof(4.8, 3.0, 1.6), roofMat);
     roof.position.y = 3.6;
     g.add(roof);
@@ -356,7 +440,11 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
       arch.position.set(i * 1.15, 0.95, 1.32);
       g.add(arch);
     }
-    const gold = new THREE.MeshStandardMaterial({ color: 0xc9a24a, metalness: 0.65, roughness: 0.4 });
+    const gold = new THREE.MeshStandardMaterial({
+      color: 0xc9a24a,
+      metalness: 0.65,
+      roughness: 0.4,
+    });
     const ridge = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.9, 0.18), gold);
     ridge.position.set(0, 5.5, 0);
     g.add(ridge);
@@ -367,7 +455,8 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
   function walls(parent, brickC) {
     const brick = new THREE.MeshStandardMaterial({
       map: tx(brickC, { repeat: [8, 1.4] }),
-      roughness: 0.92, color: 0x6a4a3a
+      roughness: 0.92,
+      color: 0x6a4a3a,
     });
     const west = new THREE.Mesh(new THREE.BoxGeometry(1.1, 3.2, 38), brick);
     west.position.set(-16.4, 1.6, -6);
@@ -375,8 +464,17 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     const east = west.clone();
     east.position.x = 16.4;
     parent.add(east);
-    const bast = new THREE.MeshStandardMaterial({ map: tx(brickC, { repeat: [2, 2] }), roughness: 0.9, color: 0x5a3a2e });
-    [[-16.4, -22], [16.4, -22], [-16.4, 10], [16.4, 10]].forEach(p => {
+    const bast = new THREE.MeshStandardMaterial({
+      map: tx(brickC, { repeat: [2, 2] }),
+      roughness: 0.9,
+      color: 0x5a3a2e,
+    });
+    [
+      [-16.4, -22],
+      [16.4, -22],
+      [-16.4, 10],
+      [16.4, 10],
+    ].forEach((p) => {
       const b = new THREE.Mesh(new THREE.CylinderGeometry(1.7, 1.9, 4.4, 8), bast);
       b.position.set(p[0], 2.2, p[1]);
       parent.add(b);
@@ -385,7 +483,11 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
 
   function lantern(parent, x, z) {
     const g = new THREE.Group();
-    const iron = new THREE.MeshStandardMaterial({ color: 0x1a140e, roughness: 0.5, metalness: 0.4 });
+    const iron = new THREE.MeshStandardMaterial({
+      color: 0x1a140e,
+      roughness: 0.5,
+      metalness: 0.4,
+    });
     const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.07, 2.4, 8), iron);
     pole.position.y = 1.2;
     g.add(pole);
@@ -414,7 +516,11 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     const t = new THREE.CanvasTexture(c);
     t.colorSpace = THREE.SRGBColorSpace;
     const mat = new THREE.MeshBasicMaterial({
-      map: t, transparent: true, opacity: 0.88, depthWrite: false, fog: false
+      map: t,
+      transparent: true,
+      opacity: 0.88,
+      depthWrite: false,
+      fog: false,
     });
     const mesh = new THREE.Mesh(new THREE.PlaneGeometry(22, 3.4), mat);
     mesh.position.set(0, 0.04, 6.2);
@@ -436,7 +542,7 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
       texPlaster(196, 168, 138),
       texPlaster(224, 210, 186),
       texPlaster(186, 154, 122),
-      texPlaster(206, 176, 148)
+      texPlaster(206, 176, 148),
     ];
     setLoad(22);
 
@@ -444,7 +550,9 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
       new THREE.PlaneGeometry(90, 90),
       new THREE.MeshStandardMaterial({
         map: tx(cobble, { repeat: [18, 18], aniso: 16 }),
-        roughness: 0.95, metalness: 0.02, color: 0x6a5c50
+        roughness: 0.95,
+        metalness: 0.02,
+        color: 0x6a5c50,
       })
     );
     floor.rotation.x = -Math.PI / 2;
@@ -455,7 +563,8 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
       new THREE.PlaneGeometry(12.6, 26),
       new THREE.MeshStandardMaterial({
         map: tx(cobble, { repeat: [4, 8], aniso: 16 }),
-        roughness: 0.9, color: 0x7a6a58
+        roughness: 0.9,
+        color: 0x7a6a58,
       })
     );
     plaza.rotation.x = -Math.PI / 2;
@@ -474,16 +583,34 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     walls(town, brickC);
     setLoad(72);
 
-    [[-4.8, 8.2], [4.8, 8.2], [-4.8, 2.2], [4.8, 2.2], [-4.8, -4.4], [4.8, -4.4]].forEach(p => lantern(town, p[0], p[1]));
+    [
+      [-4.8, 8.2],
+      [4.8, 8.2],
+      [-4.8, 2.2],
+      [4.8, 2.2],
+      [-4.8, -4.4],
+      [4.8, -4.4],
+    ].forEach((p) => {
+      lantern(town, p[0], p[1]);
+    });
 
     const moonGeo = new THREE.CircleGeometry(2.4, 32);
-    moon = new THREE.Mesh(moonGeo, new THREE.MeshBasicMaterial({ color: 0xe07040, fog: false, toneMapped: false }));
+    moon = new THREE.Mesh(
+      moonGeo,
+      new THREE.MeshBasicMaterial({ color: 0xe07040, fog: false, toneMapped: false })
+    );
     moon.position.set(8.5, 14.5, -28);
     town.add(moon);
 
     const glow = new THREE.Mesh(
       new THREE.CircleGeometry(5.4, 24),
-      new THREE.MeshBasicMaterial({ color: 0xc44520, transparent: true, opacity: 0.18, fog: false, depthWrite: false })
+      new THREE.MeshBasicMaterial({
+        color: 0xc44520,
+        transparent: true,
+        opacity: 0.18,
+        fog: false,
+        depthWrite: false,
+      })
     );
     glow.position.copy(moon.position);
     town.add(glow);
@@ -500,58 +627,84 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
   }
 
   /* -------------------------------------------------------------- walk: sound, sheet, tour */
-  const bus = { ctx: null, master: null, gBell: null, gStep: null, gWater: null, enabled: false, nextBell: 0, nextStep: 0, noise: null };
-  let sheetOpen = false, touring = false, tourT0 = 0, lastCaption = '';
+  const bus = {
+    ctx: null,
+    master: null,
+    gBell: null,
+    gStep: null,
+    gWater: null,
+    enabled: false,
+    nextBell: 0,
+    nextStep: 0,
+    noise: null,
+  };
+  let sheetOpen = false,
+    touring = false,
+    tourT0 = 0,
+    lastCaption = '';
   const spoken = new Set();
   const HOT_DEF = [
     { place: 'hall', p: [0, 2.7, 0.15] },
     { place: 'basilica', p: [0, 9.6, -8.5] },
-    { place: 'walls', p: [-10.2, 2.6, 6.4] }
+    { place: 'walls', p: [-10.2, 2.6, 6.4] },
   ];
   let hotVecs = [];
   let _look, _hp;
 
   function pack() {
-    const all = (window.BV && window.BV.I18N) || {};
-    return all[lang] || all.sk || { ui: {}, cat: {}, voice: {}, tour: [], hints: [], iters: {}, wx: {}, hours: {}, meta: {} };
+    const all = I18N || {};
+    return (
+      all[lang] ||
+      all.sk || {
+        ui: {},
+        cat: {},
+        voice: {},
+        tour: [],
+        hints: [],
+        iters: {},
+        wx: {},
+        hours: {},
+        meta: {},
+      }
+    );
   }
   function fallbackPack() {
-    return ((window.BV && window.BV.I18N) || {}).sk || pack();
+    return I18N?.sk || pack();
   }
   function ui(key) {
     const a = pack().ui || {};
     const b = fallbackPack().ui || {};
-    return a[key] != null ? a[key] : (b[key] || '');
+    return a[key] != null ? a[key] : b[key] || '';
   }
   function fmt(s, data) {
     if (!s) return '';
     return String(s).replace(/\{(\w+)\}/g, (_, k) => (data[k] != null ? data[k] : ''));
   }
   function locale() {
-    const list = (window.BV && window.BV.LANGS) || [];
-    const found = list.find(l => l.id === lang);
-    return (found && found.locale) || 'sk-SK';
+    const list = LANGS || [];
+    const found = list.find((l) => l.id === lang);
+    return found?.locale || 'sk-SK';
   }
   function catalog(id) {
     const base = PLACES[id] || GUILDS[id] || ALTARS[id] || ERAS[id];
     if (!base) return null;
-    const extra = (pack().cat && pack().cat[id]) || (fallbackPack().cat && fallbackPack().cat[id]) || {};
+    const extra = pack().cat?.[id] || fallbackPack().cat?.[id] || {};
     return Object.assign({}, base, extra);
   }
   function tourStep(i) {
     const base = TOUR_PATH[i] || {};
-    const extra = (pack().tour && pack().tour[i]) || (fallbackPack().tour && fallbackPack().tour[i]) || {};
+    const extra = pack().tour?.[i] || fallbackPack().tour?.[i] || {};
     return Object.assign({}, base, extra);
   }
   function iterData(key) {
     const base = ITERS[key] || ITERS['2h'];
-    const rows = (pack().iters && pack().iters[key]) || (fallbackPack().iters && fallbackPack().iters[key]) || [];
+    const rows = pack().iters?.[key] || fallbackPack().iters?.[key] || [];
     return Object.assign({}, base, {
-      stops: rows.map((s, i) => [s[0], s[1], base.ids[i]])
+      stops: rows.map((s, i) => [s[0], s[1], base.ids[i]]),
     });
   }
   function easeInOut(t) {
-    return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    return t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
   }
 
   function audioInit() {
@@ -561,19 +714,32 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     bus.master = bus.ctx.createGain();
     bus.master.gain.value = 0;
     bus.master.connect(bus.ctx.destination);
-    bus.gBell = bus.ctx.createGain(); bus.gBell.gain.value = 0; bus.gBell.connect(bus.master);
-    bus.gStep = bus.ctx.createGain(); bus.gStep.gain.value = 0; bus.gStep.connect(bus.master);
-    bus.gWater = bus.ctx.createGain(); bus.gWater.gain.value = 0; bus.gWater.connect(bus.master);
+    bus.gBell = bus.ctx.createGain();
+    bus.gBell.gain.value = 0;
+    bus.gBell.connect(bus.master);
+    bus.gStep = bus.ctx.createGain();
+    bus.gStep.gain.value = 0;
+    bus.gStep.connect(bus.master);
+    bus.gWater = bus.ctx.createGain();
+    bus.gWater.gain.value = 0;
+    bus.gWater.connect(bus.master);
     const len = bus.ctx.sampleRate * 2;
     const buf = bus.ctx.createBuffer(1, len, bus.ctx.sampleRate);
     const data = buf.getChannelData(0);
     for (let i = 0; i < len; i++) data[i] = Math.random() * 2 - 1;
     bus.noise = buf;
     const src = bus.ctx.createBufferSource();
-    src.buffer = bus.noise; src.loop = true;
-    const lp = bus.ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 640;
-    const hp = bus.ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 160;
-    src.connect(hp); hp.connect(lp); lp.connect(bus.gWater);
+    src.buffer = bus.noise;
+    src.loop = true;
+    const lp = bus.ctx.createBiquadFilter();
+    lp.type = 'lowpass';
+    lp.frequency.value = 640;
+    const hp = bus.ctx.createBiquadFilter();
+    hp.type = 'highpass';
+    hp.frequency.value = 160;
+    src.connect(hp);
+    hp.connect(lp);
+    lp.connect(bus.gWater);
     src.start();
   }
   function strikeBell(freq, gain) {
@@ -588,8 +754,10 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
       o.frequency.value = f;
       g.gain.setValueAtTime(Math.max(0.0001, gain * amps[i]), now);
       g.gain.exponentialRampToValueAtTime(0.0001, now + 4.4);
-      o.connect(g); g.connect(bus.gBell);
-      o.start(now); o.stop(now + 4.5);
+      o.connect(g);
+      g.connect(bus.gBell);
+      o.start(now);
+      o.stop(now + 4.5);
     });
   }
   function footstep() {
@@ -598,13 +766,18 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     const src = bus.ctx.createBufferSource();
     src.buffer = bus.noise;
     const bp = bus.ctx.createBiquadFilter();
-    bp.type = 'bandpass'; bp.frequency.value = 240 + Math.random() * 180; bp.Q.value = 1.6;
+    bp.type = 'bandpass';
+    bp.frequency.value = 240 + Math.random() * 180;
+    bp.Q.value = 1.6;
     const g = bus.ctx.createGain();
     g.gain.setValueAtTime(0.0001, now);
     g.gain.exponentialRampToValueAtTime(0.18, now + 0.02);
     g.gain.exponentialRampToValueAtTime(0.0001, now + 0.16);
-    src.connect(bp); bp.connect(g); g.connect(bus.gStep);
-    src.start(now); src.stop(now + 0.18);
+    src.connect(bp);
+    bp.connect(g);
+    g.connect(bus.gStep);
+    src.start(now);
+    src.stop(now + 0.18);
   }
   function setSound(on) {
     const btn = $('#snd');
@@ -616,7 +789,10 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
       bus.master.gain.cancelScheduledValues(bus.ctx.currentTime);
       bus.master.gain.linearRampToValueAtTime(0.4, bus.ctx.currentTime + 0.45);
       document.documentElement.classList.add('is-sound');
-      if (btn) { btn.setAttribute('aria-pressed', 'true'); btn.setAttribute('aria-label', ui('soundOff')); }
+      if (btn) {
+        btn.setAttribute('aria-pressed', 'true');
+        btn.setAttribute('aria-label', ui('soundOff'));
+      }
       strikeBell(196, 0.26);
       speakFor(activeSec, true);
     } else {
@@ -626,19 +802,26 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
         bus.master.gain.linearRampToValueAtTime(0, bus.ctx.currentTime + 0.28);
       }
       document.documentElement.classList.remove('is-sound');
-      if (btn) { btn.setAttribute('aria-pressed', 'false'); btn.setAttribute('aria-label', ui('soundOn')); }
-      try { window.speechSynthesis.cancel(); } catch (e) {}
+      if (btn) {
+        btn.setAttribute('aria-pressed', 'false');
+        btn.setAttribute('aria-label', ui('soundOn'));
+      }
+      try {
+        window.speechSynthesis.cancel();
+      } catch {}
     }
   }
   function tickAudio(now, prog) {
     if (!bus.enabled || !bus.ctx) return;
     const t = bus.ctx.currentTime;
-    let bells = 0, steps = 0, water = 0;
+    let bells = 0,
+      steps = 0,
+      water = 0;
     if (touring) bells = 0.8;
     else {
       bells = clamp(1.05 - Math.abs(prog - 0.55) * 0.7, 0, 0.85);
       if (prog > 1.8) bells *= clamp(1 - (prog - 1.8) * 0.8, 0, 1);
-      steps = (prog > 0.15 && prog < 4.1) ? 0.5 : 0.12;
+      steps = prog > 0.15 && prog < 4.1 ? 0.5 : 0.12;
       water = clamp((prog - 4.6) / 1.1, 0, 0.62);
     }
     bus.gBell.gain.setTargetAtTime(bells, t, 0.45);
@@ -655,8 +838,8 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
   }
   function speakFor(sec, force) {
     if (!bus.enabled || REDUCE || !window.speechSynthesis) return;
-    const id = (SECS[sec] && SECS[sec].id) || 'top';
-    const text = (pack().voice && pack().voice[id]) || (fallbackPack().voice && fallbackPack().voice[id]);
+    const id = SECS[sec]?.id || 'top';
+    const text = pack().voice?.[id] || fallbackPack().voice?.[id];
     if (!text || (!force && spoken.has(id))) return;
     spoken.add(id);
     try {
@@ -667,12 +850,14 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
       u.volume = 0.68;
       const voices = window.speechSynthesis.getVoices();
       const prefix = locale().slice(0, 2).toLowerCase();
-      const match = voices.find(v => (v.lang || '').toLowerCase().replace('_', '-').startsWith(locale().toLowerCase()))
-        || voices.find(v => (v.lang || '').toLowerCase().startsWith(prefix));
+      const match =
+        voices.find((v) =>
+          (v.lang || '').toLowerCase().replace('_', '-').startsWith(locale().toLowerCase())
+        ) || voices.find((v) => (v.lang || '').toLowerCase().startsWith(prefix));
       if (match) u.voice = match;
       window.speechSynthesis.cancel();
       window.speechSynthesis.speak(u);
-    } catch (e) {}
+    } catch {}
   }
 
   function openSheet(id, compact) {
@@ -733,10 +918,15 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     const elapsed = now - tourT0;
     const u = clamp(elapsed / TOUR_LEN, 0, 1);
     const fill = $('#tour-fill');
-    if (fill) fill.style.width = (u * 100) + '%';
-    let a = tourStep(0), b = tourStep(TOUR_PATH.length - 1);
+    if (fill) fill.style.width = `${u * 100}%`;
+    let a = tourStep(0),
+      b = tourStep(TOUR_PATH.length - 1);
     for (let i = 0; i < TOUR_PATH.length - 1; i++) {
-      if (elapsed <= TOUR_PATH[i + 1].at * 1000) { a = tourStep(i); b = tourStep(i + 1); break; }
+      if (elapsed <= TOUR_PATH[i + 1].at * 1000) {
+        a = tourStep(i);
+        b = tourStep(i + 1);
+        break;
+      }
     }
     const span = Math.max(1, (b.at - a.at) * 1000);
     const t = easeInOut(clamp((elapsed - a.at * 1000) / span, 0, 1));
@@ -758,25 +948,27 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
 
   function initHots() {
     if (!THREE) return;
-    hotVecs = HOT_DEF.map(h => ({
+    hotVecs = HOT_DEF.map((h) => ({
       place: h.place,
       v: new THREE.Vector3(h.p[0], h.p[1], h.p[2]),
-      el: $('.hot[data-place="' + h.place + '"]')
-    })).filter(h => h.el);
+      el: $(`.hot[data-place="${h.place}"]`),
+    })).filter((h) => h.el);
   }
   function updateHots() {
     const wrap = $('#hots');
     if (!wrap || !camera || !hotVecs.length) return;
     if (!_hp) _hp = new THREE.Vector3();
-    const show = !touring && !sheetOpen && RIG.smooth < 1.65 && !document.body.classList.contains('no-webgl');
+    const show =
+      !touring && !sheetOpen && RIG.smooth < 1.65 && !document.body.classList.contains('no-webgl');
     wrap.classList.toggle('show', show);
-    hotVecs.forEach(h => {
+    hotVecs.forEach((h) => {
       _hp.copy(h.v).project(camera);
       const x = (_hp.x * 0.5 + 0.5) * vpW();
       const y = (-_hp.y * 0.5 + 0.5) * vpH();
-      const vis = show && _hp.z > -1 && _hp.z < 1 && x > 48 && x < vpW() - 48 && y > 90 && y < vpH() - 90;
-      h.el.style.left = x + 'px';
-      h.el.style.top = y + 'px';
+      const vis =
+        show && _hp.z > -1 && _hp.z < 1 && x > 48 && x < vpW() - 48 && y > 90 && y < vpH() - 90;
+      h.el.style.left = `${x}px`;
+      h.el.style.top = `${y}px`;
       h.el.style.opacity = vis ? '1' : '0';
       h.el.style.pointerEvents = vis ? 'auto' : 'none';
     });
@@ -787,11 +979,17 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     const d = new Date();
     const day = d.getDay();
     const summer = d.getMonth() >= 4 && d.getMonth() <= 8;
-    let bas = h.basWeek || '', basUntil = '16:00';
-    if (day === 0) { bas = h.basSun || ''; basUntil = '14:30'; }
-    else if (day === 6) { bas = h.basSat || ''; basUntil = '15:00'; }
-    let hall = summer ? (h.hallSummer || '') : (h.hallWinter || '');
-    const hallUntil = day === 1 ? '' : (summer ? '16:30' : '16:00');
+    let bas = h.basWeek || '',
+      basUntil = '16:00';
+    if (day === 0) {
+      bas = h.basSun || '';
+      basUntil = '14:30';
+    } else if (day === 6) {
+      bas = h.basSat || '';
+      basUntil = '15:00';
+    }
+    let hall = summer ? h.hallSummer || '' : h.hallWinter || '';
+    const hallUntil = day === 1 ? '' : summer ? '16:30' : '16:00';
     if (day === 1) hall = h.hallMon || '';
     return { bas: bas + (h.basNote || ''), hall: hall, basUntil, hallUntil };
   }
@@ -807,7 +1005,9 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     return w['99'];
   }
   function setWxLine(text) {
-    $$('[data-wx]').forEach(el => { el.textContent = text; });
+    $$('[data-wx]').forEach((el) => {
+      el.textContent = text;
+    });
   }
   function paintHoursAndWx() {
     const hrs = hoursToday();
@@ -816,20 +1016,26 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     if (hallEl) hallEl.textContent = hrs.hall;
     if (basEl) basEl.textContent = hrs.bas;
     const wx = pack().wx || {};
-    const basBit = hrs.basUntil ? fmt(wx.basOpen, { t: hrs.basUntil }) : (wx.basLiturgy || '');
-    const hallBit = hrs.hallUntil ? fmt(wx.hallUntil, { t: hrs.hallUntil }) : (wx.hallClosed || '');
-    if (wxSnap) setWxLine(fmt(wx.today, { t: wxSnap.t, w: wxWord(wxSnap.code), bas: basBit, hall: hallBit }));
+    const basBit = hrs.basUntil ? fmt(wx.basOpen, { t: hrs.basUntil }) : wx.basLiturgy || '';
+    const hallBit = hrs.hallUntil ? fmt(wx.hallUntil, { t: hrs.hallUntil }) : wx.hallClosed || '';
+    if (wxSnap)
+      setWxLine(fmt(wx.today, { t: wxSnap.t, w: wxWord(wxSnap.code), bas: basBit, hall: hallBit }));
     else setWxLine(fmt(wx.dusk, { bas: basBit, hall: hallBit }) || ui('wxFallback'));
   }
   function loadWeather() {
     paintHoursAndWx();
-    fetch('https://api.open-meteo.com/v1/forecast?latitude=49.2944&longitude=21.2758&current=temperature_2m,weather_code&timezone=Europe%2FBratislava')
-      .then(r => r.json())
-      .then(j => {
+    fetch(
+      'https://api.open-meteo.com/v1/forecast?latitude=49.2944&longitude=21.2758&current=temperature_2m,weather_code&timezone=Europe%2FBratislava'
+    )
+      .then((r) => r.json())
+      .then((j) => {
         wxSnap = { t: Math.round(j.current.temperature_2m), code: j.current.weather_code };
         paintHoursAndWx();
       })
-      .catch(() => { wxSnap = null; paintHoursAndWx(); });
+      .catch(() => {
+        wxSnap = null;
+        paintHoursAndWx();
+      });
   }
 
   function setIter(key) {
@@ -840,16 +1046,21 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     const list = $('#stops');
     if (path) path.setAttribute('d', data.path);
     if (cap) cap.textContent = data.cap;
-    $$('#plan [data-stop]').forEach(g => {
+    $$('#plan [data-stop]').forEach((g) => {
       g.classList.toggle('is-off', data.on.indexOf(g.getAttribute('data-stop')) === -1);
     });
     if (list) {
-      list.innerHTML = data.stops.map(s => '<li' + (s[2] ? ' data-place="' + s[2] + '" data-cursor' : '') + '><div><b>' + s[0] + '</b><span>' + s[1] + '</span></div></li>').join('');
-      $$('#stops [data-place]').forEach(el => {
+      list.innerHTML = data.stops
+        .map(
+          (s) =>
+            `<li${s[2] ? ` data-place="${s[2]}" data-cursor` : ''}><div><b>${s[0]}</b><span>${s[1]}</span></div></li>`
+        )
+        .join('');
+      $$('#stops [data-place]').forEach((el) => {
         el.addEventListener('click', () => openSheet(el.getAttribute('data-place')));
       });
     }
-    $$('.itab').forEach(b => {
+    $$('.itab').forEach((b) => {
       const on = b.getAttribute('data-iter') === key;
       b.classList.toggle('on', on);
       b.setAttribute('aria-selected', on ? 'true' : 'false');
@@ -857,7 +1068,7 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
   }
 
   function navIndex(sec) {
-    const id = SECS[sec] && SECS[sec].id;
+    const id = SECS[sec]?.id;
     if (id === 'gate') return 0;
     if (id === 'pathways') return 1;
     if (id === 'lessons') return 2;
@@ -868,7 +1079,12 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
 
   function initGL() {
     if (!THREE) throw new Error('three missing');
-    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
+    renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: false,
+      powerPreference: 'high-performance',
+    });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
     renderer.setSize(vpW(), vpH(), false);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -885,7 +1101,11 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
 
     const sky = new THREE.Mesh(
       new THREE.SphereGeometry(90, 24, 16),
-      new THREE.MeshBasicMaterial({ map: tx(texSky(), { wrap: THREE.ClampToEdgeWrapping }), side: THREE.BackSide, fog: false })
+      new THREE.MeshBasicMaterial({
+        map: tx(texSky(), { wrap: THREE.ClampToEdgeWrapping }),
+        side: THREE.BackSide,
+        fog: false,
+      })
     );
     scene.add(sky);
 
@@ -907,11 +1127,22 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
 
     buildTown();
     initHots();
-    curveP = new THREE.CatmullRomCurve3(CAM.map(c => new THREE.Vector3(c.p[0], c.p[1], c.p[2])), false, 'catmullrom', 0.42);
-    curveT = new THREE.CatmullRomCurve3(CAM.map(c => new THREE.Vector3(c.t[0], c.t[1], c.t[2])), false, 'catmullrom', 0.42);
+    curveP = new THREE.CatmullRomCurve3(
+      CAM.map((c) => new THREE.Vector3(c.p[0], c.p[1], c.p[2])),
+      false,
+      'catmullrom',
+      0.42
+    );
+    curveT = new THREE.CatmullRomCurve3(
+      CAM.map((c) => new THREE.Vector3(c.t[0], c.t[1], c.t[2])),
+      false,
+      'catmullrom',
+      0.42
+    );
   }
 
-  const _p = new THREE.Vector3(), _t = new THREE.Vector3();
+  const _p = new THREE.Vector3(),
+    _t = new THREE.Vector3();
   function applyCam(u) {
     const n = CAM.length - 1;
     const t = clamp(u / n, 0, 1);
@@ -932,7 +1163,10 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
 
   /* -------------------------------------------------------------- page */
   const SECS = $$('[data-cam]');
-  let anchors = [], maxScroll = 1, activeSec = 0, lastY = 0;
+  let anchors = [],
+    maxScroll = 1,
+    activeSec = 0,
+    lastY = 0;
 
   function measure() {
     setVW();
@@ -952,7 +1186,7 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
   }
 
   function resetWordReveal() {
-    $$('.word-reveal').forEach(el => {
+    $$('.word-reveal').forEach((el) => {
       const key = el.getAttribute('data-i18n');
       const phrase = (key ? ui(key) : '') || el.getAttribute('aria-label') || '';
       delete el.dataset.wordReady;
@@ -964,7 +1198,7 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
   function applyI18n() {
     const shown = $$('.rv-in');
     resetWordReveal();
-    $$('[data-i18n]').forEach(el => {
+    $$('[data-i18n]').forEach((el) => {
       const v = ui(el.getAttribute('data-i18n'));
       if (!v) return;
       const attr = el.getAttribute('data-i18n-attr');
@@ -975,21 +1209,21 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     if (metaPack.title) document.title = metaPack.title;
     const desc = document.querySelector('meta[name="description"]');
     if (desc && metaPack.description) desc.setAttribute('content', metaPack.description);
-    const spec = ((window.BV && window.BV.LANGS) || []).find(l => l.id === lang);
-    document.documentElement.lang = (spec && spec.html) || lang;
+    const spec = (LANGS || []).find((l) => l.id === lang);
+    document.documentElement.lang = spec?.html || lang;
     const now = $('#lingua-now');
-    if (now) now.textContent = (spec && spec.label) || (lang || 'sk').toUpperCase();
+    if (now) now.textContent = spec?.label || (lang || 'sk').toUpperCase();
     const flag = $('#lingua-flag');
-    if (flag) flag.className = 'flag flag-' + lang;
-    $$('#lingua-list [data-lang]').forEach(el => {
+    if (flag) flag.className = `flag flag-${lang}`;
+    $$('#lingua-list [data-lang]').forEach((el) => {
       el.setAttribute('aria-selected', el.getAttribute('data-lang') === lang ? 'true' : 'false');
     });
     const lingua = $('#lingua');
     const linguaBtn = $('#lingua-btn');
     if (lingua) lingua.setAttribute('aria-label', ui('lingua'));
     if (linguaBtn) {
-      const nm = (spec && spec.name) || '';
-      linguaBtn.setAttribute('aria-label', ui('lingua') + (nm ? ' — ' + nm : ''));
+      const nm = spec?.name || '';
+      linguaBtn.setAttribute('aria-label', ui('lingua') + (nm ? ` — ${nm}` : ''));
     }
     const snd = $('#snd');
     if (snd) snd.setAttribute('aria-label', bus.enabled ? ui('soundOff') : ui('soundOn'));
@@ -1003,19 +1237,27 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     if (next) next.setAttribute('aria-label', ui('tapeNext'));
     const close = $('.sheet-x');
     if (close) close.setAttribute('aria-label', ui('sheetClose'));
-    $$('#rail button').forEach((b, i) => b.setAttribute('aria-label', ui('chapter') + ' ' + i));
-    const guildKeys = {
-      weavers: 'gWeavers', potters: 'gPotters', tailors: 'gTailors',
-      carpenters: 'gCarp', masons: 'gMasons', furriers: 'gFur',
-      gold: 'gGold', sieves: 'gSieves', farmers: 'gFarm'
-    };
-    $$('[data-guild]').forEach(el => {
-      const k = guildKeys[el.getAttribute('data-guild')];
-      if (k) el.setAttribute('aria-label', ui(k) + ' — ' + ui('gldOpen'));
+    $$('#rail button').forEach((b, i) => {
+      b.setAttribute('aria-label', `${ui('chapter')} ${i}`);
     });
-    $$('[data-i18n-ext]').forEach(a => {
+    const guildKeys = {
+      weavers: 'gWeavers',
+      potters: 'gPotters',
+      tailors: 'gTailors',
+      carpenters: 'gCarp',
+      masons: 'gMasons',
+      furriers: 'gFur',
+      gold: 'gGold',
+      sieves: 'gSieves',
+      farmers: 'gFarm',
+    };
+    $$('[data-guild]').forEach((el) => {
+      const k = guildKeys[el.getAttribute('data-guild')];
+      if (k) el.setAttribute('aria-label', `${ui(k)} — ${ui('gldOpen')}`);
+    });
+    $$('[data-i18n-ext]').forEach((a) => {
       const name = (a.textContent || '').replace(/\s+/g, ' ').trim();
-      if (name) a.setAttribute('aria-label', name + ' — ' + ui('extNew'));
+      if (name) a.setAttribute('aria-label', `${name} — ${ui('extNew')}`);
     });
     const SITE = 'https://peterdinis611.github.io/Bardejov-Presentation/';
     const ogLoc = { sk: 'sk_SK', cs: 'cs_CZ', en: 'en_GB', pl: 'pl_PL', hu: 'hu_HU', uk: 'uk_UA' };
@@ -1026,23 +1268,29 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     const ogd = document.querySelector('meta[property="og:description"]');
     if (ogd && metaPack.description) ogd.setAttribute('content', metaPack.description);
     const ogu = document.querySelector('meta[property="og:url"]');
-    if (ogu) ogu.setAttribute('content', SITE + (lang === 'sk' ? '' : '?lang=' + lang));
+    if (ogu) ogu.setAttribute('content', SITE + (lang === 'sk' ? '' : `?lang=${lang}`));
     const twt = document.querySelector('meta[name="twitter:title"]');
     if (twt && metaPack.title) twt.setAttribute('content', metaPack.title);
     const twd = document.querySelector('meta[name="twitter:description"]');
     if (twd && metaPack.description) twd.setAttribute('content', metaPack.description);
     splitHeadingWords();
-    shown.forEach(el => { if (el.isConnected) el.classList.add('rv-in'); });
-    $$('#hero .mask-line, #hero [data-rv]').forEach(el => el.classList.add('rv-in'));
-    $$('.word-reveal.rv-in .word').forEach(w => { w.style.transition = 'none'; });
+    shown.forEach((el) => {
+      if (el.isConnected) el.classList.add('rv-in');
+    });
+    $$('#hero .mask-line, #hero [data-rv]').forEach((el) => {
+      el.classList.add('rv-in');
+    });
+    $$('.word-reveal.rv-in .word').forEach((w) => {
+      w.style.transition = 'none';
+    });
   }
   function detectLang() {
     const q = new URLSearchParams(location.search).get('lang');
-    if (q && window.BV && window.BV.I18N && window.BV.I18N[q]) return q;
+    if (q && I18N?.[q]) return q;
     try {
       const saved = localStorage.getItem('bv-lang');
-      if (saved && window.BV && window.BV.I18N && window.BV.I18N[saved]) return saved;
-    } catch (e) {}
+      if (saved && I18N?.[saved]) return saved;
+    } catch {}
     const n = (navigator.language || 'sk').toLowerCase();
     if (n.startsWith('cs')) return 'cs';
     if (n.startsWith('en')) return 'en';
@@ -1052,14 +1300,16 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     return 'sk';
   }
   function setLang(id) {
-    if (!window.BV || !window.BV.I18N || !window.BV.I18N[id]) return;
+    if (!I18N?.[id]) return;
     lang = id;
-    try { localStorage.setItem('bv-lang', id); } catch (e) {}
+    try {
+      localStorage.setItem('bv-lang', id);
+    } catch {}
     spoken.clear();
     applyI18n();
     paintHoursAndWx();
     setIter(iterKey);
-    if (sheetOpen && sheetId) openSheet(sheetId, $('#sheet') && $('#sheet').classList.contains('compact'));
+    if (sheetOpen && sheetId) openSheet(sheetId, $('#sheet')?.classList.contains('compact'));
     if (touring) lastCaption = '';
   }
   function setLinguaOpen(open) {
@@ -1077,43 +1327,56 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     lang = detectLang();
     try {
       const q = new URLSearchParams(location.search).get('lang');
-      if (q && window.BV && window.BV.I18N && window.BV.I18N[q]) localStorage.setItem('bv-lang', q);
-    } catch (e) {}
+      if (q && I18N?.[q]) localStorage.setItem('bv-lang', q);
+    } catch {}
     applyI18n();
     const box = $('#lingua');
     const btn = $('#lingua-btn');
     if (!box || !btn) return;
-    btn.addEventListener('click', e => {
+    btn.addEventListener('click', (e) => {
       e.stopPropagation();
       setLinguaOpen(!box.classList.contains('open'));
     });
-    btn.addEventListener('keydown', e => {
+    btn.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         setLinguaOpen(true);
       }
     });
-    $$('#lingua-list [data-lang]').forEach(el => {
+    $$('#lingua-list [data-lang]').forEach((el) => {
       el.addEventListener('click', () => {
         setLang(el.getAttribute('data-lang'));
         setLinguaOpen(false);
         btn.focus();
       });
-      el.addEventListener('keydown', e => {
+      el.addEventListener('keydown', (e) => {
         const opts = $$('#lingua-list [data-lang]');
         const i = opts.indexOf(el);
-        if (e.key === 'ArrowDown') { e.preventDefault(); opts[(i + 1) % opts.length].focus(); }
-        else if (e.key === 'ArrowUp') { e.preventDefault(); opts[(i - 1 + opts.length) % opts.length].focus(); }
-        else if (e.key === 'Home') { e.preventDefault(); opts[0].focus(); }
-        else if (e.key === 'End') { e.preventDefault(); opts[opts.length - 1].focus(); }
-        else if (e.key === 'Escape') { e.preventDefault(); setLinguaOpen(false); btn.focus(); }
-        else if (e.key === 'Tab') { setLinguaOpen(false); }
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          opts[(i + 1) % opts.length].focus();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          opts[(i - 1 + opts.length) % opts.length].focus();
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          opts[0].focus();
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          opts[opts.length - 1].focus();
+        } else if (e.key === 'Escape') {
+          e.preventDefault();
+          setLinguaOpen(false);
+          btn.focus();
+        } else if (e.key === 'Tab') {
+          setLinguaOpen(false);
+        }
       });
     });
-    document.addEventListener('click', e => {
+    document.addEventListener('click', (e) => {
       if (!box.contains(e.target)) setLinguaOpen(false);
     });
-    document.addEventListener('keydown', e => {
+    document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && box.classList.contains('open')) {
         setLinguaOpen(false);
         btn.focus();
@@ -1123,10 +1386,10 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
 
   function splitHeadingWords() {
     if (REDUCE) return;
-    $$('h1.display, h2.display').forEach(heading => {
+    $$('h1.display, h2.display').forEach((heading) => {
       const lines = heading.querySelectorAll('.mask-line');
       const targets = lines.length ? [].slice.call(lines) : [heading];
-      targets.forEach(target => {
+      targets.forEach((target) => {
         if (target.dataset.wordReady === 'true') return;
         const phrase = target.textContent.replace(/\s+/g, ' ').trim();
         if (!phrase) return;
@@ -1138,10 +1401,13 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
           if (i) target.appendChild(document.createTextNode(' '));
           const mask = document.createElement('span');
           const inner = document.createElement('span');
-          mask.className = 'word-mask'; mask.setAttribute('aria-hidden', 'true');
-          inner.className = 'word'; inner.textContent = word;
-          inner.style.setProperty('--word-delay', (i * 72) + 'ms');
-          mask.appendChild(inner); target.appendChild(mask);
+          mask.className = 'word-mask';
+          mask.setAttribute('aria-hidden', 'true');
+          inner.className = 'word';
+          inner.textContent = word;
+          inner.style.setProperty('--word-delay', `${i * 72}ms`);
+          mask.appendChild(inner);
+          target.appendChild(mask);
         });
       });
     });
@@ -1150,51 +1416,75 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
   function wireReveals() {
     splitHeadingWords();
     const items = $$('[data-rv], .mask-line');
-    items.forEach((el, i) => { el.dataset.rvd = String((i % 6) * 70); });
-    const io = new IntersectionObserver(es => {
-      es.forEach(e => {
-        if (!e.isIntersecting) return;
-        io.unobserve(e.target);
-        const d = parseFloat(e.target.dataset.rvd || 0);
-        setTimeout(() => e.target.classList.add('rv-in'), REDUCE ? 0 : d);
+    items.forEach((el, i) => {
+      el.dataset.rvd = String((i % 6) * 70);
+    });
+    const io = new IntersectionObserver(
+      (es) => {
+        es.forEach((e) => {
+          if (!e.isIntersecting) return;
+          io.unobserve(e.target);
+          const d = parseFloat(e.target.dataset.rvd || 0);
+          setTimeout(() => e.target.classList.add('rv-in'), REDUCE ? 0 : d);
+        });
+      },
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.04 }
+    );
+    items.forEach((el) => {
+      if (!el.closest('#hero')) io.observe(el);
+    });
+    requestAnimationFrame(() => {
+      $$('#hero [data-rv], #hero .mask-line').forEach((el) => {
+        el.classList.add('rv-in');
       });
-    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.04 });
-    items.forEach(el => { if (!el.closest('#hero')) io.observe(el); });
-    requestAnimationFrame(() => $$('#hero [data-rv], #hero .mask-line').forEach(el => el.classList.add('rv-in')));
+    });
   }
 
   function wireForeground() {
-    const pairs = $$('.sec .fg, .foot .fg').map(stage => ({
-      section: stage.closest('.sec, .foot'), stage
-    })).filter(p => p.section);
+    const pairs = $$('.sec .fg, .foot .fg')
+      .map((stage) => ({
+        section: stage.closest('.sec, .foot'),
+        stage,
+      }))
+      .filter((p) => p.section);
     const sky = $('#fg-sky');
     if (!pairs.length || !sky) return;
-    const homes = new WeakMap(pairs.map(p => [p.stage, p.section]));
+    const homes = new WeakMap(pairs.map((p) => [p.stage, p.section]));
     let active = null;
-    const lift = stage => { if (stage.parentNode !== sky) sky.appendChild(stage); };
-    const park = stage => {
+    const lift = (stage) => {
+      if (stage.parentNode !== sky) sky.appendChild(stage);
+    };
+    const park = (stage) => {
       const home = homes.get(stage);
       if (home && stage.parentNode !== home) home.insertBefore(stage, home.firstChild);
     };
-    const io = new IntersectionObserver(es => {
-      es.forEach(e => {
-        const pair = pairs.find(p => p.section === e.target);
-        if (!pair) return;
-        if (e.isIntersecting && e.intersectionRatio > 0.28) {
-          if (active && active !== pair.stage) {
-            active.classList.remove('fg-active');
-            active.classList.add('fg-retiring');
-            const old = active;
-            setTimeout(() => { old.classList.remove('fg-retiring'); park(old); }, 900);
+    const io = new IntersectionObserver(
+      (es) => {
+        es.forEach((e) => {
+          const pair = pairs.find((p) => p.section === e.target);
+          if (!pair) return;
+          if (e.isIntersecting && e.intersectionRatio > 0.28) {
+            if (active && active !== pair.stage) {
+              active.classList.remove('fg-active');
+              active.classList.add('fg-retiring');
+              const old = active;
+              setTimeout(() => {
+                old.classList.remove('fg-retiring');
+                park(old);
+              }, 900);
+            }
+            lift(pair.stage);
+            pair.stage.classList.add('fg-active');
+            pair.stage.classList.remove('fg-retiring');
+            active = pair.stage;
           }
-          lift(pair.stage);
-          pair.stage.classList.add('fg-active');
-          pair.stage.classList.remove('fg-retiring');
-          active = pair.stage;
-        }
-      });
-    }, { threshold: [0.28, 0.5] });
-    pairs.forEach(p => io.observe(p.section));
+        });
+      },
+      { threshold: [0.28, 0.5] }
+    );
+    pairs.forEach((p) => {
+      io.observe(p.section);
+    });
   }
 
   function wireRail() {
@@ -1203,8 +1493,10 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
       const b = document.createElement('button');
       b.type = 'button';
       b.innerHTML = '<i></i>';
-      b.setAttribute('aria-label', ui('chapter') + ' ' + i);
-      b.addEventListener('click', () => el.scrollIntoView({ behavior: REDUCE ? 'auto' : 'smooth', block: 'start' }));
+      b.setAttribute('aria-label', `${ui('chapter')} ${i}`);
+      b.addEventListener('click', () =>
+        el.scrollIntoView({ behavior: REDUCE ? 'auto' : 'smooth', block: 'start' })
+      );
       rail.appendChild(b);
     });
   }
@@ -1218,12 +1510,14 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
       burger.classList.toggle('active', open);
       document.documentElement.classList.toggle('nav-open', open);
     });
-    $$('.nav-link', links).forEach(a => a.addEventListener('click', () => {
-      nav.classList.remove('menu-open');
-      burger.classList.remove('active');
-      document.documentElement.classList.remove('nav-open');
-    }));
-    $$('.chip').forEach(chip => {
+    $$('.nav-link', links).forEach((a) => {
+      a.addEventListener('click', () => {
+        nav.classList.remove('menu-open');
+        burger.classList.remove('active');
+        document.documentElement.classList.remove('nav-open');
+      });
+    });
+    $$('.chip').forEach((chip) => {
       chip.addEventListener('click', () => {
         const map = ['gate', 'pathways', 'lessons', 'eternity'];
         goToId(map[chip.getAttribute('data-chip')]);
@@ -1232,8 +1526,8 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
   }
 
   function openLesson(art) {
-    if (!art || !art.classList.contains('les')) return;
-    $$('.les').forEach(el => {
+    if (!art?.classList.contains('les')) return;
+    $$('.les').forEach((el) => {
       el.classList.remove('is-open');
       const row = $('.les-row', el);
       if (row) row.setAttribute('aria-expanded', 'false');
@@ -1254,31 +1548,36 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     const el = document.getElementById(id);
     if (!el) return false;
     if (el.classList.contains('les')) openLesson(el);
-    el.scrollIntoView({ behavior: (instant || REDUCE) ? 'auto' : 'smooth', block: 'start' });
+    el.scrollIntoView({ behavior: instant || REDUCE ? 'auto' : 'smooth', block: 'start' });
     return true;
   }
   function wireAnchors() {
-    $$('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
+    $$('a[href^="#"]').forEach((a) => {
+      a.addEventListener('click', (e) => {
         const id = (a.getAttribute('href') || '').replace(/^#/, '');
         if (!id) return;
         if (!goToId(id)) return;
         e.preventDefault();
         closeNav();
-        try { history.replaceState(null, '', '#' + id); } catch (err) {}
+        try {
+          history.replaceState(null, '', `#${id}`);
+        } catch {}
       });
     });
   }
 
   function wireCursor() {
     if (!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
-    window.addEventListener('pointermove', e => {
-      cursor.style.transform = 'translate3d(' + e.clientX + 'px,' + e.clientY + 'px,0)';
+    window.addEventListener('pointermove', (e) => {
+      cursor.style.transform = `translate3d(${e.clientX}px,${e.clientY}px,0)`;
       RIG.tmx = (e.clientX / vpW()) * 2 - 1;
       RIG.tmy = (e.clientY / vpH()) * 2 - 1;
     });
-    document.addEventListener('pointerover', e => {
-      cursor.classList.toggle('act', !!e.target.closest('[data-cursor], a, button, .chip, .les, .card'));
+    document.addEventListener('pointerover', (e) => {
+      cursor.classList.toggle(
+        'act',
+        !!e.target.closest('[data-cursor], a, button, .chip, .les, .card')
+      );
     });
   }
 
@@ -1289,13 +1588,21 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     if (sec !== activeSec) {
       activeSec = sec;
       const ni = navIndex(sec);
-      $$('.nav-link').forEach((a, i) => a.classList.toggle('on', i === ni));
+      $$('.nav-link').forEach((a, i) => {
+        a.classList.toggle('on', i === ni);
+      });
       $$('.chip').forEach((c, i) => {
-        const id = SECS[sec] && SECS[sec].id;
-        const on = (i === 0 && id === 'gate') || (i === 1 && id === 'pathways') || (i === 2 && id === 'lessons') || (i === 3 && (id === 'walk' || id === 'eternity'));
+        const id = SECS[sec]?.id;
+        const on =
+          (i === 0 && id === 'gate') ||
+          (i === 1 && id === 'pathways') ||
+          (i === 2 && id === 'lessons') ||
+          (i === 3 && (id === 'walk' || id === 'eternity'));
         c.classList.toggle('on', on);
       });
-      $$('#rail button').forEach((b, i) => b.classList.toggle('on', i === sec));
+      $$('#rail button').forEach((b, i) => {
+        b.classList.toggle('on', i === sec);
+      });
       speakFor(sec);
     }
     nav.classList.toggle('stuck', y > 24);
@@ -1319,35 +1626,60 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
       if (prev) prev.disabled = tape.scrollLeft <= 2;
       if (next) next.disabled = tape.scrollLeft >= max;
     };
-    if (prev) prev.addEventListener('click', () => tape.scrollBy({ left: -step(), behavior: REDUCE ? 'auto' : 'smooth' }));
-    if (next) next.addEventListener('click', () => tape.scrollBy({ left: step(), behavior: REDUCE ? 'auto' : 'smooth' }));
+    if (prev)
+      prev.addEventListener('click', () =>
+        tape.scrollBy({ left: -step(), behavior: REDUCE ? 'auto' : 'smooth' })
+      );
+    if (next)
+      next.addEventListener('click', () =>
+        tape.scrollBy({ left: step(), behavior: REDUCE ? 'auto' : 'smooth' })
+      );
     tape.addEventListener('scroll', syncBtns, { passive: true });
-    tape.addEventListener('wheel', e => {
-      if (Math.abs(e.deltaY) < 1 && Math.abs(e.deltaX) < 1) return;
-      const goingH = Math.abs(e.deltaX) > Math.abs(e.deltaY);
-      if (goingH) return;
-      e.preventDefault();
-      tape.scrollLeft += e.deltaY;
-    }, { passive: false });
-    let down = false, x0 = 0, sl = 0, moved = 0;
-    tape.addEventListener('pointerdown', e => {
+    tape.addEventListener(
+      'wheel',
+      (e) => {
+        if (Math.abs(e.deltaY) < 1 && Math.abs(e.deltaX) < 1) return;
+        const goingH = Math.abs(e.deltaX) > Math.abs(e.deltaY);
+        if (goingH) return;
+        e.preventDefault();
+        tape.scrollLeft += e.deltaY;
+      },
+      { passive: false }
+    );
+    let down = false,
+      x0 = 0,
+      sl = 0,
+      moved = 0;
+    tape.addEventListener('pointerdown', (e) => {
       if (e.pointerType !== 'mouse' || e.button !== 0) return;
-      down = true; moved = 0; x0 = e.clientX; sl = tape.scrollLeft;
+      down = true;
+      moved = 0;
+      x0 = e.clientX;
+      sl = tape.scrollLeft;
       tape.classList.add('is-drag');
-      try { tape.setPointerCapture(e.pointerId); } catch (err) {}
+      try {
+        tape.setPointerCapture(e.pointerId);
+      } catch {}
     });
-    tape.addEventListener('pointermove', e => {
+    tape.addEventListener('pointermove', (e) => {
       if (!down) return;
       const dx = e.clientX - x0;
       moved = Math.max(moved, Math.abs(dx));
       tape.scrollLeft = sl - dx;
     });
-    const endDrag = () => { down = false; tape.classList.remove('is-drag'); };
+    const endDrag = () => {
+      down = false;
+      tape.classList.remove('is-drag');
+    };
     tape.addEventListener('pointerup', endDrag);
     tape.addEventListener('pointercancel', endDrag);
-    $$('.ann', tape).forEach(btn => {
-      btn.addEventListener('click', e => {
-        if (moved > 8) { e.preventDefault(); e.stopPropagation(); return; }
+    $$('.ann', tape).forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        if (moved > 8) {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
         openSheet(btn.getAttribute('data-era'), true);
       });
     });
@@ -1377,24 +1709,30 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     S.primed = false;
     S.moved = 0;
     if (!root || !track) return;
-    root.addEventListener('wheel', e => {
-      if (REDUCE) return;
-      if (Math.abs(e.deltaY) < 1 && Math.abs(e.deltaX) < 1) return;
-      e.preventDefault();
-      const d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      const travel = Math.max(stripMax(S), S.drift ? Math.min(220, vpW() * 0.13) : 0);
-      S.user = clamp(S.user - d, -travel - 48, travel + 48);
-      S.hot = performance.now();
-    }, { passive: false });
-    let down = false, x0 = 0, u0 = 0;
-    root.addEventListener('pointerdown', e => {
+    root.addEventListener(
+      'wheel',
+      (e) => {
+        if (REDUCE) return;
+        if (Math.abs(e.deltaY) < 1 && Math.abs(e.deltaX) < 1) return;
+        e.preventDefault();
+        const d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+        const travel = Math.max(stripMax(S), S.drift ? Math.min(220, vpW() * 0.13) : 0);
+        S.user = clamp(S.user - d, -travel - 48, travel + 48);
+        S.hot = performance.now();
+      },
+      { passive: false }
+    );
+    let down = false,
+      x0 = 0,
+      u0 = 0;
+    root.addEventListener('pointerdown', (e) => {
       if (e.pointerType === 'mouse' && e.button !== 0) return;
       down = true;
       S.moved = 0;
       x0 = e.clientX;
       u0 = S.user;
     });
-    const onMove = e => {
+    const onMove = (e) => {
       if (!down) return;
       const dx = e.clientX - x0;
       S.moved = Math.max(S.moved, Math.abs(dx));
@@ -1403,7 +1741,9 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
         S.hot = performance.now();
       }
     };
-    const endDrag = () => { down = false; };
+    const endDrag = () => {
+      down = false;
+    };
     window.addEventListener('pointermove', onMove);
     window.addEventListener('pointerup', endDrag);
     window.addEventListener('pointercancel', endDrag);
@@ -1420,9 +1760,7 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     const walked = viewWalk(root);
     if (walked == null) return;
     const extra = stripMax(S);
-    const travel = extra > 12
-      ? extra
-      : (S.drift ? Math.min(220, Math.max(88, vpW() * 0.13)) : 0);
+    const travel = extra > 12 ? extra : S.drift ? Math.min(220, Math.max(88, vpW() * 0.13)) : 0;
     if (travel < 8 && !S.drift) return;
     const look = RIG.mx * (extra > 12 ? 22 : 36);
     const walkX = extra > 12 ? lerp(0, -travel, walked) : lerp(travel, -travel, walked);
@@ -1433,10 +1771,10 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
       S.x = aim;
       S.primed = true;
     } else {
-      const k = (performance.now() - (S.hot || 0) < 120) ? 0.32 : 0.1;
+      const k = performance.now() - (S.hot || 0) < 120 ? 0.32 : 0.1;
       S.x += (aim - S.x) * k;
     }
-    track.style.transform = 'translate3d(' + S.x.toFixed(2) + 'px,0,0)';
+    track.style.transform = `translate3d(${S.x.toFixed(2)}px,0,0)`;
   }
 
   function wireStrips() {
@@ -1458,32 +1796,53 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     if (tourMob) tourMob.addEventListener('click', startTour);
     const skip = $('#tour-skip');
     if (skip) skip.addEventListener('click', endTour);
-    $$('#hots .hot, .card[data-place], .sub-card[data-place], .gate-stats [data-place]').forEach(el => {
-      const open = () => openSheet(el.getAttribute('data-place'), el.classList.contains('hot'));
-      el.addEventListener('click', open);
-      el.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
-      });
-    });
-    $$('#plan [data-place]').forEach(el => {
+    $$('#hots .hot, .card[data-place], .sub-card[data-place], .gate-stats [data-place]').forEach(
+      (el) => {
+        const open = () => openSheet(el.getAttribute('data-place'), el.classList.contains('hot'));
+        el.addEventListener('click', open);
+        el.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            open();
+          }
+        });
+      }
+    );
+    $$('#plan [data-place]').forEach((el) => {
       el.addEventListener('click', () => openSheet(el.getAttribute('data-place')));
     });
-    $$('[data-guild]').forEach(el => el.addEventListener('click', e => {
-      if (GWALL.moved > 8) { e.preventDefault(); return; }
-      openSheet(el.getAttribute('data-guild'));
-    }));
-    $$('[data-altar]').forEach(el => el.addEventListener('click', e => {
-      if (ROOD.moved > 8) { e.preventDefault(); return; }
-      openSheet(el.getAttribute('data-altar'));
-    }));
-    $$('[data-era]:not(.ann)').forEach(el => el.addEventListener('click', () => openSheet(el.getAttribute('data-era'), true)));
-    $$('.itab').forEach(el => el.addEventListener('click', () => setIter(el.getAttribute('data-iter'))));
-    $$('#sheet [data-close]').forEach(el => el.addEventListener('click', closeSheet));
-    $$('.les-row').forEach(btn => {
+    $$('[data-guild]').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        if (GWALL.moved > 8) {
+          e.preventDefault();
+          return;
+        }
+        openSheet(el.getAttribute('data-guild'));
+      });
+    });
+    $$('[data-altar]').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        if (ROOD.moved > 8) {
+          e.preventDefault();
+          return;
+        }
+        openSheet(el.getAttribute('data-altar'));
+      });
+    });
+    $$('[data-era]:not(.ann)').forEach((el) => {
+      el.addEventListener('click', () => openSheet(el.getAttribute('data-era'), true));
+    });
+    $$('.itab').forEach((el) => {
+      el.addEventListener('click', () => setIter(el.getAttribute('data-iter')));
+    });
+    $$('#sheet [data-close]').forEach((el) => {
+      el.addEventListener('click', closeSheet);
+    });
+    $$('.les-row').forEach((btn) => {
       btn.addEventListener('click', () => {
         const art = btn.closest('.les');
         const open = art.classList.contains('is-open');
-        $$('.les').forEach(el => {
+        $$('.les').forEach((el) => {
           el.classList.remove('is-open');
           const row = $('.les-row', el);
           if (row) row.setAttribute('aria-expanded', 'false');
@@ -1494,7 +1853,7 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
         }
       });
     });
-    document.addEventListener('keydown', e => {
+    document.addEventListener('keydown', (e) => {
       if (e.key !== 'Escape') return;
       if (sheetOpen) closeSheet();
       else if (touring) endTour();
@@ -1504,26 +1863,29 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
     wireStrips();
     const stats = $('.gate-stats');
     if (stats) {
-      const io = new IntersectionObserver(es => {
-        es.forEach(e => {
-          if (!e.isIntersecting) return;
-          io.unobserve(e.target);
-          $$('[data-count]', stats).forEach(el => {
-            const end = parseInt(el.getAttribute('data-count'), 10);
-            if (!isFinite(end)) return;
-            const startAt = performance.now();
-            const dur = 1200;
-            const tick = now => {
-              const t = Math.min(1, (now - startAt) / dur);
-              const eased = 1 - Math.pow(1 - t, 3);
-              el.textContent = String(Math.round(end * eased));
-              if (t < 1) requestAnimationFrame(tick);
-              else el.textContent = String(end);
-            };
-            requestAnimationFrame(tick);
+      const io = new IntersectionObserver(
+        (es) => {
+          es.forEach((e) => {
+            if (!e.isIntersecting) return;
+            io.unobserve(e.target);
+            $$('[data-count]', stats).forEach((el) => {
+              const end = parseInt(el.getAttribute('data-count'), 10);
+              if (!Number.isFinite(end)) return;
+              const startAt = performance.now();
+              const dur = 1200;
+              const tick = (now) => {
+                const t = Math.min(1, (now - startAt) / dur);
+                const eased = 1 - (1 - t) ** 3;
+                el.textContent = String(Math.round(end * eased));
+                if (t < 1) requestAnimationFrame(tick);
+                else el.textContent = String(end);
+              };
+              requestAnimationFrame(tick);
+            });
           });
-        });
-      }, { threshold: 0.45 });
+        },
+        { threshold: 0.45 }
+      );
       io.observe(stats);
     }
   }
@@ -1588,7 +1950,10 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
         initGL();
         setLoad(92);
         requestAnimationFrame(loop);
-        setTimeout(() => { setLoad(100); setTimeout(ready, 280); }, 240);
+        setTimeout(() => {
+          setLoad(100);
+          setTimeout(ready, 280);
+        }, 240);
       } catch (err) {
         console.warn(err);
         document.body.classList.add('no-webgl');
@@ -1596,7 +1961,7 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/
         setTimeout(ready, 200);
       }
     };
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(start);
+    if (document.fonts?.ready) document.fonts.ready.then(start);
     else start();
   }
 

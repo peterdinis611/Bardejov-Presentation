@@ -1,0 +1,23 @@
+{
+  "name": "bardejov",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:pages": "vite build --base=/Bardejov-Presentation/",
+    "preview": "vite preview",
+    "i18n": "python3 scripts/i18n_build.py",
+    "format": "biome format --write .",
+    "lint": "biome lint --write .",
+    "check": "biome check ."
+  },
+  "dependencies": {
+    "three": "^0.160.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.10",
+    "vite": "^6.3.5"
+  }
+}
