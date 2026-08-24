@@ -376,7 +376,7 @@ h1,h2,h3{ font-family:var(--display); font-weight:600; margin:0; letter-spacing:
 }
 .peek-fr{ display:block; aspect-ratio:16/10;
   background:linear-gradient(180deg, rgba(12,8,6,.04) 24%, rgba(12,8,6,.5) 100%),
-    url('assets/radnica.jpg') center 42% / cover no-repeat;
+    url('/assets/radnica.jpg') center 42% / cover no-repeat;
   outline:1px solid rgba(240,226,204,.16); outline-offset:-1px;
   box-shadow:0 34px 70px -30px rgba(0,0,0,.9); transition:outline-color .5s; }
 .peek:hover{ transform:translate3d(0,-5px,0) rotate(-0.6deg); }
@@ -458,17 +458,17 @@ button.card{ -webkit-appearance:none; appearance:none; background:none; border:0
 .card-fr--square{
   background:
     linear-gradient(180deg,rgba(12,8,6,.04) 36%,rgba(12,8,6,.72) 100%),
-    url('assets/square-wide.jpg') center 55% / cover no-repeat;
+    url('/assets/square-wide.jpg') center 55% / cover no-repeat;
 }
 .card-fr--basilica{
   background:
     linear-gradient(180deg,rgba(12,8,6,.06) 36%,rgba(12,8,6,.74) 100%),
-    url('assets/basilica.jpg') center 30% / cover no-repeat;
+    url('/assets/basilica.jpg') center 30% / cover no-repeat;
 }
 .card-fr--walls{
   background:
     linear-gradient(180deg,rgba(12,8,6,.05) 36%,rgba(12,8,6,.74) 100%),
-    url('assets/walls.jpg') center 40% / cover no-repeat;
+    url('/assets/walls.jpg') center 40% / cover no-repeat;
 }
 .card-fr::after{ content:''; position:absolute; inset:0;
   background:linear-gradient(transparent 46%, rgba(12,8,6,.82)); pointer-events:none; }
@@ -818,7 +818,7 @@ html.is-sheet, html.is-sheet body, html.is-tour, html.is-tour body{ overflow:hid
   z-index:0; pointer-events:none;
   background:
     linear-gradient(90deg, rgba(10,6,4,.92), rgba(10,6,4,.35) 40%, transparent),
-    url('assets/houses.jpg') right 30% / cover no-repeat;
+    url('/assets/houses.jpg') right 30% / cover no-repeat;
   filter:saturate(.55) brightness(.38) contrast(1.08);
   clip-path:polygon(18% 0, 100% 8%, 100% 100%, 0 92%);
   opacity:.55;

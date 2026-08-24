@@ -11,6 +11,7 @@ import { siteUrl } from './site.js';
   const $$ = (s, r) => [].slice.call((r || document).querySelectorAll(s));
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   const lerp = (a, b, t) => a + (b - a) * t;
+  const asset = (path) => `${import.meta.env.BASE_URL}${path}`;
 
   const root = document.documentElement;
   const nav = $('#nav');
@@ -19,46 +20,46 @@ import { siteUrl } from './site.js';
   const prePct = $('#pre-pct');
   const preHint = $('#pre-hint');
   const PLACES = {
-    square: { lat: 'FORUM', year: '1376', photo: 'assets/square.jpg' },
-    hall: { lat: 'CURIA', year: '1505', photo: 'assets/radnica.jpg' },
-    basilica: { lat: 'BASILICA', year: '15. st.', photo: 'assets/basilica.jpg' },
-    walls: { lat: 'MOENIA', year: '14.–16. st.', photo: 'assets/walls.jpg' },
-    synagogue: { lat: 'SYNAGOGA', year: '18. st.', photo: 'assets/synagogue.jpg' },
-    mikve: { lat: 'MIQVEH', year: 'suterén', photo: 'assets/synagogue.jpg' },
-    midrash: { lat: 'BETH HAMIDRASH', year: '18. st.', photo: 'assets/synagogue.jpg' },
-    spa: { lat: 'AQUAE', year: 'pramene', photo: 'assets/spa.jpg' },
+    square: { lat: 'FORUM', year: '1376', photo: asset('assets/square.jpg') },
+    hall: { lat: 'CURIA', year: '1505', photo: asset('assets/radnica.jpg') },
+    basilica: { lat: 'BASILICA', year: '15. st.', photo: asset('assets/basilica.jpg') },
+    walls: { lat: 'MOENIA', year: '14.–16. st.', photo: asset('assets/walls.jpg') },
+    synagogue: { lat: 'SYNAGOGA', year: '18. st.', photo: asset('assets/synagogue.jpg') },
+    mikve: { lat: 'MIQVEH', year: 'suterén', photo: asset('assets/synagogue.jpg') },
+    midrash: { lat: 'BETH HAMIDRASH', year: '18. st.', photo: asset('assets/synagogue.jpg') },
+    spa: { lat: 'AQUAE', year: 'pramene', photo: asset('assets/spa.jpg') },
   };
   const GUILDS = {
-    weavers: { lat: 'TEXTORES', year: '1480', photo: 'assets/houses.jpg' },
-    potters: { lat: 'FIGULI', year: 'oltár', photo: 'assets/houses.jpg' },
-    tailors: { lat: 'SUTORES', year: '1480', photo: 'assets/radnica.jpg' },
-    carpenters: { lat: 'FABRI', year: '1500', photo: 'assets/radnica.jpg' },
-    masons: { lat: 'CAEMENTARII', year: '1480', photo: 'assets/walls.jpg' },
-    furriers: { lat: 'PELLIONES', year: 'cesta', photo: 'assets/houses.jpg' },
-    gold: { lat: 'AURIFABRI', year: 'erb', photo: 'assets/radnica.jpg' },
-    sieves: { lat: 'CRIBRARII', year: '1485', photo: 'assets/basilica.jpg' },
-    farmers: { lat: 'AGRICOLAE', year: '1480', photo: 'assets/basilica.jpg' },
+    weavers: { lat: 'TEXTORES', year: '1480', photo: asset('assets/houses.jpg') },
+    potters: { lat: 'FIGULI', year: 'oltár', photo: asset('assets/houses.jpg') },
+    tailors: { lat: 'SUTORES', year: '1480', photo: asset('assets/radnica.jpg') },
+    carpenters: { lat: 'FABRI', year: '1500', photo: asset('assets/radnica.jpg') },
+    masons: { lat: 'CAEMENTARII', year: '1480', photo: asset('assets/walls.jpg') },
+    furriers: { lat: 'PELLIONES', year: 'cesta', photo: asset('assets/houses.jpg') },
+    gold: { lat: 'AURIFABRI', year: 'erb', photo: asset('assets/radnica.jpg') },
+    sieves: { lat: 'CRIBRARII', year: '1485', photo: asset('assets/basilica.jpg') },
+    farmers: { lat: 'AGRICOLAE', year: '1480', photo: asset('assets/basilica.jpg') },
   };
   const ALTARS = {
-    andrew: { lat: 'ANDREAS', year: '1440–1460', photo: 'assets/altars/andrew.jpg' },
-    barbara: { lat: 'BARBARA', year: '1450–1470', photo: 'assets/altars/barbara.jpg' },
-    elisabeth: { lat: 'ELISABETH', year: '1480', photo: 'assets/altars/elisabeth.jpg' },
-    ann: { lat: 'ANNA', year: '1485', photo: 'assets/altars/ann.jpg' },
-    mager: { lat: 'VIRGO', year: '1489', photo: 'assets/altars/mager.jpg' },
-    cross: { lat: 'CRUX', year: '1480–1490', photo: 'assets/altars/cross.jpg' },
-    pieta: { lat: 'PIETAS', year: '1480–1490', photo: 'assets/altars/pieta.jpg' },
-    apollonia: { lat: 'APOLLONIA', year: '1485', photo: 'assets/altars/apollonia.jpg' },
-    nativity: { lat: 'NATIVITAS', year: '1480–1490', photo: 'assets/altars/nativity.jpg' },
-    erasmus: { lat: 'ERASMUS', year: 'cech', photo: 'assets/altars/erasmus.jpg' },
-    sorrows: { lat: 'VIR DOLORUM', year: '1500–1510', photo: 'assets/altars/sorrows.jpg' },
+    andrew: { lat: 'ANDREAS', year: '1440–1460', photo: asset('assets/altars/andrew.jpg') },
+    barbara: { lat: 'BARBARA', year: '1450–1470', photo: asset('assets/altars/barbara.jpg') },
+    elisabeth: { lat: 'ELISABETH', year: '1480', photo: asset('assets/altars/elisabeth.jpg') },
+    ann: { lat: 'ANNA', year: '1485', photo: asset('assets/altars/ann.jpg') },
+    mager: { lat: 'VIRGO', year: '1489', photo: asset('assets/altars/mager.jpg') },
+    cross: { lat: 'CRUX', year: '1480–1490', photo: asset('assets/altars/cross.jpg') },
+    pieta: { lat: 'PIETAS', year: '1480–1490', photo: asset('assets/altars/pieta.jpg') },
+    apollonia: { lat: 'APOLLONIA', year: '1485', photo: asset('assets/altars/apollonia.jpg') },
+    nativity: { lat: 'NATIVITAS', year: '1480–1490', photo: asset('assets/altars/nativity.jpg') },
+    erasmus: { lat: 'ERASMUS', year: 'cech', photo: asset('assets/altars/erasmus.jpg') },
+    sorrows: { lat: 'VIR DOLORUM', year: '1500–1510', photo: asset('assets/altars/sorrows.jpg') },
   };
   const ERAS = {
-    1241: { lat: 'TATARI', year: '1241', photo: 'assets/square.jpg' },
-    1365: { lat: 'IUS GLADII', year: '1365', photo: 'assets/radnica.jpg' },
-    1376: { lat: 'CIVITAS', year: '1376', photo: 'assets/square.jpg' },
-    1505: { lat: 'CURIA', year: '1505', photo: 'assets/radnica.jpg' },
-    '18c': { lat: 'SUBURBIUM', year: 'XVIII', photo: 'assets/synagogue.jpg' },
-    2000: { lat: 'UNESCO', year: '2000', photo: 'assets/square-wide.jpg' },
+    1241: { lat: 'TATARI', year: '1241', photo: asset('assets/square.jpg') },
+    1365: { lat: 'IUS GLADII', year: '1365', photo: asset('assets/radnica.jpg') },
+    1376: { lat: 'CIVITAS', year: '1376', photo: asset('assets/square.jpg') },
+    1505: { lat: 'CURIA', year: '1505', photo: asset('assets/radnica.jpg') },
+    '18c': { lat: 'SUBURBIUM', year: 'XVIII', photo: asset('assets/synagogue.jpg') },
+    2000: { lat: 'UNESCO', year: '2000', photo: asset('assets/square-wide.jpg') },
   };
   const ITERS = {
     '2h': {
@@ -873,7 +874,7 @@ import { siteUrl } from './site.js';
     sheetId = id;
     const sheet = $('#sheet');
     const img = $('#sheet-img');
-    img.src = d.photo || 'assets/square.jpg';
+    img.src = d.photo || asset('assets/square.jpg');
     img.alt = d.title;
     $('#sheet-lat').textContent = d.lat || '';
     $('#sheet-yr').textContent = d.year || '';
