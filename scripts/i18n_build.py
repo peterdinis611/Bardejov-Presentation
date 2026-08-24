@@ -37,6 +37,8 @@ sk = {
         "soundOn": "Zapnúť zvuk súmraku",
         "soundOff": "Vypnúť zvuk súmraku",
         "menu": "Menu",
+        "navPlay": "Prehrať kapitolu",
+        "navStop": "Zastaviť kapitolu",
         "lingua": "Jazyk",
         "ch00": "Kapitola 00 — Skrytá brána",
         "heroL1": "Kde kameň ešte",

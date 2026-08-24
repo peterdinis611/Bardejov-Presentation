@@ -17,6 +17,8 @@ cs = {
         "soundOn": "Zapnout zvuk soumraku",
         "soundOff": "Vypnout zvuk soumraku",
         "menu": "Menu",
+        "navPlay": "Přehrát kapitolu",
+        "navStop": "Zastavit kapitolu",
         "lingua": "Jazyk",
         "ch00": "Kapitola 00 — Skrytá brána",
         "heroL1": "Kde kámen ještě",

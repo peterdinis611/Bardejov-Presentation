@@ -9,6 +9,7 @@
     "build:pages": "vite build --base=/Bardejov-Presentation/",
     "preview": "vite preview",
     "i18n": "python3 scripts/i18n_build.py",
+    "tts": "python3 scripts/tts.py",
     "format": "biome format --write .",
     "lint": "biome lint --write .",
     "check": "biome check ."

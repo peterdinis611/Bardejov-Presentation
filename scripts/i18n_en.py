@@ -15,6 +15,8 @@ en = {
         "soundOn": "Turn on dusk sound",
         "soundOff": "Turn off dusk sound",
         "menu": "Menu",
+        "navPlay": "Play chapter",
+        "navStop": "Stop chapter",
         "lingua": "Language",
         "ch00": "Chapter 00 — Hidden gate",
         "heroL1": "Where the stone still",

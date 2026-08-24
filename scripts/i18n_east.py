@@ -15,6 +15,8 @@ pl = {
         "soundOn": "Włączyć dźwięk zmierzchu",
         "soundOff": "Wyłączyć dźwięk zmierzchu",
         "menu": "Menu",
+        "navPlay": "Odtwórz rozdział",
+        "navStop": "Zatrzymaj rozdział",
         "lingua": "Język",
         "ch00": "Rozdział 00 — Ukryta brama",
         "heroL1": "Gdzie kamień wciąż",

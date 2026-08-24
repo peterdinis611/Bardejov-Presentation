@@ -626,23 +626,11 @@ import { I18N, LANGS } from './lang.js';
     setLoad(80);
   }
 
-  /* -------------------------------------------------------------- walk: sound, sheet, tour */
-  const bus = {
-    ctx: null,
-    master: null,
-    gBell: null,
-    gStep: null,
-    gWater: null,
-    enabled: false,
-    nextBell: 0,
-    nextStep: 0,
-    noise: null,
-  };
+  /* -------------------------------------------------------------- walk: sheet, tour, speech */
   let sheetOpen = false,
     touring = false,
     tourT0 = 0,
     lastCaption = '';
-  const spoken = new Set();
   const TTS_SKIP =
     /zarvox|whisper|bells|cellos|boing|bad news|good news|deranged|trinoids|organ|wobble|jester|princess|junior|albert|bahh|bubbles|superstar|kathy|fred|compact|novelty/i;
   const TTS_PREF = {
@@ -656,7 +644,7 @@ import { I18N, LANGS } from './lang.js';
   let ttsUtter = null;
   let ttsVoice = null;
   let ttsVoiceLang = '';
-  let ttsDucked = false;
+  let ttsKey = '';
   const HOT_DEF = [
     { place: 'hall', p: [0, 2.7, 0.15] },
     { place: 'basilica', p: [0, 9.6, -8.5] },
@@ -721,149 +709,13 @@ import { I18N, LANGS } from './lang.js';
     return t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
   }
 
-  function audioInit() {
-    const AC = window.AudioContext || window.webkitAudioContext;
-    if (!AC) return;
-    bus.ctx = new AC();
-    bus.master = bus.ctx.createGain();
-    bus.master.gain.value = 0;
-    bus.master.connect(bus.ctx.destination);
-    bus.gBell = bus.ctx.createGain();
-    bus.gBell.gain.value = 0;
-    bus.gBell.connect(bus.master);
-    bus.gStep = bus.ctx.createGain();
-    bus.gStep.gain.value = 0;
-    bus.gStep.connect(bus.master);
-    bus.gWater = bus.ctx.createGain();
-    bus.gWater.gain.value = 0;
-    bus.gWater.connect(bus.master);
-    const len = bus.ctx.sampleRate * 2;
-    const buf = bus.ctx.createBuffer(1, len, bus.ctx.sampleRate);
-    const data = buf.getChannelData(0);
-    for (let i = 0; i < len; i++) data[i] = Math.random() * 2 - 1;
-    bus.noise = buf;
-    const src = bus.ctx.createBufferSource();
-    src.buffer = bus.noise;
-    src.loop = true;
-    const lp = bus.ctx.createBiquadFilter();
-    lp.type = 'lowpass';
-    lp.frequency.value = 640;
-    const hp = bus.ctx.createBiquadFilter();
-    hp.type = 'highpass';
-    hp.frequency.value = 160;
-    src.connect(hp);
-    hp.connect(lp);
-    lp.connect(bus.gWater);
-    src.start();
-  }
-  function strikeBell(freq, gain) {
-    if (!bus.ctx || !bus.enabled) return;
-    const now = bus.ctx.currentTime;
-    const freqs = [freq, freq * 2.01, freq * 2.99, freq * 4.18, freq * 5.4];
-    const amps = [1, 0.42, 0.2, 0.11, 0.07];
-    freqs.forEach((f, i) => {
-      const o = bus.ctx.createOscillator();
-      const g = bus.ctx.createGain();
-      o.type = 'sine';
-      o.frequency.value = f;
-      g.gain.setValueAtTime(Math.max(0.0001, gain * amps[i]), now);
-      g.gain.exponentialRampToValueAtTime(0.0001, now + 4.4);
-      o.connect(g);
-      g.connect(bus.gBell);
-      o.start(now);
-      o.stop(now + 4.5);
-    });
-  }
-  function footstep() {
-    if (!bus.ctx || !bus.enabled || !bus.noise) return;
-    const now = bus.ctx.currentTime;
-    const src = bus.ctx.createBufferSource();
-    src.buffer = bus.noise;
-    const bp = bus.ctx.createBiquadFilter();
-    bp.type = 'bandpass';
-    bp.frequency.value = 240 + Math.random() * 180;
-    bp.Q.value = 1.6;
-    const g = bus.ctx.createGain();
-    g.gain.setValueAtTime(0.0001, now);
-    g.gain.exponentialRampToValueAtTime(0.18, now + 0.02);
-    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.16);
-    src.connect(bp);
-    bp.connect(g);
-    g.connect(bus.gStep);
-    src.start(now);
-    src.stop(now + 0.18);
-  }
-  function setSound(on) {
-    const btn = $('#snd');
-    if (on) {
-      if (!bus.ctx) audioInit();
-      if (!bus.ctx) return;
-      bus.ctx.resume();
-      bus.enabled = true;
-      bus.master.gain.cancelScheduledValues(bus.ctx.currentTime);
-      bus.master.gain.linearRampToValueAtTime(0.4, bus.ctx.currentTime + 0.45);
-      document.documentElement.classList.add('is-sound');
-      if (btn) {
-        btn.setAttribute('aria-pressed', 'true');
-        btn.setAttribute('aria-label', ui('soundOff'));
-      }
-      strikeBell(196, 0.26);
-      warmVoices();
-      speakFor(activeSec, true);
-    } else {
-      bus.enabled = false;
-      ttsDucked = false;
-      if (bus.ctx) {
-        bus.master.gain.cancelScheduledValues(bus.ctx.currentTime);
-        bus.master.gain.linearRampToValueAtTime(0, bus.ctx.currentTime + 0.28);
-      }
-      document.documentElement.classList.remove('is-sound');
-      if (btn) {
-        btn.setAttribute('aria-pressed', 'false');
-        btn.setAttribute('aria-label', ui('soundOn'));
-      }
-      stopSpeech();
-    }
-  }
-  function tickAudio(now, prog) {
-    if (!bus.enabled || !bus.ctx) return;
-    const t = bus.ctx.currentTime;
-    let bells = 0,
-      steps = 0,
-      water = 0;
-    if (touring) bells = 0.8;
-    else {
-      bells = clamp(1.05 - Math.abs(prog - 0.55) * 0.7, 0, 0.85);
-      if (prog > 1.8) bells *= clamp(1 - (prog - 1.8) * 0.8, 0, 1);
-      steps = prog > 0.15 && prog < 4.1 ? 0.5 : 0.12;
-      water = clamp((prog - 4.6) / 1.1, 0, 0.62);
-    }
-    bus.gBell.gain.setTargetAtTime(bells, t, 0.45);
-    bus.gStep.gain.setTargetAtTime(steps, t, 0.4);
-    bus.gWater.gain.setTargetAtTime(water, t, 0.55);
-    if (bells > 0.12 && now > bus.nextBell) {
-      strikeBell(178 + Math.random() * 36, 0.16 + Math.random() * 0.08);
-      bus.nextBell = now + 7800 + Math.random() * 7200;
-    }
-    if (steps > 0.2 && now > bus.nextStep) {
-      footstep();
-      bus.nextStep = now + 580 + Math.random() * 460;
-    }
-  }
   function stopSpeech() {
     ttsUtter = null;
+    ttsKey = '';
     try {
       window.speechSynthesis?.cancel();
     } catch {}
-    duckAmbient(false);
-  }
-  function duckAmbient(on) {
-    if (!bus.ctx || !bus.master || !bus.enabled) return;
-    if (ttsDucked === on) return;
-    ttsDucked = on;
-    const t = bus.ctx.currentTime;
-    bus.master.gain.cancelScheduledValues(t);
-    bus.master.gain.linearRampToValueAtTime(on ? 0.1 : 0.4, t + 0.22);
+    syncSpeakButtons();
   }
   function warmVoices() {
     const synth = window.speechSynthesis;
@@ -920,8 +772,8 @@ import { I18N, LANGS } from './lang.js';
       .replace(/\s+/g, ' ')
       .trim();
   }
-  function speakLine(text) {
-    if (!bus.enabled || !window.speechSynthesis) return;
+  function speakLine(text, key) {
+    if (!window.speechSynthesis) return;
     const line = prepareSpeech(text);
     if (!line) return;
     const synth = window.speechSynthesis;
@@ -929,7 +781,7 @@ import { I18N, LANGS } from './lang.js';
       warmVoices();
       const retry = () => {
         synth.removeEventListener('voiceschanged', retry);
-        speakLine(line);
+        speakLine(line, key);
       };
       synth.addEventListener('voiceschanged', retry);
       return;
@@ -938,6 +790,7 @@ import { I18N, LANGS } from './lang.js';
       synth.cancel();
       const u = new SpeechSynthesisUtterance(line);
       ttsUtter = u;
+      ttsKey = key || '';
       const voice = pickVoice();
       if (voice) {
         u.voice = voice;
@@ -951,12 +804,13 @@ import { I18N, LANGS } from './lang.js';
       const done = () => {
         if (ttsUtter !== u) return;
         ttsUtter = null;
-        duckAmbient(false);
+        ttsKey = '';
+        syncSpeakButtons();
       };
       u.onend = done;
       u.onerror = done;
-      duckAmbient(true);
       synth.speak(u);
+      syncSpeakButtons();
       if (/Chrome|Chromium|Edg\//.test(navigator.userAgent)) {
         setTimeout(() => {
           if (ttsUtter !== u || !synth.speaking) return;
@@ -965,16 +819,36 @@ import { I18N, LANGS } from './lang.js';
         }, 50);
       }
     } catch {
-      duckAmbient(false);
+      ttsKey = '';
+      syncSpeakButtons();
     }
   }
-  function speakFor(sec, force) {
-    if (touring && !force) return;
-    const id = SECS[sec]?.id || 'top';
+  function syncSpeakButtons() {
+    $$('.nav-speak').forEach((b) => {
+      const on = !!(ttsUtter && ttsKey && ttsKey === b.getAttribute('data-speak'));
+      b.classList.toggle('is-on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    labelSpeakButtons();
+  }
+  function labelSpeakButtons() {
+    $$('.nav-speak').forEach((b) => {
+      const on = b.classList.contains('is-on');
+      const name = b.previousElementSibling?.querySelector('[data-i18n]')?.textContent || '';
+      const verb = ui(on ? 'navStop' : 'navPlay');
+      b.setAttribute('aria-label', verb + (name ? ` — ${name}` : ''));
+    });
+  }
+  function speakChapter(id, scroll) {
+    if (!id) return;
+    if (touring) endTour();
+    if (ttsKey === id && ttsUtter) {
+      stopSpeech();
+      return;
+    }
+    if (scroll !== false) goToId(id);
     const text = pack().voice?.[id] || fallbackPack().voice?.[id];
-    if (!text || (!force && spoken.has(id))) return;
-    spoken.add(id);
-    speakLine(text);
+    speakLine(text, id);
   }
 
   function openSheet(id, compact) {
@@ -1020,7 +894,6 @@ import { I18N, LANGS } from './lang.js';
     lastCaption = '';
     $('#tour').hidden = false;
     document.documentElement.classList.add('is-tour');
-    if (bus.enabled) strikeBell(196, 0.24);
   }
   function endTour() {
     touring = false;
@@ -1028,7 +901,7 @@ import { I18N, LANGS } from './lang.js';
     document.documentElement.classList.remove('is-tour');
     const fill = $('#tour-fill');
     if (fill) fill.style.width = '0%';
-    if (bus.enabled) stopSpeech();
+    stopSpeech();
   }
   function tickTour(now) {
     if (!touring || !camera) return false;
@@ -1059,7 +932,7 @@ import { I18N, LANGS } from './lang.js';
       $('#tour-lat').textContent = a.lat;
       $('#tour-title').textContent = a.title;
       $('#tour-k').textContent = a.k;
-      if (bus.enabled) speakLine(`${a.title}. ${a.k || ''}`);
+      speakLine(`${a.title}. ${a.k || ''}`, 'tour');
     }
     if (u >= 1) endTour();
     return true;
@@ -1348,10 +1221,9 @@ import { I18N, LANGS } from './lang.js';
       const nm = spec?.name || '';
       linguaBtn.setAttribute('aria-label', ui('lingua') + (nm ? ` — ${nm}` : ''));
     }
-    const snd = $('#snd');
-    if (snd) snd.setAttribute('aria-label', bus.enabled ? ui('soundOff') : ui('soundOn'));
     const burger = $('.nav-burger');
     if (burger) burger.setAttribute('aria-label', ui('menu'));
+    labelSpeakButtons();
     const peek = $('#tour-btn');
     if (peek) peek.setAttribute('aria-label', ui('peekAria'));
     const prev = $('#tape-prev');
@@ -1428,7 +1300,8 @@ import { I18N, LANGS } from './lang.js';
     try {
       localStorage.setItem('bv-lang', id);
     } catch {}
-    spoken.clear();
+    const resume = ttsKey;
+    stopSpeech();
     ttsVoice = null;
     ttsVoiceLang = '';
     applyI18n();
@@ -1436,7 +1309,7 @@ import { I18N, LANGS } from './lang.js';
     setIter(iterKey);
     if (sheetOpen && sheetId) openSheet(sheetId, $('#sheet')?.classList.contains('compact'));
     if (touring) lastCaption = '';
-    if (bus.enabled) speakFor(activeSec, true);
+    if (resume) speakChapter(resume, false);
   }
   function setLinguaOpen(open) {
     const box = $('#lingua');
@@ -1638,9 +1511,15 @@ import { I18N, LANGS } from './lang.js';
     });
     $$('.nav-link', links).forEach((a) => {
       a.addEventListener('click', () => {
-        nav.classList.remove('menu-open');
-        burger.classList.remove('active');
-        document.documentElement.classList.remove('nav-open');
+        closeNav();
+      });
+    });
+    $$('.nav-speak', links).forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closeNav();
+        speakChapter(btn.getAttribute('data-speak'));
       });
     });
     $$('.chip').forEach((chip) => {
@@ -1729,7 +1608,6 @@ import { I18N, LANGS } from './lang.js';
       $$('#rail button').forEach((b, i) => {
         b.classList.toggle('on', i === sec);
       });
-      speakFor(sec);
     }
     nav.classList.toggle('stuck', y > 24);
     return y;
@@ -1914,8 +1792,6 @@ import { I18N, LANGS } from './lang.js';
   }
 
   function wireWalk() {
-    const snd = $('#snd');
-    if (snd) snd.addEventListener('click', () => setSound(!bus.enabled));
     const tourBtn = $('#tour-btn');
     const tourMob = $('#tour-mob');
     if (tourBtn) tourBtn.addEventListener('click', startTour);
@@ -2027,7 +1903,6 @@ import { I18N, LANGS } from './lang.js';
     RIG.smooth += (RIG.prog - RIG.smooth) * (REDUCE ? 1 : 0.045);
     if (RIG.intro < 1) RIG.intro = Math.min(1, RIG.intro + 0.012);
     tickStrips();
-    tickAudio(now, RIG.smooth);
     if (renderer && curveP) {
       if (!tickTour(now)) applyCam(RIG.smooth);
       updateHots();
