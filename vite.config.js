@@ -11,6 +11,12 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true,
     chunkSizeWarningLimit: 600,
+    assetsInlineLimit: (filePath, content) => {
+      if (String(filePath).replace(/\\/g, '/').includes('/flags/') && filePath.endsWith('.svg')) {
+        return false;
+      }
+      return content.length < 4096;
+    },
     rollupOptions: {
       input: {
         main: resolve(root, 'index.html'),

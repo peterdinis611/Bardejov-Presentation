@@ -232,16 +232,10 @@ h1,h2,h3{ font-family:var(--display); font-weight:600; margin:0; letter-spacing:
   padding:0 11px 0 10px;
 }
 .flag{
-  width:24px; height:16px; display:block; flex:0 0 auto;
-  background-size:100% 100%; background-position:center; background-repeat:no-repeat;
+  width:24px; height:16px; max-width:none; display:block; flex:0 0 auto;
+  object-fit:fill;
   box-shadow:0 0 0 1px rgba(16,10,8,.55);
 }
-.flag-sk{ background-image:url('./flags/sk.svg'); }
-.flag-cs{ background-image:url('./flags/cs.svg'); }
-.flag-en{ background-image:url('./flags/en.svg'); }
-.flag-pl{ background-image:url('./flags/pl.svg'); }
-.flag-hu{ background-image:url('./flags/hu.svg'); }
-.flag-uk{ background-image:url('./flags/uk.svg'); }
 .lingua-now{
   min-width:1.4em; text-align:center;
   font-family:var(--display); font-size:12px; font-weight:600; letter-spacing:.16em;

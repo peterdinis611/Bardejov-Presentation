@@ -74,7 +74,11 @@ import { I18N, LANGS } from './lang.js';
     const now = $('#lingua-now');
     if (now) now.textContent = spec?.label || (lang || 'sk').toUpperCase();
     const flag = $('#lingua-flag');
-    if (flag) flag.className = `flag flag-${lang}`;
+    if (flag) {
+      flag.className = 'flag';
+      const fromList = document.querySelector(`#lingua-list [data-lang="${lang}"] img.flag`);
+      if (fromList?.src) flag.src = fromList.src;
+    }
     $$('#lingua-list [data-lang]').forEach((el) => {
       el.setAttribute('aria-selected', el.getAttribute('data-lang') === lang ? 'true' : 'false');
     });

@@ -643,6 +643,20 @@ import { I18N, LANGS } from './lang.js';
     tourT0 = 0,
     lastCaption = '';
   const spoken = new Set();
+  const TTS_SKIP =
+    /zarvox|whisper|bells|cellos|boing|bad news|good news|deranged|trinoids|organ|wobble|jester|princess|junior|albert|bahh|bubbles|superstar|kathy|fred|compact|novelty/i;
+  const TTS_PREF = {
+    sk: ['zuzana', 'laura', 'google slovenčina', 'google slovensky'],
+    cs: ['iveta', 'zuzana', 'google čeština'],
+    en: ['daniel', 'serena', 'martha', 'google uk english', 'samantha', 'kate'],
+    pl: ['zosia', 'google polski'],
+    hu: ['tünde', 'tunde', 'google magyar'],
+    uk: ['lesya', 'lesja', 'google українська', 'google ukrainian'],
+  };
+  let ttsUtter = null;
+  let ttsVoice = null;
+  let ttsVoiceLang = '';
+  let ttsDucked = false;
   const HOT_DEF = [
     { place: 'hall', p: [0, 2.7, 0.15] },
     { place: 'basilica', p: [0, 9.6, -8.5] },
@@ -794,9 +808,11 @@ import { I18N, LANGS } from './lang.js';
         btn.setAttribute('aria-label', ui('soundOff'));
       }
       strikeBell(196, 0.26);
+      warmVoices();
       speakFor(activeSec, true);
     } else {
       bus.enabled = false;
+      ttsDucked = false;
       if (bus.ctx) {
         bus.master.gain.cancelScheduledValues(bus.ctx.currentTime);
         bus.master.gain.linearRampToValueAtTime(0, bus.ctx.currentTime + 0.28);
@@ -806,9 +822,7 @@ import { I18N, LANGS } from './lang.js';
         btn.setAttribute('aria-pressed', 'false');
         btn.setAttribute('aria-label', ui('soundOn'));
       }
-      try {
-        window.speechSynthesis.cancel();
-      } catch {}
+      stopSpeech();
     }
   }
   function tickAudio(now, prog) {
@@ -836,28 +850,131 @@ import { I18N, LANGS } from './lang.js';
       bus.nextStep = now + 580 + Math.random() * 460;
     }
   }
+  function stopSpeech() {
+    ttsUtter = null;
+    try {
+      window.speechSynthesis?.cancel();
+    } catch {}
+    duckAmbient(false);
+  }
+  function duckAmbient(on) {
+    if (!bus.ctx || !bus.master || !bus.enabled) return;
+    if (ttsDucked === on) return;
+    ttsDucked = on;
+    const t = bus.ctx.currentTime;
+    bus.master.gain.cancelScheduledValues(t);
+    bus.master.gain.linearRampToValueAtTime(on ? 0.1 : 0.4, t + 0.22);
+  }
+  function warmVoices() {
+    const synth = window.speechSynthesis;
+    if (!synth) return;
+    synth.getVoices();
+    if (!warmVoices.bound) {
+      warmVoices.bound = true;
+      synth.addEventListener('voiceschanged', () => {
+        ttsVoice = null;
+        ttsVoiceLang = '';
+        synth.getVoices();
+      });
+    }
+  }
+  function scoreVoice(v, loc, prefix, prefs) {
+    const code = (v.lang || '').toLowerCase().replace('_', '-');
+    const name = v.name || '';
+    if (TTS_SKIP.test(name)) return -100;
+    let s = -1;
+    if (code === loc) s = 90;
+    else if (code.startsWith(`${prefix}-`) || code === prefix) s = 55;
+    else return -1;
+    if (prefs.some((p) => name.toLowerCase().includes(p))) s += 36;
+    if (/premium|enhanced|neural|natural|online \(natural\)|google|microsoft/i.test(name)) s += 22;
+    if (v.localService) s += 8;
+    if (/compact/i.test(name)) s -= 24;
+    return s;
+  }
+  function pickVoice() {
+    const synth = window.speechSynthesis;
+    if (!synth) return null;
+    const loc = locale().toLowerCase();
+    if (ttsVoice && ttsVoiceLang === loc) return ttsVoice;
+    const prefix = loc.slice(0, 2);
+    const prefs = TTS_PREF[lang] || [];
+    let best = null;
+    let bestScore = -1;
+    synth.getVoices().forEach((v) => {
+      const s = scoreVoice(v, loc, prefix, prefs);
+      if (s > bestScore) {
+        bestScore = s;
+        best = v;
+      }
+    });
+    ttsVoice = best;
+    ttsVoiceLang = loc;
+    return best;
+  }
+  function prepareSpeech(text) {
+    return String(text || '')
+      .replace(/UNESCO|ЮНЕСКО/g, 'Unesco')
+      .replace(/[·•]/g, ', ')
+      .replace(/[—–]/g, ', ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+  function speakLine(text) {
+    if (!bus.enabled || !window.speechSynthesis) return;
+    const line = prepareSpeech(text);
+    if (!line) return;
+    const synth = window.speechSynthesis;
+    if (!synth.getVoices().length) {
+      warmVoices();
+      const retry = () => {
+        synth.removeEventListener('voiceschanged', retry);
+        speakLine(line);
+      };
+      synth.addEventListener('voiceschanged', retry);
+      return;
+    }
+    try {
+      synth.cancel();
+      const u = new SpeechSynthesisUtterance(line);
+      ttsUtter = u;
+      const voice = pickVoice();
+      if (voice) {
+        u.voice = voice;
+        u.lang = voice.lang;
+      } else {
+        u.lang = locale();
+      }
+      u.rate = lang === 'en' || lang === 'cs' ? 0.94 : 0.91;
+      u.pitch = 0.96;
+      u.volume = 1;
+      const done = () => {
+        if (ttsUtter !== u) return;
+        ttsUtter = null;
+        duckAmbient(false);
+      };
+      u.onend = done;
+      u.onerror = done;
+      duckAmbient(true);
+      synth.speak(u);
+      if (/Chrome|Chromium|Edg\//.test(navigator.userAgent)) {
+        setTimeout(() => {
+          if (ttsUtter !== u || !synth.speaking) return;
+          synth.pause();
+          synth.resume();
+        }, 50);
+      }
+    } catch {
+      duckAmbient(false);
+    }
+  }
   function speakFor(sec, force) {
-    if (!bus.enabled || REDUCE || !window.speechSynthesis) return;
+    if (touring && !force) return;
     const id = SECS[sec]?.id || 'top';
     const text = pack().voice?.[id] || fallbackPack().voice?.[id];
     if (!text || (!force && spoken.has(id))) return;
     spoken.add(id);
-    try {
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = locale();
-      u.rate = 0.9;
-      u.pitch = 0.86;
-      u.volume = 0.68;
-      const voices = window.speechSynthesis.getVoices();
-      const prefix = locale().slice(0, 2).toLowerCase();
-      const match =
-        voices.find((v) =>
-          (v.lang || '').toLowerCase().replace('_', '-').startsWith(locale().toLowerCase())
-        ) || voices.find((v) => (v.lang || '').toLowerCase().startsWith(prefix));
-      if (match) u.voice = match;
-      window.speechSynthesis.cancel();
-      window.speechSynthesis.speak(u);
-    } catch {}
+    speakLine(text);
   }
 
   function openSheet(id, compact) {
@@ -911,6 +1028,7 @@ import { I18N, LANGS } from './lang.js';
     document.documentElement.classList.remove('is-tour');
     const fill = $('#tour-fill');
     if (fill) fill.style.width = '0%';
+    if (bus.enabled) stopSpeech();
   }
   function tickTour(now) {
     if (!touring || !camera) return false;
@@ -941,6 +1059,7 @@ import { I18N, LANGS } from './lang.js';
       $('#tour-lat').textContent = a.lat;
       $('#tour-title').textContent = a.title;
       $('#tour-k').textContent = a.k;
+      if (bus.enabled) speakLine(`${a.title}. ${a.k || ''}`);
     }
     if (u >= 1) endTour();
     return true;
@@ -1214,7 +1333,11 @@ import { I18N, LANGS } from './lang.js';
     const now = $('#lingua-now');
     if (now) now.textContent = spec?.label || (lang || 'sk').toUpperCase();
     const flag = $('#lingua-flag');
-    if (flag) flag.className = `flag flag-${lang}`;
+    if (flag) {
+      flag.className = 'flag';
+      const fromList = document.querySelector(`#lingua-list [data-lang="${lang}"] img.flag`);
+      if (fromList?.src) flag.src = fromList.src;
+    }
     $$('#lingua-list [data-lang]').forEach((el) => {
       el.setAttribute('aria-selected', el.getAttribute('data-lang') === lang ? 'true' : 'false');
     });
@@ -1306,11 +1429,14 @@ import { I18N, LANGS } from './lang.js';
       localStorage.setItem('bv-lang', id);
     } catch {}
     spoken.clear();
+    ttsVoice = null;
+    ttsVoiceLang = '';
     applyI18n();
     paintHoursAndWx();
     setIter(iterKey);
     if (sheetOpen && sheetId) openSheet(sheetId, $('#sheet')?.classList.contains('compact'));
     if (touring) lastCaption = '';
+    if (bus.enabled) speakFor(activeSec, true);
   }
   function setLinguaOpen(open) {
     const box = $('#lingua');
@@ -1858,7 +1984,10 @@ import { I18N, LANGS } from './lang.js';
       if (sheetOpen) closeSheet();
       else if (touring) endTour();
     });
-    if (window.speechSynthesis) window.speechSynthesis.getVoices();
+    warmVoices();
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stopSpeech();
+    });
     wireTape();
     wireStrips();
     const stats = $('.gate-stats');
