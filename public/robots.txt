@@ -143,4 +143,4 @@ Disallow: /tdm-policy.txt
 Disallow: /ai.txt
 Crawl-delay: 2
 
-Sitemap: https://peterdinis611.github.io/Bardejov-Presentation/sitemap.xml
+Sitemap: __SITE__/sitemap.xml

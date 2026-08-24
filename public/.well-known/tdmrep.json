@@ -3,7 +3,7 @@
     {
       "location": "/",
       "tdm-reservation": 1,
-      "tdm-policy": "https://peterdinis611.github.io/Bardejov-Presentation/tdm-policy.txt"
+      "tdm-policy": "__SITE__/tdm-policy.txt"
     }
   ]
 }

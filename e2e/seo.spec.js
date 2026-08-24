@@ -18,6 +18,12 @@ test('head tags carry UNESCO keywords', async ({ page }) => {
   const attraction = ld['@graph'].find((n) => n['@type'] === 'TouristAttraction');
   expect(attraction.keywords).toMatch(/Bardejov/);
   expect(attraction.containsPlace.map((p) => p.name)).toContain('Bazilika sv. Egídia');
+  const origin = new URL(page.url()).origin;
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `${origin}/`);
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    `${origin}/assets/square.jpg`
+  );
 });
 
 test('English language updates title and JSON-LD', async ({ page }) => {

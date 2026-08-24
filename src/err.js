@@ -1,3 +1,4 @@
+import './fonts.js';
 import './styles.css';
 import { I18N, LANGS } from './lang.js';
 

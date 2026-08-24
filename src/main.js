@@ -1,6 +1,8 @@
+import './fonts.js';
 import * as THREE from 'three';
 import './styles.css';
 import { I18N, LANGS } from './lang.js';
+import { siteUrl } from './site.js';
 
 /* Bardejov — dusk walk through a live UNESCO square */
 (() => {
@@ -1206,7 +1208,7 @@ import { I18N, LANGS } from './lang.js';
     if (el && val) el.setAttribute(attr, val);
   }
   function applySeo(metaPack, spec) {
-    const SITE = 'https://peterdinis611.github.io/Bardejov-Presentation/';
+    const SITE = siteUrl();
     const pageUrl = SITE + (lang === 'sk' ? '' : `?lang=${lang}`);
     const ogLoc = { sk: 'sk_SK', cs: 'cs_CZ', en: 'en_GB', pl: 'pl_PL', hu: 'hu_HU', uk: 'uk_UA' };
     if (metaPack.title) document.title = metaPack.title;
@@ -1217,12 +1219,20 @@ import { I18N, LANGS } from './lang.js';
     setHead('meta[property="og:title"]', 'content', metaPack.title);
     setHead('meta[property="og:description"]', 'content', metaPack.description);
     setHead('meta[property="og:url"]', 'content', pageUrl);
+    setHead('meta[property="og:image"]', 'content', `${SITE}assets/square.jpg`);
     setHead('meta[property="og:image:alt"]', 'content', metaPack.imageAlt);
     setHead('meta[name="twitter:title"]', 'content', metaPack.title);
     setHead('meta[name="twitter:description"]', 'content', metaPack.description);
+    setHead('meta[name="twitter:image"]', 'content', `${SITE}assets/square.jpg`);
     setHead('meta[name="twitter:image:alt"]', 'content', metaPack.imageAlt);
     const canonical = document.querySelector('link[rel="canonical"]');
     if (canonical) canonical.setAttribute('href', pageUrl);
+    setHead('link[rel="tdm-policy"]', 'href', `${SITE}tdm-policy.txt`);
+    setHead('link[rel="sitemap"]', 'href', `${SITE}sitemap.xml`);
+    $$('link[rel="alternate"][hreflang]').forEach((el) => {
+      const hl = el.getAttribute('hreflang');
+      el.setAttribute('href', hl === 'x-default' ? SITE : `${SITE}?lang=${hl}`);
+    });
     const ld = document.getElementById('ld-json');
     if (!ld) return;
     const places = (metaPack.places || []).map((name, i, arr) => ({
