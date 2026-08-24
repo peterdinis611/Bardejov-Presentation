@@ -31,10 +31,10 @@ export const STOP_LABEL = {
 
 /** Install a deterministic speechSynthesis before app boot. */
 export async function mockSpeech(page, opts = {}) {
-  const voicesDelayMs = opts.voicesDelayMs || 0;
+  const deferVoices = !!opts.deferVoices;
   const disable = !!opts.disable;
   await page.addInitScript(
-    ({ voicesDelayMs: delay, disable: off }) => {
+    ({ deferVoices: waitVoices, disable: off }) => {
       const spoken = [];
       const stats = { speak: 0, cancel: 0, pause: 0, resume: 0 };
       let current = null;
@@ -43,6 +43,7 @@ export async function mockSpeech(page, opts = {}) {
       window.__ttsSpoken = spoken;
       window.__ttsStats = stats;
       window.__ttsFinish = () => {};
+      window.__ttsReadyVoices = () => {};
 
       if (off) {
         Object.defineProperty(window, 'speechSynthesis', {
@@ -76,7 +77,7 @@ export async function mockSpeech(page, opts = {}) {
         { name: 'Lesya', lang: 'uk-UA', localService: true, default: false, voiceURI: 'uk' },
       ];
 
-      let voicesReady = delay <= 0;
+      let voicesReady = !waitVoices;
       const voiceListeners = [];
 
       const synth = {
@@ -115,7 +116,7 @@ export async function mockSpeech(page, opts = {}) {
         addEventListener(type, fn) {
           if (type === 'voiceschanged') voiceListeners.push(fn);
         },
-        removeEventListener(type, fn) {
+        removeEventListener(_type, fn) {
           const i = voiceListeners.indexOf(fn);
           if (i >= 0) voiceListeners.splice(i, 1);
         },
@@ -135,23 +136,60 @@ export async function mockSpeech(page, opts = {}) {
         speaking = false;
         if (u?.onend) u.onend();
       };
-
-      if (delay > 0) {
-        setTimeout(() => {
-          voicesReady = true;
-          voiceListeners.slice().forEach((fn) => fn());
-        }, delay);
-      }
+      window.__ttsReadyVoices = () => {
+        voicesReady = true;
+        voiceListeners.slice().forEach((fn) => {
+          fn();
+        });
+      };
     },
-    { voicesDelayMs, disable }
+    { deferVoices, disable }
+  );
+}
+
+/** Skip Google Fonts, weather, Three.js and boot delays unless a test needs WebGL. */
+export async function installFastBoot(page, opts = {}) {
+  const webgl = !!opts.webgl;
+  await page.addInitScript(
+    ({ webgl: keepGl }) => {
+      Object.defineProperty(document, 'fonts', {
+        configurable: true,
+        value: {
+          ready: Promise.resolve(),
+          check: () => true,
+          load: () => Promise.resolve([]),
+        },
+      });
+      if (!keepGl) {
+        const orig = HTMLCanvasElement.prototype.getContext;
+        HTMLCanvasElement.prototype.getContext = function getContext(type, ...args) {
+          if (/webgl/i.test(String(type))) throw new Error('e2e: no webgl');
+          return orig.call(this, type, ...args);
+        };
+      }
+      const origTimeout = window.setTimeout;
+      window.setTimeout = (fn, ms, ...rest) => {
+        if (ms === 200 || ms === 240 || ms === 280) ms = 0;
+        return origTimeout(fn, ms, ...rest);
+      };
+      const origInterval = window.setInterval;
+      window.setInterval = (fn, ms, ...rest) => {
+        if (typeof ms === 'number' && ms >= 10_000) ms = 20;
+        return origInterval(fn, ms, ...rest);
+      };
+    },
+    { webgl }
   );
 }
 
 export async function openSite(page, path = '/?lang=sk', opts = {}) {
   const motion = opts.reducedMotion === false ? 'no-preference' : 'reduce';
+  await installFastBoot(page, opts);
+  await page.route(/fonts\.(googleapis|gstatic)\.com/, (route) => route.abort());
+  await page.route('https://api.open-meteo.com/**', (route) => route.abort());
   await page.emulateMedia({ reducedMotion: motion });
   await page.goto(path);
-  await page.locator('#pre').waitFor({ state: 'hidden', timeout: 20_000 });
+  await page.locator('#pre').waitFor({ state: 'hidden', timeout: 8_000 });
 }
 
 export function spoken(page) {
@@ -192,11 +230,17 @@ export async function fireLang(page, id) {
   }, id);
 }
 
+const IGNORE_CONSOLE =
+  /webgl|three|WebGL|e2e: no webgl|net::ERR_FAILED|fonts\.(googleapis|gstatic)|Failed to load resource/i;
+
 export function watchPageErrors(page) {
   const errors = [];
-  page.on('pageerror', (err) => errors.push(String(err)));
+  const push = (msg) => {
+    if (!IGNORE_CONSOLE.test(msg)) errors.push(msg);
+  };
+  page.on('pageerror', (err) => push(String(err)));
   page.on('console', (msg) => {
-    if (msg.type() === 'error') errors.push(msg.text());
+    if (msg.type() === 'error') push(msg.text());
   });
   return errors;
 }

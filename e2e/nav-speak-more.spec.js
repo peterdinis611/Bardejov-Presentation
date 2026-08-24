@@ -1,16 +1,15 @@
 import { expect, test } from '@playwright/test';
 import {
   CHAPTERS,
+  finishSpeech,
   GATE_COPY,
   LANGS,
-  PLAY_LABEL,
-  STOP_LABEL,
-  finishSpeech,
-  fireLang,
   lastSpoken,
   mockSpeech,
   openSite,
+  PLAY_LABEL,
   playingId,
+  STOP_LABEL,
   spoken,
 } from './helpers.js';
 
@@ -100,12 +99,12 @@ for (const lang of LANGS) {
 }
 
 test('voices arriving late still start the chapter', async ({ page }) => {
-  await mockSpeech(page, { voicesDelayMs: 400 });
+  await mockSpeech(page, { deferVoices: true });
   await openSite(page);
   await page.locator('.nav-speak[data-speak="lessons"]').click();
-  await expect(page.locator('.nav-speak[data-speak="lessons"]')).toHaveClass(/is-on/, {
-    timeout: 5000,
-  });
+  await expect(page.locator('.nav-speak[data-speak="lessons"]')).not.toHaveClass(/is-on/);
+  await page.evaluate(() => window.__ttsReadyVoices?.());
+  await expect(page.locator('.nav-speak[data-speak="lessons"]')).toHaveClass(/is-on/);
   expect((await lastSpoken(page)).text.length).toBeGreaterThan(220);
 });
 
@@ -114,7 +113,7 @@ test('missing speechSynthesis does not throw', async ({ page }) => {
   await openSite(page);
   await page.locator('.nav-speak[data-speak="gate"]').click();
   await expect(page.locator('.nav-speak[data-speak="gate"]')).not.toHaveClass(/is-on/);
-  await expect(page.locator('#lessons')).toBeVisible();
+  await expect(page.locator('#gate')).toBeInViewport();
 });
 
 test('error pages have no chapter playback', async ({ page }) => {
@@ -126,7 +125,7 @@ test('error pages have no chapter playback', async ({ page }) => {
 
 test('chapter play ends the dusk tour when WebGL is up', async ({ page }) => {
   await mockSpeech(page);
-  await openSite(page, '/?lang=sk', { reducedMotion: false });
+  await openSite(page, '/?lang=sk', { reducedMotion: false, webgl: true });
   await page.locator('#tour-btn').click();
   const touring = await page.locator('html').evaluate((el) => el.classList.contains('is-tour'));
   if (!touring) {

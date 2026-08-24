@@ -1,12 +1,5 @@
 import { expect, test } from '@playwright/test';
-import {
-  CHAPTERS,
-  finishSpeech,
-  lastSpoken,
-  mockSpeech,
-  openSite,
-  spoken,
-} from './helpers.js';
+import { CHAPTERS, finishSpeech, lastSpoken, mockSpeech, openSite, spoken } from './helpers.js';
 
 test.beforeEach(async ({ page }) => {
   await mockSpeech(page);
