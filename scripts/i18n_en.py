@@ -216,6 +216,7 @@ en = {
         "tourSkip": "Skip",
         "sheetClose": "close",
         "chapter": "Chapter",
+        "toTop": "To the gate",
         "err404k": "Chapter 404 — A missing gate",
         "err404h1": "This gate",
         "err404h2": "did not open.",

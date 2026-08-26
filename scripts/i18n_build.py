@@ -238,6 +238,7 @@ sk = {
         "tourSkip": "Preskočiť",
         "sheetClose": "zatvoriť",
         "chapter": "Kapitola",
+        "toTop": "Na bránu",
         "err404k": "Kapitola 404 — Chýbajúca brána",
         "err404h1": "Táto brána",
         "err404h2": "sa neotvorila.",

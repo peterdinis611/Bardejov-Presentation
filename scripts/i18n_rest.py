@@ -218,6 +218,7 @@ cs = {
         "tourSkip": "Přeskočit",
         "sheetClose": "zavřít",
         "chapter": "Kapitola",
+        "toTop": "K bráně",
         "err404k": "Kapitola 404 — Chybějící brána",
         "err404h1": "Tato brána",
         "err404h2": "se neotevřela.",

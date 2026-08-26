@@ -216,6 +216,7 @@ pl = {
         "tourSkip": "Pomiń",
         "sheetClose": "zamknij",
         "chapter": "Rozdział",
+        "toTop": "Do bramy",
         "err404k": "Rozdział 404 — Brama, której nie ma",
         "err404h1": "Ta brama",
         "err404h2": "się nie otworzyła.",

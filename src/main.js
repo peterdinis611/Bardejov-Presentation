@@ -7,6 +7,7 @@ import { siteUrl } from './site.js';
 /* Bardejov — dusk walk through a live UNESCO square */
 (() => {
   const REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const MOBILE = window.matchMedia('(max-width: 1080px), (pointer: coarse)').matches;
   const $ = (s, r) => (r || document).querySelector(s);
   const $$ = (s, r) => [].slice.call((r || document).querySelectorAll(s));
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -97,10 +98,10 @@ import { siteUrl } from './site.js';
   const grain = $('#grain');
 
   function vpW() {
-    return window.innerWidth;
+    return Math.max(1, Math.round(window.visualViewport?.width || window.innerWidth));
   }
   function vpH() {
-    return window.innerHeight;
+    return Math.max(1, Math.round(window.visualViewport?.height || window.innerHeight));
   }
   function setVW() {
     root.style.setProperty('--vw', `${vpW()}px`);
@@ -173,7 +174,7 @@ import { siteUrl } from './site.js';
     o = o || {};
     const t = new THREE.CanvasTexture(el);
     t.wrapS = t.wrapT = o.wrap || THREE.RepeatWrapping;
-    t.anisotropy = o.aniso || 8;
+    t.anisotropy = MOBILE ? 1 : o.aniso || 8;
     t.colorSpace = THREE.SRGBColorSpace;
     if (o.repeat) t.repeat.set(o.repeat[0], o.repeat[1]);
     return t;
@@ -901,7 +902,8 @@ import { siteUrl } from './site.js';
 
   function startTour() {
     if (touring) return;
-    if (!renderer || REDUCE || document.body.classList.contains('no-webgl')) {
+    closeNav();
+    if (!renderer || document.body.classList.contains('no-webgl')) {
       openSheet('square');
       return;
     }
@@ -1090,17 +1092,29 @@ import { siteUrl } from './site.js';
     if (!THREE) throw new Error('three missing');
     renderer = new THREE.WebGLRenderer({
       canvas,
-      antialias: true,
+      antialias: !MOBILE,
       alpha: false,
-      powerPreference: 'high-performance',
+      stencil: false,
+      depth: true,
+      powerPreference: MOBILE ? 'default' : 'high-performance',
+      failIfMajorPerformanceCaveat: false,
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, MOBILE ? 1.25 : 1.75));
     renderer.setSize(vpW(), vpH(), false);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 0.88;
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.enabled = !MOBILE;
+    if (!MOBILE) renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    canvas.addEventListener(
+      'webglcontextlost',
+      (e) => {
+        e.preventDefault();
+        document.body.classList.add('no-webgl');
+      },
+      false
+    );
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x120c09);
@@ -1109,7 +1123,7 @@ import { siteUrl } from './site.js';
     camera = new THREE.PerspectiveCamera(36, vpW() / vpH(), 0.25, 180);
 
     const sky = new THREE.Mesh(
-      new THREE.SphereGeometry(90, 24, 16),
+      new THREE.SphereGeometry(90, MOBILE ? 16 : 24, MOBILE ? 12 : 16),
       new THREE.MeshBasicMaterial({
         map: tx(texSky(), { wrap: THREE.ClampToEdgeWrapping }),
         side: THREE.BackSide,
@@ -1121,14 +1135,16 @@ import { siteUrl } from './site.js';
     scene.add(new THREE.HemisphereLight(0x6a8498, 0x3a2014, 0.55));
     const sun = new THREE.DirectionalLight(0xffd0a8, 0.85);
     sun.position.set(-12, 18, 10);
-    sun.castShadow = true;
-    sun.shadow.mapSize.set(1024, 1024);
-    sun.shadow.camera.near = 2;
-    sun.shadow.camera.far = 60;
-    sun.shadow.camera.left = -22;
-    sun.shadow.camera.right = 22;
-    sun.shadow.camera.top = 18;
-    sun.shadow.camera.bottom = -12;
+    sun.castShadow = !MOBILE;
+    if (!MOBILE) {
+      sun.shadow.mapSize.set(1024, 1024);
+      sun.shadow.camera.near = 2;
+      sun.shadow.camera.far = 60;
+      sun.shadow.camera.left = -22;
+      sun.shadow.camera.right = 22;
+      sun.shadow.camera.top = 18;
+      sun.shadow.camera.bottom = -12;
+    }
     scene.add(sun);
     const fill = new THREE.DirectionalLight(0x8899aa, 0.22);
     fill.position.set(10, 6, 8);
@@ -1317,6 +1333,8 @@ import { siteUrl } from './site.js';
     if (next) next.setAttribute('aria-label', ui('tapeNext'));
     const close = $('.sheet-x');
     if (close) close.setAttribute('aria-label', ui('sheetClose'));
+    const rise = $('#rise');
+    if (rise) rise.setAttribute('aria-label', ui('toTop'));
     $$('#rail button').forEach((b, i) => {
       b.setAttribute('aria-label', `${ui('chapter')} ${i}`);
     });
@@ -1571,6 +1589,25 @@ import { siteUrl } from './site.js';
     });
   }
 
+  function wireRise() {
+    const rise = $('#rise');
+    if (!rise) return;
+    rise.addEventListener('click', () => {
+      closeNav();
+      goToId('top');
+      try {
+        history.replaceState(null, '', '#top');
+      } catch {}
+    });
+  }
+
+  function syncRise(y) {
+    const rise = $('#rise');
+    if (!rise) return;
+    const threshold = Math.min(420, vpH() * 0.42);
+    rise.classList.toggle('on', y > threshold);
+  }
+
   function wireNav() {
     const burger = $('.nav-burger');
     const links = $('#navlinks');
@@ -1578,6 +1615,7 @@ import { siteUrl } from './site.js';
       setLinguaOpen(false);
       const open = nav.classList.toggle('menu-open');
       burger.classList.toggle('active', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
       document.documentElement.classList.toggle('nav-open', open);
     });
     $$('.nav-link', links).forEach((a) => {
@@ -1617,10 +1655,19 @@ import { siteUrl } from './site.js';
     nav.classList.remove('menu-open');
     const burger = $('.nav-burger');
     if (burger) burger.classList.remove('active');
+    if (burger) burger.setAttribute('aria-expanded', 'false');
     document.documentElement.classList.remove('nav-open');
   }
   function goToId(id, instant) {
     if (!id) return false;
+    if (id === 'top') {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: instant || REDUCE ? 'auto' : 'smooth',
+      });
+      return true;
+    }
     const el = document.getElementById(id);
     if (!el) return false;
     if (el.classList.contains('les')) openLesson(el);
@@ -1643,12 +1690,18 @@ import { siteUrl } from './site.js';
   }
 
   function wireCursor() {
-    if (!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
-    window.addEventListener('pointermove', (e) => {
-      cursor.style.transform = `translate3d(${e.clientX}px,${e.clientY}px,0)`;
-      RIG.tmx = (e.clientX / vpW()) * 2 - 1;
-      RIG.tmy = (e.clientY / vpH()) * 2 - 1;
-    });
+    const fine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+    window.addEventListener(
+      'pointermove',
+      (e) => {
+        if (fine) cursor.style.transform = `translate3d(${e.clientX}px,${e.clientY}px,0)`;
+        if (touring) return;
+        RIG.tmx = (e.clientX / vpW()) * 2 - 1;
+        RIG.tmy = (e.clientY / vpH()) * 2 - 1;
+      },
+      { passive: true }
+    );
+    if (!fine) return;
     document.addEventListener('pointerover', (e) => {
       cursor.classList.toggle(
         'act',
@@ -1681,6 +1734,7 @@ import { siteUrl } from './site.js';
       });
     }
     nav.classList.toggle('stuck', y > 24);
+    syncRise(y);
     return y;
   }
   function onScroll() {
@@ -1974,14 +2028,18 @@ import { siteUrl } from './site.js';
     RIG.smooth += (RIG.prog - RIG.smooth) * (REDUCE ? 1 : 0.045);
     if (RIG.intro < 1) RIG.intro = Math.min(1, RIG.intro + 0.012);
     tickStrips();
-    if (renderer && curveP) {
+    if (renderer && curveP && !document.body.classList.contains('no-webgl')) {
       if (!tickTour(now)) applyCam(RIG.smooth);
       updateHots();
       lanterns.forEach((l, i) => {
         l.intensity = 0.95 + Math.sin(now * 0.004 + i * 1.7) * 0.18;
       });
       if (moon) moon.position.x = 8.5 + Math.sin(now * 0.00012) * 0.4;
-      renderer.render(scene, camera);
+      try {
+        renderer.render(scene, camera);
+      } catch {
+        document.body.classList.add('no-webgl');
+      }
     }
   }
 
@@ -2014,30 +2072,35 @@ import { siteUrl } from './site.js';
     setVW();
     wireLang();
     wireRail();
+    wireRise();
     wireNav();
     wireAnchors();
     wireCursor();
     wireWalk();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onResize);
+    window.visualViewport?.addEventListener('resize', onResize);
+    let started = false;
     const start = () => {
+      if (started) return;
+      started = true;
       try {
         initGL();
         setLoad(92);
-        requestAnimationFrame(loop);
-        setTimeout(() => {
-          setLoad(100);
-          setTimeout(ready, 280);
-        }, 240);
       } catch (err) {
         console.warn(err);
         document.body.classList.add('no-webgl');
-        setLoad(100);
-        setTimeout(ready, 200);
+        setLoad(92);
       }
+      requestAnimationFrame(loop);
+      setTimeout(() => {
+        setLoad(100);
+        setTimeout(ready, 280);
+      }, 240);
     };
     if (document.fonts?.ready) document.fonts.ready.then(start);
     else start();
+    setTimeout(start, 1600);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

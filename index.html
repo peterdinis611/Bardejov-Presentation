@@ -164,7 +164,7 @@
         <button type="button" role="option" data-lang="uk" aria-selected="false" data-cursor><img class="flag" src="./src/flags/uk.svg" alt="" width="32" height="21" aria-hidden="true"><b>UK</b><span>Українська</span></button>
       </div>
     </div>
-    <button class="nav-burger" type="button" aria-label="Menu" data-cursor><i></i><i></i></button>
+    <button class="nav-burger" type="button" aria-label="Menu" aria-expanded="false" data-cursor><i></i><i></i></button>
   </div>
 </header>
 
@@ -708,6 +708,10 @@
   <div class="foot-base">
     <span data-i18n="footCopy">© 2026 Bardejov — Civitas regia</span>
     <span class="lat">Lapis meminit regum</span>
+    <a class="foot-rise" href="#top" data-cursor>
+      <span data-i18n="toTop">Na bránu</span>
+      <i aria-hidden="true"></i>
+    </a>
   </div>
 </footer>
 
@@ -715,6 +719,9 @@
 
 <div id="fg-sky" aria-hidden="true"></div>
 <div class="rail" id="rail"></div>
+<button type="button" class="rise" id="rise" data-cursor aria-label="Na bránu">
+  <span class="rise-wick" aria-hidden="true"><i></i></span>
+</button>
 
 <div id="hots" aria-hidden="true">
   <button class="hot" type="button" data-place="hall" data-cursor><i></i><span data-i18n="hotHall">Radnica</span></button>
