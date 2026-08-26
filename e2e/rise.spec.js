@@ -24,3 +24,15 @@ test('footer rise link also returns to the top', async ({ page }) => {
   await page.locator('.foot-rise').click();
   await expect.poll(async () => page.evaluate(() => window.scrollY)).toBeLessThan(8);
 });
+
+test('rise is tappable on a phone viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await openSite(page);
+  const rise = page.locator('#rise');
+  await page.locator('#eternity').scrollIntoViewIfNeeded();
+  await expect(rise).toHaveClass(/on/);
+  const box = await rise.boundingBox();
+  expect(box?.height ?? 0).toBeGreaterThanOrEqual(44);
+  await rise.click();
+  await expect.poll(async () => page.evaluate(() => window.scrollY)).toBeLessThan(8);
+});
