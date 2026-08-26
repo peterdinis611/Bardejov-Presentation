@@ -151,7 +151,18 @@ import { siteUrl } from './site.js';
   let moon, wordMesh;
   let curveP, curveT;
   const RIG = { prog: 0, smooth: 0, mx: 0, my: 0, tmx: 0, tmy: 0, intro: 0 };
-  const GWALL = { x: 0, user: 0, primed: false, root: null, track: null, moved: 0, drift: true };
+  const GWALL = {
+    x: 0,
+    user: 0,
+    primed: false,
+    root: null,
+    track: null,
+    moved: 0,
+    drift: true,
+    sways: null,
+    gust: null,
+    aim: null,
+  };
   const ROOD = { x: 0, user: 0, primed: false, root: null, track: null, moved: 0, drift: false };
   const CAM = [
     { p: [0.15, 3.55, 8.6], t: [0.0, 4.4, -9.0], fov: 38 },
@@ -1916,6 +1927,49 @@ import { siteUrl } from './site.js';
     tickStrip(ROOD);
   }
 
+  function wireGuildWind() {
+    const wall = $('#gwall');
+    if (!wall) return;
+    const sways = $$('.gld-sway', wall);
+    GWALL.sways = sways;
+    GWALL.gust = new Float32Array(sways.length);
+    GWALL.aim = new Float32Array(sways.length);
+    if (REDUCE || !sways.length) return;
+    wall.classList.add('has-js-wind');
+    const fine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+    if (!fine) return;
+    wall.addEventListener(
+      'pointermove',
+      (e) => {
+        sways.forEach((el, i) => {
+          const b = el.getBoundingClientRect();
+          const d = (e.clientX - (b.left + b.width * 0.5)) / 150;
+          GWALL.aim[i] = clamp(-d * 5.6, -7.2, 7.2);
+        });
+      },
+      { passive: true }
+    );
+    wall.addEventListener('pointerleave', () => {
+      GWALL.aim.fill(0);
+    });
+  }
+
+  function tickGuildWind(now) {
+    if (REDUCE || !GWALL.sways?.length) return;
+    const t = now * 0.001;
+    const gust =
+      Math.sin(t * 0.51) * 2.35 + Math.sin(t * 1.07 + 0.6) * 1.55 + Math.sin(t * 0.21) * 0.85;
+    GWALL.sways.forEach((el, i) => {
+      const aim = GWALL.aim ? GWALL.aim[i] : 0;
+      GWALL.gust[i] += (aim - GWALL.gust[i]) * 0.08;
+      const wave = Math.sin(t * 0.84 + i * 0.5) * 1.7;
+      const flutter = Math.sin(t * 1.85 + i * 1.25) * 0.5;
+      const held = el.parentElement?.matches(':hover, :focus-visible') ? 0.3 : 1;
+      const ang = (1.2 + gust + wave + flutter) * held + GWALL.gust[i];
+      el.style.transform = `rotate(${ang.toFixed(2)}deg)`;
+    });
+  }
+
   function wireWalk() {
     const tourBtn = $('#tour-btn');
     const tourMob = $('#tour-mob');
@@ -1991,6 +2045,7 @@ import { siteUrl } from './site.js';
     });
     wireTape();
     wireStrips();
+    wireGuildWind();
     const stats = $('.gate-stats');
     if (stats) {
       const io = new IntersectionObserver(
@@ -2028,6 +2083,7 @@ import { siteUrl } from './site.js';
     RIG.smooth += (RIG.prog - RIG.smooth) * (REDUCE ? 1 : 0.045);
     if (RIG.intro < 1) RIG.intro = Math.min(1, RIG.intro + 0.012);
     tickStrips();
+    tickGuildWind(now);
     if (renderer && curveP && !document.body.classList.contains('no-webgl')) {
       if (!tickTour(now)) applyCam(RIG.smooth);
       updateHots();

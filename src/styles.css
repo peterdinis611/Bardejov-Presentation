@@ -832,7 +832,7 @@ html.is-tour .rise, html.nav-open .rise, html.is-sheet .rise{
 
 @media (prefers-reduced-motion:reduce){
   [data-rv], .mask-line > span, .word{ opacity:1; transform:none; transition:none; }
-  .hot i, .plan-path, .tape-track::before, .gld{ animation:none; }
+  .hot i, .plan-path, .tape-track::before, .gld, .gld-sway{ animation:none; }
   .gwall-track, .rood-track{ transform:none !important; will-change:auto; }
   .les-open, .sheet-in, .sheet-veil, .fg, .fg-el{ transition:none; }
   .lingua-list, .lingua-chev{ transition:none; }
@@ -969,12 +969,29 @@ html.is-tour #grain{ z-index:4; }
   width:clamp(86px, 8.6vw, 118px);
   padding:0; text-align:center; cursor:none; background:none;
   appearance:none; -webkit-appearance:none;
-  transform-origin:50% 8px;
-  animation:gld-pendulum 5s ease-in-out infinite alternate;
   transition:filter .45s var(--ease-out);
 }
-.gld:nth-of-type(odd){ --hang:22px; animation-duration:5.8s; animation-delay:-.7s; }
-.gld:nth-of-type(3n){ --hang:48px; animation-duration:6.4s; animation-delay:-1.5s; }
+.gld:nth-of-type(odd){ --hang:22px; }
+.gld:nth-of-type(3n){ --hang:48px; }
+.gld-sway{
+  display:flex; flex-direction:column; align-items:center; width:100%;
+  transform-origin:50% 6px;
+  animation:gld-wind 8.2s var(--ease-io) infinite;
+  animation-play-state:paused;
+  will-change:transform;
+}
+.gwall.rv-in .gld-sway{ animation-play-state:running; }
+.gld:nth-child(2) .gld-sway{ animation-duration:7.4s; animation-delay:-.35s; }
+.gld:nth-child(3) .gld-sway{ animation-duration:9.6s; animation-delay:-1.4s; }
+.gld:nth-child(4) .gld-sway{ animation-duration:8.0s; animation-delay:-2.6s; }
+.gld:nth-child(5) .gld-sway{ animation-duration:8.8s; animation-delay:-.85s; }
+.gld:nth-child(6) .gld-sway{ animation-duration:7.7s; animation-delay:-3.2s; }
+.gld:nth-child(7) .gld-sway{ animation-duration:9.2s; animation-delay:-2.0s; }
+.gld:nth-child(8) .gld-sway{ animation-duration:8.3s; animation-delay:-4.1s; }
+.gld:nth-child(9) .gld-sway{ animation-duration:7.9s; animation-delay:-1.2s; }
+.gld:nth-child(10) .gld-sway{ animation-duration:8.6s; animation-delay:-3.6s; }
+.gld-feat .gld-sway{ animation-duration:10.4s; }
+.gwall.has-js-wind .gld-sway{ animation:none; }
 .gld-hang{
   position:relative; display:block; width:11px; height:var(--hang); margin:0 auto;
   overflow:visible;
@@ -1016,13 +1033,20 @@ html.is-tour #grain{ z-index:4; }
 .gld-feat .gld-skin{ fill:url(#gld-ember); }
 .gld-feat b{ font-size:clamp(17px,1.4vw,23px); }
 .gld-feat .gld-edge{ stroke:var(--gold); }
-@keyframes gld-pendulum{
-  0%{ transform:rotate(-1deg); }
-  100%{ transform:rotate(1deg); }
+@keyframes gld-wind{
+  0%{ transform:rotate(-1.2deg); }
+  10%{ transform:rotate(2.8deg); }
+  18%{ transform:rotate(.3deg); }
+  30%{ transform:rotate(6.2deg); }
+  41%{ transform:rotate(1.4deg); }
+  52%{ transform:rotate(4.1deg); }
+  63%{ transform:rotate(-2.6deg); }
+  75%{ transform:rotate(2.4deg); }
+  87%{ transform:rotate(4.8deg); }
+  100%{ transform:rotate(-1.2deg); }
 }
-.gld:hover, .gld:focus-visible{
-  animation:none; transform:translate3d(0,-7px,0); z-index:3; outline:none;
-}
+.gld:hover .gld-sway, .gld:focus-visible .gld-sway{ animation-play-state:paused; }
+.gld:hover, .gld:focus-visible{ z-index:3; outline:none; }
 .gld:hover .gld-shield, .gld:focus-visible .gld-shield{
   filter:drop-shadow(0 24px 30px rgba(209,74,34,.32)) drop-shadow(0 8px 16px rgba(0,0,0,.5));
 }
@@ -1282,7 +1306,7 @@ html.is-tour #grain{ z-index:4; }
 #hots.show .hot{ pointer-events:auto; }
 
 @media (prefers-reduced-motion:reduce){
-  .gld, .sub-card:nth-child(2), .sub-card:nth-child(3), .altar:nth-child(even){ transform:none; animation:none; }
+  .gld, .gld-sway, .sub-card:nth-child(2), .sub-card:nth-child(3), .altar:nth-child(even){ transform:none; animation:none; }
   .altar-shot{ transform:none; transition:none; }
 }
 
