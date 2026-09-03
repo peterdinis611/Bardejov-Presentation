@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import tailwindcss from '@tailwindcss/vite';
 import { defineConfig, loadEnv } from 'vite';
 
 const root = dirname(fileURLToPath(import.meta.url));
@@ -109,7 +110,7 @@ export default defineConfig(({ mode }) => {
     define: {
       'import.meta.env.VITE_SITE': JSON.stringify(site),
     },
-    plugins: [siteMetaPlugin(site)],
+    plugins: [tailwindcss(), siteMetaPlugin(site)],
     build: {
       outDir: 'dist',
       emptyOutDir: true,

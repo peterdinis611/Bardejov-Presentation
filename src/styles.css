@@ -1,3 +1,34 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+@source "../index.html";
+@source "../404.html";
+@source "../500.html";
+@source "./**/*.js";
+
+@theme {
+  --color-*: initial;
+  --font-sans: initial;
+  --font-serif: initial;
+  --font-mono: initial;
+}
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-bone: var(--bone);
+  --color-bone-dim: var(--bone-dim);
+  --color-copy: var(--copy);
+  --color-muted: var(--muted);
+  --color-terracotta: var(--terracotta);
+  --color-ember: var(--ember);
+  --color-gold: var(--gold);
+  --font-display: var(--display);
+  --font-body: var(--body);
+  --ease-dusk: var(--ease);
+  --ease-dusk-out: var(--ease-out);
+  --ease-dusk-io: var(--ease-io);
+}
+
 :root{
   --ink:#100a08;
   --ink-2:#1a120e;
