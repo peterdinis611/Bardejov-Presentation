@@ -1,0 +1,593 @@
+{
+  "meta": {
+    "title": "Bardejov UNESCO — radniční náměstí, sv. Jiljí a lázně",
+    "description": "Navštivte UNESCO Bardejov: radniční náměstí, bazilika sv. Jiljí, městské hradby, židovské předměstí a Bardejovské lázně. Průvodce svobodným královským městem na Šariši.",
+    "keywords": "Bardejov, UNESCO Bardejov, radniční náměstí, bazilika sv. Jiljí, Bardejovské lázně, Šariš, svobodné královské město, hradby Bardejov, židovské předměstí, Slovensko, Prešov",
+    "imageAlt": "Radniční náměstí v Bardejově, lokalita UNESCO, za soumraku",
+    "siteName": "Bardejov UNESCO",
+    "places": [
+      "Radniční náměstí",
+      "Bazilika sv. Jiljí",
+      "Městská radnice",
+      "Městské hradby",
+      "Židovské předměstí",
+      "Bardejovské lázně"
+    ]
+  },
+  "ui": {
+    "preLat": "Královské město · Šariš",
+    "preUnesco": "Světové dědictví 2000 · bazilika sv. Jiljí · radniční náměstí",
+    "navSquare": "Náměstí",
+    "navWalls": "Hradby",
+    "navMemory": "Paměť",
+    "navSuburb": "Předměstí",
+    "navSpa": "Lázně",
+    "soundOn": "Zapnout zvuk soumraku",
+    "soundOff": "Vypnout zvuk soumraku",
+    "menu": "Menu",
+    "navPlay": "Přehrát kapitolu",
+    "navStop": "Zastavit kapitolu",
+    "lingua": "Jazyk",
+    "ch00": "Kapitola 00 — Skrytá brána",
+    "heroL1": "Kde kámen ještě",
+    "heroL2": "pamatuje krále.",
+    "heroSub": "Vstupte do nejgotičtějšího města Slovenska tichými prahy, kde cech, víra a hradby drží náměstí pohromadě.",
+    "wxFallback": "Bardejov · soumrak Šariše",
+    "tourMob": "Soumraková prohlídka · 32 s",
+    "scroll": "Rolujte dovnitř",
+    "chip0t": "Prahů",
+    "chip0p": "Náměstí, které otevírá hlubší cesty do jádra města.",
+    "chip1t": "Hradby",
+    "chip1p": "Pás zdí, bašt a bran, který město ještě drží.",
+    "chip2t": "Cechy",
+    "chip2p": "Ruce, oltáře a paměť, které tvarují úctu.",
+    "chip3t": "Lázně",
+    "chip3p": "Prameny, které se probouzejí, když den ztichne.",
+    "peekAria": "Soumraková prohlídka náměstí, 32 sekund",
+    "peekLat": "PROHLÍDKA",
+    "peekSub": "soumrak · 32 s · tři prahy",
+    "gateK": "Radniční náměstí",
+    "gateH": "Kočičí hlavy, červené štíty, jedna věž nade vším.",
+    "gateLead": "Bardejov začíná tam, kde se Šariš zúží do obdélníku: 260 na 80 metrů dlažby, uprostřed radnice, na severu bazilika, po třech stranách čtyřicet šest měšťanských domů s úzkými gotickými parcelami.",
+    "gateBody": "Toto náměstí bylo trhem na cestě mezi Černým a Baltským mořem. Více než padesát cechů tu drželo město při životě. V roce 1376 se stalo svobodným královským městem. V roce 2000 ho UNESCO zapsalo jako jednu z nejúplnějších opevněných středověkých osnov ve střední Evropě — spolu s židovským předměstím.",
+    "gateLink": "Přejít práh",
+    "stat0": "Královské město",
+    "stat1": "UNESCO",
+    "stat2": "Gotické oltáře",
+    "stat3": "Měšťanské domy",
+    "pathK": "Hradby a pohledy",
+    "cardSq": "Náměstí",
+    "cardSqMeta": "Radniční náměstí",
+    "cardBas": "Bazilika",
+    "cardBasMeta": "Sv. Jiljí",
+    "cardWall": "Hradby",
+    "cardWallMeta": "Hrubá bašta",
+    "lesK": "Paměť města",
+    "lesH": "Pět kapitol. Osm století. Jedno náměstí.",
+    "lesIntro": "Každá kapitola je procházka, ne přednáška. Přijdete k bráně, vystoupíte na věž, sednete si k prameni a odejdete s jednou věcí, kterou stojí si nechat.",
+    "how": "Jak se tam dostat.",
+    "hrs": "Otevřeno.",
+    "les0t": "Bazilika sv. Jiljí",
+    "les0p": "Trojlodní gotika z 15. století a unikátních jedenáct křídlových oltářů, které zůstaly na svých místech.",
+    "les0m": "věž 20 min",
+    "les0b": "Věž měří 72 metrů. Uvnitř zůstalo jedenáct pozdně gotických křídlových oltářů z let 1440–1520 — většina na původním místě, každý vázaný na cech. Hlavní novogotický oltář z roku 1878 je nejvyšší na Slovensku.",
+    "les0how": "Severní kraj Radničního náměstí. Z autobusového nádraží osm minut po Dlhý rad, potom rovnou na dlažbu.",
+    "les0hrs": "Po–pá 10:00–16:00 · so 10:00–15:00 · ne 11:30–14:30. Věž s výhledem na Šariš v ceně vstupu do interiéru.",
+    "les0alt": "Bazilika sv. Jiljí",
+    "les1t": "Městská radnice",
+    "les1p": "1505: gotický suterén, renesanční patro. Dnes Šarišské muzeum, jedno z nejstarších na Slovensku.",
+    "les1m": "muzeum 45 min",
+    "les1b": "První budova v Uhrách, která nesloužila církvi ani opevnění, ale městu. Dnes tu sídlí historická expozice Svobodné královské město Bardejov. Gotický sál v suterénu, v patře cechovní truhlice a městský erb.",
+    "les1how": "Střed náměstí, Radničné námestie 48. Náměstí je pěší — auto nechte u hradeb.",
+    "les1hrs": "Út–ne, pondělí zavřeno. Kvě–zář 8:30–16:30 (oběd 12:30–13:00). Říj–dub do 16:00.",
+    "les1alt": "Městská radnice",
+    "les2t": "Padesát cechů",
+    "les2p": "Obchodní cesta mezi Uhrami a Polskem. Ius gladii z roku 1365 a svobodné královské město o jedenáct let později.",
+    "les2m": "hradby 30 min",
+    "les2b": "Tkalci, hrnčíři, krejčí, tesaři, sítáři, zedníci. Každý cech měl oltář v bazilice a parcelu na náměstí. Město žilo z cesty mezi Černým a Baltským mořem — a z rukou, které tu cestu obsloužily.",
+    "les2how": "Cechovní štíty čtěte na jižní a východní frontě náměstí. Zeď a bašty obejdete po vnějším okruhu, cca 1,2 km.",
+    "les2hrs": "Hradby jsou volně přístupné. Některé bašty sezónně, podle TIK Bardejov.",
+    "les2alt": "Měšťanské domy na náměstí",
+    "les3t": "Židovské předměstí",
+    "les3p": "Synagoga, mikve a beth hamidraš z 18. století — druhá polovina zápisu UNESCO, ne poznámka pod čarou.",
+    "les3m": "čtvrť 25 min",
+    "les3b": "Za jižními hradbami vyrostla v 18. století kompletní židovská osada: synagoga, rituální lázeň, škola. UNESCO ji zapsalo spolu s náměstím, protože bez ní by obraz města lhal.",
+    "les3how": "Z náměstí jižní branou, potom Domašínskou k synagoze. Pět minut pěšky, rovina.",
+    "les3hrs": "Exteriér vždy. Interiér synagogy přes TIK nebo dohodou — ověřte před cestou.",
+    "les3alt": "Synagoga na předměstí",
+    "les4t": "Bardejovské Kúpele",
+    "les4p": "Minerální prameny v údolí pod Busovem. Sissi, car Alexandr I. a Marie Louise, Napoleonova manželka.",
+    "les4m": "lázeň 90 min",
+    "les4b": "Pět kilometrů na sever, v údolí pod Busovem. Osm pramenů, kolonáda, nejstarší skanzen na Slovensku. Sem se chodilo mlčet, když náměstí dohovořilo.",
+    "les4how": "MHD linky 1, 2 a 5 ze zastávky Slovenská-stanica na Bardejovské Kúpele, parkoviště. Cesta kolem 15 minut. Pěšky po cyklostezce cca 70 minut.",
+    "les4hrs": "Park a kolonáda volně. Prameny celoročně. Vjezd aut do areálu jen výjimečně — parkoviště u MHD.",
+    "les4alt": "Bardejovské Kúpele",
+    "annK": "Osm století",
+    "annH": "Páska, kterou město ještě drží.",
+    "tapePrev": "Předchozí rok",
+    "tapeNext": "Další rok",
+    "ann1241": "Po tatarském vpádu zůstává na Šariši osada, z níž vyroste město.",
+    "ann1365": "Právo meče. Bardejov smí soudit — a bránit se — jako královské těleso.",
+    "ann1376": "Svobodné královské město. Náměstí přestává být trhem a stává se osnovou.",
+    "ann1505": "Radnice do středu. Gotika dole, renesance nahoře — město si staví zrcadlo.",
+    "ann18c": "Za jižními zdmi synagoga, mikve, beth hamidraš. Druhá polovina pozdějšího zápisu.",
+    "ann2000": "Zápis 973. Jedna z nejúplnějších opevněných středověkých osnov ve střední Evropě.",
+    "gldK": "Cechovní znaky",
+    "gldH": "Ruce, které držely oltář.",
+    "gldLead": "Každý cech měl parcelu na náměstí a křídlo v bazilice. Štít je smlouva mezi prací a vírou.",
+    "gldHint": "Dotkni se erbu. Cech otevře křídlo v bazilice.",
+    "gldOpen": "otevřít cech",
+    "gWeavers": "Tkalci",
+    "gWeaversSub": "Narození · 1480",
+    "gPotters": "Hrnčíři",
+    "gPottersSub": "Erasmus a Mikuláš",
+    "gTailors": "Krejčí",
+    "gTailorsSub": "Alžběta Uherská",
+    "gCarp": "Tesaři",
+    "gCarpSub": "Muž bolestí",
+    "gMasons": "Zedníci",
+    "gMasonsSub": "Pieta · kámen",
+    "gFur": "Kožešníci",
+    "gFurSub": "Cesta na sever",
+    "gGold": "Zlatníci",
+    "gGoldSub": "Erb a kalich",
+    "gSieves": "Sítáři",
+    "gSievesSub": "sv. Apolonie",
+    "gFarm": "Rolníci",
+    "gFarmSub": "Svatý kříž",
+    "altK": "Jedenáct oltářů",
+    "altH": "Křídla, která cech nechal na místě.",
+    "altHint": "Kolečkem nebo tažením projdeš všech jedenáct křídel.",
+    "altCred": "Fotografie oltářů: Wikimedia Commons · CC BY-SA 4.0",
+    "aAndrew": "sv. Ondřej",
+    "aBarbara": "sv. Barbora",
+    "aElis": "sv. Alžběta",
+    "aElisSub": "1480 · krejčí",
+    "aAnn": "Panna Maria",
+    "aAnnSub": "1485 · Anna",
+    "aMager": "Veronica Mager",
+    "aCross": "Svatý kříž",
+    "aCrossSub": "1480 · rolníci",
+    "aPieta": "Pieta",
+    "aPietaSub": "1480 · zedníci",
+    "aApol": "sv. Apolonie",
+    "aApolSub": "1485 · sítáři",
+    "aNat": "Narození",
+    "aNatSub": "1480 · tkalci",
+    "aEras": "Erasmus",
+    "aErasSub": "hrnčíři",
+    "aSor": "Vir Dolorum",
+    "aSorSub": "1500 · tesaři",
+    "subK": "Židovské předměstí",
+    "subH": "Ne předměstí. Druhá polovina zápisu.",
+    "subLead": "Za jižními hradbami zůstala kompletní osada: synagoga, mikve, beth hamidraš. UNESCO ji v roce 2000 zapsalo spolu s náměstím — jako důkaz, že středověké město mělo i novější, stejně křehký dvůr.",
+    "subBody": "Synagoga z 18. století ještě drží polychromii na klenbě. Mikve je pod terénem. Beth hamidraš, studovna, stála těsně vedle. Tohle není příloha ke gotice. Je to paměť, bez níž by Bardejov lhal o sobě.",
+    "subSynH": "Synagoga",
+    "subSynP": "Barokní síň, malovaný strop, ženská galerie. Jádro předměstí.",
+    "subSynY": "18. st.",
+    "subMikH": "Mikve",
+    "subMikP": "Rituální lázeň pod úrovní ulice. Voda, která očišťuje kalendář.",
+    "subMikY": "suterén",
+    "subMidH": "Studovna",
+    "subMidP": "Dům učení u synagogy. Třetí bod, bez kterého osada není celá.",
+    "subMidY": "18. st.",
+    "walkK": "Itinerář dne",
+    "walkH": "Jedna dlažba. Tři délky dne.",
+    "iter2h": "2 hodiny",
+    "iterHalf": "Půl dne",
+    "iterFull": "Celý den",
+    "planAria": "Plán pěší trasy Bardejov",
+    "planSq": "Náměstí",
+    "planBas": "Bazilika",
+    "planWall": "Hradby",
+    "planSub": "Předměstí",
+    "planSpa": "Lázně",
+    "practH": "Dnes na místě",
+    "practHall": "Radnice — muzeum",
+    "practBas": "Bazilika a věž",
+    "practPark": "Parkování",
+    "practParkD": "Náměstí je pěší. Auta u hradeb a na záchytných parkovištích u zdí.",
+    "practMhd": "MHD do lázní",
+    "practMhdD": "Linky 1, 2, 5 · zastávka Bardejovské Kúpele, parkoviště · cca 15 min ze Slovenské.",
+    "finCh": "Kapitola 04 — Doznívání",
+    "finH": "Lázně",
+    "finP": "Brána se za vámi nezavírá. Když Šariš ztichne, zůstává táž cesta z náměstí k prameni — a nikdy totéž světlo.",
+    "finCta": "Začít procházku",
+    "footBlurb": "Soumraková procházka přes UNESCO Bardejov. Živé náměstí, hradby, oltáře, předměstí a prameny Šariše.",
+    "footCh": "Kapitoly",
+    "footPl": "Místa",
+    "footWorld": "Svět",
+    "footGate": "Radniční náměstí",
+    "footPath": "Hradby a pohledy",
+    "footMem": "Paměť města",
+    "footSub": "Židovské předměstí",
+    "footWalk": "Itinerář dne",
+    "footSpa": "Lázně",
+    "footBas": "Bazilika sv. Jiljí",
+    "footAlt": "Jedenáct oltářů",
+    "footGld": "Cechovní znaky",
+    "footSpa2": "Bardejovské Kúpele",
+    "footCopy": "© 2026 Bardejov — Civitas regia",
+    "footPhoto": "Fotografie Wikimedia Commons · Three.js · Šariš",
+    "hotHall": "Radnice",
+    "hotTower": "Věž",
+    "hotBast": "Bašta",
+    "tourSkip": "Přeskočit",
+    "sheetClose": "zavřít",
+    "chapter": "Kapitola",
+    "toTop": "K bráně",
+    "err404k": "Kapitola 404 — Chybějící brána",
+    "err404h1": "Tato brána",
+    "err404h2": "se neotevřela.",
+    "err404p": "Práh, který hledáte, v hradbách není. Náměstí je o krok zpět — dlažba, věž a soumrak ještě stojí.",
+    "err404cta": "Zpět na náměstí",
+    "err500k": "Kapitola 500 — Zvon mlčí",
+    "err500h1": "Šariš ztichl",
+    "err500h2": "dřív, než měl.",
+    "err500p": "Prohlídka se zastavila. Zkuste dvůr ještě jednou, nebo se vraťte na dlažbu, dokud kámen ještě pamatuje.",
+    "err500retry": "Zkusit znovu",
+    "err500cta": "Zpět na náměstí",
+    "extNew": "otevře se v novém okně"
+  },
+  "hints": [
+    "Kladu kočičí hlavy",
+    "Zvedám měšťanské štíty",
+    "Stavím věž sv. Jiljí",
+    "Zvoním nad radnicí",
+    "Otevírám královské náměstí"
+  ],
+  "voice": {
+    "top": "Vstoupíte do Bardejova. Tady kámen ještě pamatuje krále. Nejgotičtější město Slovenska se otevírá tichými prahy, kde cech, víra a hradby drží náměstí pohromadě. Soumrak Šariše. Unesco od roku dva tisíce.",
+    "gate": "Radniční náměstí. Dvě stě šedesát metrů na osmdesát. Kočičí hlavy pod nohama, uprostřed radnice, na severu bazilika svatého Jiljí. Po třech stranách čtyřicet šest měšťanských domů s úzkými gotickými parcelami. Toto náměstí bylo trhem na cestě mezi Černým a Baltským mořem. Více než padesát cechů tu drželo město při životě. Roku třináct set sedmdesát šest se stalo svobodným královským městem. Roku dva tisíce ho Unesco zapsalo jako jednu z nejkompletnějších opevněných středověkých osnov ve střední Evropě.",
+    "pathways": "Hradby ještě drží město. Pás zdí, bašt a bran, který se dá obejít za půl hodiny. Vnější okruh měří přibližně kilometr dvě stě metrů. Hrubá bašta hledí na Šariš. Některé bašty jsou sezónně otevřené, zeď je volně přístupná. Tohle není dekorace. Je to pás, který město ještě drží.",
+    "lessons": "Pět kapitol. Osm století. Jedno náměstí. Bazilika svatého Jiljí s jedenácti křídlovými oltáři a věží dvaasedmdesát metrů. Radnice z roku patnáct set pět: gotický suterén, renesanční patro, dnes Šarišské muzeum. Padesát cechů, které měly parcelu na náměstí a křídlo v bazilice. Židovské předměstí za jižními hradbami. A lázně v údolí pod Busovem, pět kilometrů na sever. Každá kapitola je procházka, ne přednáška.",
+    "suburb": "Za jižními hradbami zůstalo židovské předměstí. Synagoga, mikve a beth hamidraš z osmnáctého století. Unesco ho roku dva tisíce zapsalo spolu s náměstím, protože bez něj by obraz města lhal. Synagoga ještě drží polychromii na klenbě. Mikve je pod terénem. Studovna stála těsně vedle. Tohle není příloha ke gotice. Je to druhá polovina zápisu.",
+    "walk": "Vyberte délku dne. Dvě hodiny: náměstí, bazilika, východní hradby. Půl dne přidá okruh zdi a židovské předměstí. Celý den vede z dlažby až k prameni v Bardejovských lázních. Náměstí je pěší. Auta nechte u hradeb.",
+    "eternity": "Když Šariš ztichne, zůstává cesta z náměstí k prameni. Bardejovské lázně leží pět kilometrů na sever, v údolí pod Busovem. Osm pramenů, kolonáda, nejstarší skanzen na Slovensku. Sem se chodilo mlčet, když náměstí dohovořilo. Brána se za vámi nezavírá. Nikdy to není totéž světlo."
+  },
+  "tour": [
+    {
+      "title": "Práh náměstí",
+      "k": "Kočičí hlavy. Červené štíty. Jedna věž."
+    },
+    {
+      "title": "Radnice, 1505",
+      "k": "Gotický suterén, renesanční patro."
+    },
+    {
+      "title": "Sv. Jiljí",
+      "k": "Jedenáct oltářů. Věž dvaasedmdesát metrů."
+    },
+    {
+      "title": "Hradby",
+      "k": "Pás zdí a bašt, který město ještě drží."
+    },
+    {
+      "title": "Bardejov",
+      "k": "Procházka může začít."
+    }
+  ],
+  "iters": {
+    "2h": [
+      [
+        "Radniční náměstí",
+        "Dlažba, 46 domů, osa a věž. 20 min."
+      ],
+      [
+        "Bazilika a věž",
+        "Oltáře a výhled ze 72 m. 40 min."
+      ],
+      [
+        "Hradby — východ",
+        "Bašta a zeď nad Šarišem. 25 min."
+      ]
+    ],
+    "half": [
+      [
+        "Náměstí a radnice",
+        "Muzeum v suterénu. 70 min."
+      ],
+      [
+        "Bazilika",
+        "Jedenáct oltářů, věž. 45 min."
+      ],
+      [
+        "Okruh hradeb",
+        "1,2 km po zdi. 35 min."
+      ],
+      [
+        "Židovské předměstí",
+        "Synagoga a mikve. 30 min."
+      ]
+    ],
+    "full": [
+      [
+        "Ráno na náměstí",
+        "Radnice a bazilika. 2,5 h."
+      ],
+      [
+        "Hradby a předměstí",
+        "Jižní brána k synagoze. 1,5 h."
+      ],
+      [
+        "Oběd v centru",
+        "Potom MHD linka 1, 2 nebo 5."
+      ],
+      [
+        "Lázně",
+        "Kolonáda, prameny, skanzen. 3 h."
+      ]
+    ]
+  },
+  "wx": {
+    "0": "jasno",
+    "3": "polojasno",
+    "48": "mlha",
+    "57": "mrholení",
+    "67": "déšť",
+    "77": "sníh",
+    "82": "přeháňky",
+    "99": "bouřky",
+    "today": "Dnes {t} °C, {w} · {bas}{hall}",
+    "dusk": "Soumrak nad Šarišem · {bas}{hall}",
+    "basOpen": "bazilika otevřená do {t}",
+    "basLiturgy": "bazilika dnes podle bohoslužeb",
+    "hallUntil": ", radnice do {t}",
+    "hallClosed": ", radnice zavřená"
+  },
+  "hours": {
+    "basWeek": "Po–pá 10:00–16:00",
+    "basSun": "Neděle 11:30–14:30",
+    "basSat": "Sobota 10:00–15:00",
+    "basNote": " (mimo křtů a svateb)",
+    "hallSummer": "Út–ne 8:30–16:30",
+    "hallWinter": "Út–ne 8:30–16:00",
+    "hallMon": "Pondělí zavřeno"
+  },
+  "cat": {
+    "1241": {
+      "title": "Po vpádu",
+      "lead": "Tatarský vpád nechá na Šariši osadu, z níž vyroste město.",
+      "body": "Bardejov se nerodí z klidu. Rodí se z toho, co zbylo, když step odejde a kámen zůstane.",
+      "mins": "paměť, ne prohlídka",
+      "how": "Tuto vrstvu čtete v muzeu radnice a v půdorysu náměstí."
+    },
+    "1365": {
+      "title": "Právo meče",
+      "lead": "Bardejov smí soudit a bránit se jako královské těleso.",
+      "body": "Ius gladii je práh před svobodným městem. O jedenáct let později přijde titul, který náměstí ještě nese.",
+      "mins": "kapitola v muzeu",
+      "how": "Radnice, historická expozice."
+    },
+    "1376": {
+      "title": "Svobodné královské město",
+      "lead": "Náměstí přestává být jen trhem a stává se osnovou.",
+      "body": "Čtyřicet šest parcel, hradby, cech. Od té doby se Bardejov měří obdélníkem 260 × 80 metrů.",
+      "mins": "náměstí vždy otevřené",
+      "how": "Stoupněte na dlažbu. Osnova je pod nohama."
+    },
+    "1505": {
+      "title": "Radnice do středu",
+      "lead": "Gotika dole, renesance nahoře. Město si staví zrcadlo.",
+      "body": "Budova, která neslouží oltáři ani baště, ale obci. Dodnes stojí v ose náměstí.",
+      "mins": "45 min v muzeu",
+      "how": "Radničné námestie 48."
+    },
+    "2000": {
+      "title": "Zápis 973",
+      "lead": "Jedna z nejúplnějších opevněných středověkých osnov ve střední Evropě.",
+      "body": "Zápis drží náměstí i židovské předměstí. Ne dekoraci — půdorys, který se ještě dá projít pěšky.",
+      "mins": "celé jádro",
+      "how": "Začněte na náměstí, skončete u synagogy nebo v lázních."
+    },
+    "square": {
+      "title": "Radniční náměstí",
+      "lead": "Dvě stě šedesát na osmdesát metrů dlažby. Uprostřed radnice, na severu věž, po třech stranách čtyřicet šest měšťanských štítů.",
+      "body": "Toto náměstí bylo trhem na cestě mezi Černým a Baltským mořem. V roce 1376 se stalo svobodným královským městem. UNESCO ho v roce 2000 zapsalo jako jednu z nejúplnějších opevněných osnov ve střední Evropě.",
+      "mins": "20 min na dlažbě",
+      "how": "Střed města. Z autobusového nádraží 8 min po Dlhý rad. Náměstí je pěší."
+    },
+    "hall": {
+      "title": "Městská radnice",
+      "lead": "Gotický suterén, renesanční patro. První budova v Uhrách, která sloužila městu, ne církvi ani hradbám.",
+      "body": "Dnes Šarišské muzeum — historická expozice Svobodné královské město Bardejov. Cechovní truhlice, erb a síň, v níž je ještě slyšet jednání.",
+      "mins": "45 min v muzeu",
+      "how": "Střed náměstí, Radničné námestie 48. Auto nechte u hradeb."
+    },
+    "basilica": {
+      "title": "Bazilika sv. Jiljí",
+      "lead": "Trojlodní gotika a jedenáct křídlových oltářů, které zůstaly na svých místech. Věž měří 72 metrů.",
+      "body": "Každý oltář vázal cech. Hlavní novogotický oltář z roku 1878 je nejvyšší na Slovensku. Z věže je Šariš jako otevřená kniha.",
+      "mins": "věž 20 min · interiér 35 min",
+      "how": "Severní kraj náměstí. Vstup z dlažby, věž po schodech."
+    },
+    "walls": {
+      "title": "Hradby a Hrubá bašta",
+      "lead": "Pás zdí, bran a bašt, který město ještě drží. Okruh kolem jádra má přibližně 1,2 kilometru.",
+      "body": "Hrubá bašta je největší článek. Z ochozů je vidět, proč se náměstí vešlo dovnitř a předměstí zůstalo za zdí.",
+      "mins": "30 min okruh",
+      "how": "Východní a jižní úsek jsou nejčitelnější. Vstup u bašt, terén mírný."
+    },
+    "synagogue": {
+      "title": "Synagoga",
+      "lead": "Barokní síň s malovanou klenbou. Jádro židovského předměstí, které UNESCO zapsalo spolu s náměstím.",
+      "body": "Bez této stavby by zápis lhal. Osada za jižními hradbami není příloha ke gotice — je to druhá polovina města.",
+      "mins": "25 min ve čtvrti",
+      "how": "Z náměstí jižní branou, Domašínskou k synagoze. Pět minut pěšky."
+    },
+    "mikve": {
+      "title": "Mikve",
+      "lead": "Rituální lázeň pod úrovní ulice. Voda, která drží kalendář obce.",
+      "body": "Mikve patří k synagoze stejně jako věž k bazilice: bez ní by předměstí bylo jen fasádou.",
+      "mins": "10 min",
+      "how": "Těsně u synagogy, pod terénem. Vstup dohodou přes TIK.",
+      "year": "suterén"
+    },
+    "midrash": {
+      "title": "Beth hamidraš",
+      "lead": "Dům učení u synagogy. Třetí bod, bez kterého osada není celá.",
+      "body": "Studovna stála v těsném dvoře. UNESCO čte předměstí jako soubor, ne jako jednu památku.",
+      "mins": "10 min",
+      "how": "Vedle synagogy, jižně od hradeb. Exteriér volně."
+    },
+    "spa": {
+      "title": "Bardejovské Kúpele",
+      "lead": "Pět kilometrů na sever, údolí pod Busovem. Sissi, car Alexandr I., Marie Louise.",
+      "body": "Osm minerálních pramenů, kolonáda a nejstarší skanzen na Slovensku. Sem se chodilo mlčet, když náměstí dohovořilo.",
+      "mins": "90 min v parku",
+      "how": "MHD linky 1, 2 a 5 ze Slovenské na zastávku Bardejovské Kúpele, parkoviště. Cca 15 min.",
+      "year": "prameny"
+    },
+    "weavers": {
+      "title": "Tkalci",
+      "lead": "Cech, který držel oltář Narození — nejvzácnější křídla v bazilice.",
+      "body": "Plátno šlo z náměstí na sever, do Polska. Tkalci platili oltář, oltář držel jejich jméno.",
+      "mins": "cech na jižní frontě",
+      "how": "Štíty tkalců hledejte na jižní řadě měšťanských domů."
+    },
+    "potters": {
+      "title": "Hrnčíři",
+      "lead": "Oltář sv. Erasma a Mikuláše. Hlína, oheň a svatí cest.",
+      "body": "Hrnčířský cech živil trh i domácnost. Jejich křídla zůstala v lodi, ne v muzeu.",
+      "mins": "cech při východní straně",
+      "how": "Východní fronta náměstí, úzké gotické parcely.",
+      "year": "oltář"
+    },
+    "tailors": {
+      "title": "Krejčí",
+      "lead": "Oltář sv. Alžběty Uherské. Jehlou se město šilo dohromady stejně jako hradbami.",
+      "body": "Krejčí obsluhovali obchodní cestu: sukno z Uher, střih z Krakova.",
+      "mins": "cech na náměstí",
+      "how": "Radnice drží cechovní truhlice v muzeu."
+    },
+    "carpenters": {
+      "title": "Tesaři",
+      "lead": "Vir Dolorum — Muž bolestí. Dřevo, které nese kámen.",
+      "body": "Bez tesařů by věž, krov i radnice zůstaly nákresem. Jejich oltář je z let 1500–1510.",
+      "mins": "cech tesařů",
+      "how": "Krov radnice a baziliky je jejich podpis, i když ho z dlažby nevidíte."
+    },
+    "masons": {
+      "title": "Zedníci a kameníci",
+      "lead": "Pieta z kamene. Cech, který město doslova postavil.",
+      "body": "Oltář zedníků drží jednu z nejcennějších skulptur v lodi — kamennou Pietu.",
+      "mins": "cech kamene",
+      "how": "Hradby jsou jejich otevřená dílna. Okruh 1,2 km."
+    },
+    "furriers": {
+      "title": "Kožešníci",
+      "lead": "Kožich šel na sever dřív než slovo UNESCO. Cech ticha a zimy.",
+      "body": "Bardejov stál na kupecké cestě. Kožešníci vázali Šariš s Polskem hustěji než hradby.",
+      "mins": "cech severu",
+      "how": "Severní strana náměstí, ve stínu baziliky.",
+      "year": "cesta"
+    },
+    "gold": {
+      "title": "Zlatníci",
+      "lead": "Kalich, pečeť, městský erb. Cech, který dal městu lesk na papír i na oltář.",
+      "body": "Zlatnická práce je v muzeu radnice a v liturgických předmětech baziliky.",
+      "mins": "cech v muzeu",
+      "how": "Radničné námestie 48, historická expozice.",
+      "year": "erb"
+    },
+    "sieves": {
+      "title": "Sítáři",
+      "lead": "Oltář sv. Apolonie. Cech sít, mouky a tichého trhu.",
+      "body": "Sítáři drželi jeden z menších, ale úplných křídlových oltářů — důkaz, že cech nemusel být bohatý, stačilo být vázaný.",
+      "mins": "cech v lodi",
+      "how": "Bazilika, boční loď. Oltář Apolonie."
+    },
+    "farmers": {
+      "title": "Rolníci",
+      "lead": "Oltář Svatého kříže. Cech, který město živil, zatímco cech řemesla ho šil.",
+      "body": "Rolnický oltář z let 1480–1490. Pole za hradbami, kříž v lodi.",
+      "mins": "oltář v presbytáři",
+      "how": "Bazilika sv. Jiljí, boční oltář Kříže."
+    },
+    "andrew": {
+      "title": "Oltář sv. Ondřeje",
+      "lead": "Jeden z nejstarších křídlových oltářů v lodi.",
+      "body": "Ondřej jako apoštol cest sedí k městu, které žilo z cesty. Křídla ještě stojí na původním místě.",
+      "mins": "v lodi baziliky",
+      "how": "Bazilika sv. Jiljí, vstup z náměstí."
+    },
+    "barbara": {
+      "title": "Oltář sv. Barbory",
+      "lead": "Ochránkyně věží a blesku — ve městě, jehož věž měří 72 metrů.",
+      "body": "Barbora drží gotickou věž v ruce. Bardejov ji měl v kameni i ve dřevě.",
+      "mins": "v lodi baziliky",
+      "how": "Boční loď, vlevo od vstupu."
+    },
+    "elisabeth": {
+      "title": "Oltář sv. Alžběty Uherské",
+      "lead": "Krejčovská křídla. Sukno a milosrdenství v jedné skříni.",
+      "body": "Alžběta, patronka chudých a cech krejčích — smlouva mezi jehlou a oltářem.",
+      "mins": "v lodi baziliky",
+      "how": "Bazilika, oltář krejčích."
+    },
+    "ann": {
+      "title": "Oltář Panny Marie / sv. Anny",
+      "lead": "Mariánská křídla, dříve známá jako oltář sv. Anny.",
+      "body": "Jeden ze dvou mariánských oltářů. Tišší, starší, stále na svém místě.",
+      "mins": "v lodi baziliky",
+      "how": "Boční loď baziliky."
+    },
+    "mager": {
+      "title": "Oltář Veronicy Magerové",
+      "lead": "Druhý mariánský oltář, vázaný na měšťanský dar.",
+      "body": "Jméno dárkyně zůstalo na křídlech. Město se podepisovalo i takto — nejen cechem.",
+      "mins": "v lodi baziliky",
+      "how": "Bazilika sv. Jiljí."
+    },
+    "cross": {
+      "title": "Oltář Svatého kříže",
+      "lead": "Rolnický oltář. Uprostřed predely Veraikon — tvář Krista.",
+      "body": "Ukřižování z konce 15. století. Pole za hradbami má v lodi svůj kříž.",
+      "mins": "v lodi baziliky",
+      "how": "Presbytář / boční oltář Kříže."
+    },
+    "pieta": {
+      "title": "Oltář Piety",
+      "lead": "Zednický a kamenický oltář. Ve skříni kamenná Pieta.",
+      "body": "Jedna z nejcennějších skulptur v bazilice. Cech kamene nechal v lodi kámen, ne dřevo.",
+      "mins": "v lodi baziliky",
+      "how": "Boční oltář Piety."
+    },
+    "apollonia": {
+      "title": "Oltář sv. Apolonie",
+      "lead": "Sítářský oltář. Malý cech, úplná křídla.",
+      "body": "Apolonie jako patronka tichých řemesel. Důkaz, že oltář nemusel být bohatý, stačilo být slíbený.",
+      "mins": "v lodi baziliky",
+      "how": "Boční loď, oltář sítářů."
+    },
+    "nativity": {
+      "title": "Oltář Narození",
+      "lead": "Nejkrásnější a nejcennější křídla v chrámu. Cech tkalců.",
+      "body": "Narození z let 1480–1490 patří k nejvzácnějším pozdně gotickým oltářům na Slovensku. Zůstalo na místě.",
+      "mins": "v lodi baziliky",
+      "how": "Hlavní loď, oltář tkalců — nenechte si ujít."
+    },
+    "erasmus": {
+      "title": "Oltář sv. Erasma a Mikuláše",
+      "lead": "Hrnčířský oltář. Dva svatí, jedna hlína.",
+      "body": "Erasmus a Mikuláš jako ochránci cest a námořníků — ve městě, které moře nemělo, jen cestu k němu.",
+      "mins": "v lodi baziliky",
+      "how": "Boční oltář hrnčířů.",
+      "year": "cech"
+    },
+    "sorrows": {
+      "title": "Oltář Muže bolestí",
+      "lead": "Tesařský oltář. Dřevo nese bolest i krov.",
+      "body": "Vir Dolorum z přelomu století. Cech tesařů dal lodi postavu, kterou je třeba obejít pomalu.",
+      "mins": "v lodi baziliky",
+      "how": "Boční loď, oltář tesařů."
+    },
+    "18c": {
+      "title": "Předměstí za zdí",
+      "lead": "Synagoga, mikve, beth hamidraš. Druhá polovina pozdějšího zápisu.",
+      "body": "18. století doplnilo gotické jádro o osadu, bez níž by UNESCO v roce 2000 lhalo.",
+      "mins": "25 min ve čtvrti",
+      "how": "Jižní branou z náměstí."
+    }
+  }
+}

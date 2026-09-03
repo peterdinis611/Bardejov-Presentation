@@ -1,0 +1,593 @@
+{
+  "meta": {
+    "title": "Bártfa UNESCO — városháza tér, Szent Egyed és fürdő",
+    "description": "Látogasson az UNESCO Bártfára: Városháza tér, Szent Egyed-bazilika, városfalak, zsidó külváros és Bártfafürdő. Útmutató a szabad királyi városhoz Sárosban.",
+    "keywords": "Bártfa, UNESCO Bártfa, Városháza tér, Szent Egyed-bazilika, Bártfafürdő, Sáros, szabad királyi város, bártfai várfal, zsidó külváros, Szlovákia, Eperjes",
+    "imageAlt": "A bártfai Városháza tér, UNESCO-helyszín, alkonyatkor",
+    "siteName": "Bártfa UNESCO",
+    "places": [
+      "Városháza tér",
+      "Szent Egyed-bazilika",
+      "Városháza",
+      "Városfalak",
+      "Zsidó külváros",
+      "Bártfafürdő"
+    ]
+  },
+  "ui": {
+    "preLat": "Királyi város · Sáros",
+    "preUnesco": "Világörökség 2000 · Szent Egyed-bazilika · városháza tér",
+    "navSquare": "Tér",
+    "navWalls": "Falak",
+    "navMemory": "Emlék",
+    "navSuburb": "Külváros",
+    "navSpa": "Fürdő",
+    "soundOn": "Alkonyi hang bekapcsolása",
+    "soundOff": "Alkonyi hang kikapcsolása",
+    "menu": "Menü",
+    "navPlay": "Fejezet lejátszása",
+    "navStop": "Fejezet leállítása",
+    "lingua": "Nyelv",
+    "ch00": "00. fejezet — Rejtett kapu",
+    "heroL1": "Ahol a kő még",
+    "heroL2": "királyokra emlékszik.",
+    "heroSub": "Lépjen be Szlovákia leggótikusabb városába csendes küszöbökön, ahol a céh, a hit és a falak még együtt tartják a teret.",
+    "wxFallback": "Bártfa · Sáros alkonya",
+    "tourMob": "Alkonyi séta · 32 s",
+    "scroll": "Görgessen befelé",
+    "chip0t": "Küszöbök",
+    "chip0p": "Tér, amely mélyebb utakat nyit a város magjába.",
+    "chip1t": "Falak",
+    "chip1p": "Sáncok, bástyák és kapuk öve, amelyet a város még tart.",
+    "chip2t": "Céhek",
+    "chip2p": "Kezek, oltárok és emlék, amelyek a tiszteletet formálják.",
+    "chip3t": "Fürdő",
+    "chip3p": "Források, amelyek akkor ébrednek, amikor a nap elcsendesül.",
+    "peekAria": "Alkonyi séta a téren, 32 másodperc",
+    "peekLat": "SÉTA",
+    "peekSub": "alkony · 32 s · három küszöb",
+    "gateK": "Városháza tér",
+    "gateH": "Macskakő, vörös oromzat, egy torony mindenek fölött.",
+    "gateLead": "Bártfa ott kezdődik, ahol Sáros téglalappá szűkül: 260-szor 80 méter kőburkolat, középen a városháza, északon a bazilika, három oldalon negyvenhat polgárház szűk gótikus telkekkel.",
+    "gateBody": "Ez a tér piac volt a Fekete-tenger és a Balti-tenger közötti úton. Több mint ötven céh tartotta itt életben a várost. 1376-ban szabad királyi város lett. 2000-ben az UNESCO Közép-Európa egyik legteljesebb erődített középkori alaprajzaként jegyezte be — a zsidó külvárossal együtt.",
+    "gateLink": "Átlépni a küszöböt",
+    "stat0": "Királyi város",
+    "stat1": "UNESCO",
+    "stat2": "Gótikus oltárok",
+    "stat3": "Polgárházak",
+    "pathK": "Falak és kilátások",
+    "cardSq": "Tér",
+    "cardSqMeta": "Városháza tér",
+    "cardBas": "Bazilika",
+    "cardBasMeta": "Szent Egyed",
+    "cardWall": "Falak",
+    "cardWallMeta": "Vastag bástya",
+    "lesK": "A város emléke",
+    "lesH": "Öt fejezet. Nyolc század. Egy tér.",
+    "lesIntro": "Minden fejezet séta, nem előadás. Kapuhoz ér, toronyra lép, forrás mellé ül, és egyetlen megőrzendő dologgal távozik.",
+    "how": "Hogyan jut oda.",
+    "hrs": "Nyitva.",
+    "les0t": "Szent Egyed-bazilika",
+    "les0p": "Háromhajós gótika a 15. századból és tizenegy egyedülálló szárnyasoltár, amelyek a helyükön maradtak.",
+    "les0m": "torony 20 perc",
+    "les0b": "A torony 72 méter. Bent tizenegy késő gótikus szárnyasoltár maradt 1440–1520-ból — többségük eredeti helyén, mind egy céhez kötve. Az 1878-as neogót főoltár Szlovákia legmagasabbja.",
+    "les0how": "A Városháza tér északi széle. A buszpályaudvartól nyolc perc a Dlhý radon, aztán egyenesen a kőre.",
+    "les0hrs": "H–p 10:00–16:00 · szo 10:00–15:00 · v 11:30–14:30. A torony sárosi kilátással a belső belépőben.",
+    "les0alt": "Szent Egyed-bazilika",
+    "les1t": "Városháza",
+    "les1p": "1505: gótikus alagsor, reneszánsz emelet. Ma Sárosi Múzeum, Szlovákia egyik legrégebbike.",
+    "les1m": "múzeum 45 perc",
+    "les1b": "Az első épület Magyarországon, amely a városnak szolgált, nem az egyháznak vagy a falnak. Ma a Szabad királyi város Bártfa kiállítás otthona. Gótikus terem az alagsorban, céhládák és a város címere fent.",
+    "les1how": "A tér közepe, Radničné námestie 48. A tér gyalogos — az autót a falaknál hagyja.",
+    "les1hrs": "K–v, hétfő zárva. Máj–szept 8:30–16:30 (ebéd 12:30–13:00). Okt–ápr 16:00-ig.",
+    "les1alt": "Városháza",
+    "les2t": "Ötven céh",
+    "les2p": "Kereskedelmi út Magyarország és Lengyelország között. Az 1365-ös ius gladii, tizenegy évvel később szabad királyi város.",
+    "les2m": "falak 30 perc",
+    "les2b": "Takácsok, fazekasok, szabók, ácsok, szitakészítők, kőművesek. Minden céhnek oltára volt a bazilikában és telke a téren. A város a Fekete-tenger és a Balti-tenger közötti útból élt — és a kezekből, amelyek azt az utat szolgálták.",
+    "les2how": "A céhoromzatokat a tér déli és keleti homlokzatán olvassa. A falat és a bástyákat a külső körön járja körül, kb. 1,2 km.",
+    "les2hrs": "A falak szabadon járhatók. Egyes bástyák szezonálisan, a TIK Bardejov szerint.",
+    "les2alt": "Polgárházak a téren",
+    "les3t": "Zsidó külváros",
+    "les3p": "Zsinagóga, mikve és beth hamidrás a 18. századból — az UNESCO-bejegyzés másik fele, nem lábjegyzet.",
+    "les3m": "negyed 25 perc",
+    "les3b": "A déli falakon túl a 18. században teljes zsidó település nőtt: zsinagóga, rituális fürdő, iskola. Az UNESCO a térrel együtt jegyezte be, mert nélküle a város képe hazudna.",
+    "les3how": "A térről a déli kapun, aztán a Domašínskán a zsinagógához. Öt perc gyalog, sík.",
+    "les3hrs": "A külseje mindig. A zsinagóga belseje TIK-en vagy egyeztetéssel — ellenőrizze utazás előtt.",
+    "les3alt": "Zsinagóga a külvárosban",
+    "les4t": "Bártfafürdő",
+    "les4p": "Ásványforrások a Busov alatti völgyben. Sissi, I. Sándor cár és Marie Louise, Napóleon felesége.",
+    "les4m": "fürdő 90 perc",
+    "les4b": "Öt kilométerre északra, a Busov alatti völgyben. Nyolc forrás, kolonád, Szlovákia legrégebbi skanzenje. Ide jöttek hallgatni, amikor a tér kimondta a magáét.",
+    "les4how": "1-es, 2-es és 5-ös busz a Slovenská-stanicától Bardejovské Kúpele, parkovisko megállóig. Kb. 15 perc. Gyalog a kerékpárúton kb. 70 perc.",
+    "les4hrs": "Park és kolonád szabad. Források egész évben. Autó csak kivételesen — parkoló a busznál.",
+    "les4alt": "Bártfafürdő",
+    "annK": "Nyolc század",
+    "annH": "Szalag, amelyet a város még tart.",
+    "tapePrev": "Előző év",
+    "tapeNext": "Következő év",
+    "ann1241": "A tatárjárás után Sárosban település marad, amelyből a város nő ki.",
+    "ann1365": "A kard joga. Bártfa ítélkezhet — és védekezhet — mint királyi test.",
+    "ann1376": "Szabad királyi város. A tér megszűnik piac lenni, és alaprajzzá válik.",
+    "ann1505": "A városháza a közepére. Gótika lent, reneszánsz fent — a város tükröt épít magának.",
+    "ann18c": "A déli falakon túl zsinagóga, mikve, beth hamidrás. A későbbi bejegyzés másik fele.",
+    "ann2000": "973. bejegyzés. Közép-Európa egyik legteljesebb erődített középkori alaprajza.",
+    "gldK": "Céhjegyek",
+    "gldH": "Kezek, amelyek az oltárt tartották.",
+    "gldLead": "Minden céhnek telke volt a téren és szárnya a bazilikában. A pajzs szerződés munka és hit között.",
+    "gldHint": "Érintse a címert. A céh szárnyat nyit a bazilikában.",
+    "gldOpen": "céh megnyitása",
+    "gWeavers": "Takácsok",
+    "gWeaversSub": "Születés · 1480",
+    "gPotters": "Fazekasok",
+    "gPottersSub": "Erasmus és Miklós",
+    "gTailors": "Szabók",
+    "gTailorsSub": "Árpád-házi Erzsébet",
+    "gCarp": "Ácsok",
+    "gCarpSub": "Fájdalmak férfia",
+    "gMasons": "Kőművesek",
+    "gMasonsSub": "Pietà · kő",
+    "gFur": "Szűcsök",
+    "gFurSub": "Út északra",
+    "gGold": "Ötvösök",
+    "gGoldSub": "Címer és kehely",
+    "gSieves": "Szitakészítők",
+    "gSievesSub": "Szent Apollónia",
+    "gFarm": "Földművesek",
+    "gFarmSub": "Szent Kereszt",
+    "altK": "Tizenegy oltár",
+    "altH": "Szárnyak, amelyeket a céh a helyén hagyott.",
+    "altHint": "Görgővel vagy húzással mind a tizenegy szárnyat bejárja.",
+    "altCred": "Oltárfotók: Wikimedia Commons · CC BY-SA 4.0",
+    "aAndrew": "Szent András",
+    "aBarbara": "Szent Borbála",
+    "aElis": "Szent Erzsébet",
+    "aElisSub": "1480 · szabók",
+    "aAnn": "Szűz Mária",
+    "aAnnSub": "1485 · Anna",
+    "aMager": "Veronica Mager",
+    "aCross": "Szent Kereszt",
+    "aCrossSub": "1480 · földművesek",
+    "aPieta": "Pietà",
+    "aPietaSub": "1480 · kőművesek",
+    "aApol": "Szent Apollónia",
+    "aApolSub": "1485 · szitakészítők",
+    "aNat": "Születés",
+    "aNatSub": "1480 · takácsok",
+    "aEras": "Erasmus",
+    "aErasSub": "fazekasok",
+    "aSor": "Vir Dolorum",
+    "aSorSub": "1500 · ácsok",
+    "subK": "Zsidó külváros",
+    "subH": "Nem külváros. A bejegyzés másik fele.",
+    "subLead": "A déli falakon túl teljes település maradt: zsinagóga, mikve, beth hamidrás. Az UNESCO 2000-ben a térrel együtt jegyezte be — bizonyítékul, hogy a középkori városnak újabb, ugyanolyan törékeny udvara is volt.",
+    "subBody": "A 18. századi zsinagóga még tartja a boltozat polikrómáját. A mikve a talaj alatt van. A beth hamidrás, a tanulóház, közvetlenül mellett állt. Ez nem függelék a gótikához. Emlék, amely nélkül Bártfa hazudna magáról.",
+    "subSynH": "Zsinagóga",
+    "subSynP": "Barokk terem, festett mennyezet, női karzat. A külváros magja.",
+    "subSynY": "18. sz.",
+    "subMikH": "Mikve",
+    "subMikP": "Rituális fürdő az utca szintje alatt. Víz, amely tisztítja a naptárt.",
+    "subMikY": "pince",
+    "subMidH": "Tanulóház",
+    "subMidP": "Tanulás háza a zsinagóga mellett. Harmadik pont, amely nélkül a település nem egész.",
+    "subMidY": "18. sz.",
+    "walkK": "A nap útvonala",
+    "walkH": "Egy kő. Három napnyi hossz.",
+    "iter2h": "2 óra",
+    "iterHalf": "Fél nap",
+    "iterFull": "Egész nap",
+    "planAria": "Bártfa gyalogos térképe",
+    "planSq": "Tér",
+    "planBas": "Bazilika",
+    "planWall": "Falak",
+    "planSub": "Külváros",
+    "planSpa": "Fürdő",
+    "practH": "Ma a helyszínen",
+    "practHall": "Városháza — múzeum",
+    "practBas": "Bazilika és torony",
+    "practPark": "Parkolás",
+    "practParkD": "A tér gyalogos. Autók a falaknál és a sáncok melletti P+R parkolókban.",
+    "practMhd": "Busz a fürdőbe",
+    "practMhdD": "1, 2, 5 vonal · Bardejovské Kúpele, parkovisko · kb. 15 perc a Slovenskanáról.",
+    "finCh": "04. fejezet — Utóhang",
+    "finH": "Fürdő",
+    "finP": "A kapu nem zárul be mögöttetek. Amikor Sáros elcsendesül, ugyanaz az út marad a tértől a forrásig — és soha nem ugyanaz a fény.",
+    "finCta": "Elkezdeni a sétát",
+    "footBlurb": "Alkonyi séta az UNESCO Bártfán. Élő tér, falak, oltárok, külváros és Sáros forrásai.",
+    "footCh": "Fejezetek",
+    "footPl": "Helyek",
+    "footWorld": "Világ",
+    "footGate": "Városháza tér",
+    "footPath": "Falak és kilátások",
+    "footMem": "A város emléke",
+    "footSub": "Zsidó külváros",
+    "footWalk": "A nap útvonala",
+    "footSpa": "Fürdő",
+    "footBas": "Szent Egyed-bazilika",
+    "footAlt": "Tizenegy oltár",
+    "footGld": "Céhjegyek",
+    "footSpa2": "Bártfafürdő",
+    "footCopy": "© 2026 Bártfa — Civitas regia",
+    "footPhoto": "Fotók Wikimedia Commons · Three.js · Sáros",
+    "hotHall": "Városháza",
+    "hotTower": "Torony",
+    "hotBast": "Bástya",
+    "tourSkip": "Kihagyás",
+    "sheetClose": "bezárás",
+    "chapter": "Fejezet",
+    "toTop": "A kapuhoz",
+    "err404k": "404. fejezet — Hiányzó kapu",
+    "err404h1": "Ez a kapu",
+    "err404h2": "nem nyílt ki.",
+    "err404p": "A küszöb, amelyet keres, nincs ezekben a falakban. A tér egy lépéssel hátrébb van — a kő, a torony és az alkony még áll.",
+    "err404cta": "Vissza a térre",
+    "err500k": "500. fejezet — A harang hallgat",
+    "err500h1": "Sáros elcsendesült",
+    "err500h2": "túl korán.",
+    "err500p": "A séta megállt. Próbálja a udvart még egyszer, vagy térjen a kőre, amíg még emlékszik.",
+    "err500retry": "Újra",
+    "err500cta": "Vissza a térre",
+    "extNew": "új ablakban nyílik"
+  },
+  "hints": [
+    "Macskakövet rakok",
+    "Polgároromzatokat emelek",
+    "Szent Egyed tornyát építem",
+    "Harangozok a városháza fölött",
+    "Megnyitom a királyi teret"
+  ],
+  "voice": {
+    "top": "Belépnek Bártfára. Itt a kő még királyokra emlékszik. Szlovákia leggótikusabb városa csendes küszöbökön nyílik, ahol céh, hit és várfal tartja össze a teret. Sáros alkonya. Unesco kétezer óta.",
+    "gate": "Városháza tér. Kétszázhatvan méter hosszú, nyolcvan méter széles. Macskakő a láb alatt, középen a városháza, északon a Szent Egyed-bazilika. Három oldalon negyvenhat polgárház szűk gótikus telkeken. Ez a tér vásár volt a Fekete-tenger és a Balti-tenger közötti úton. Több mint ötven céh tartotta itt életben a várost. Ezerháromszázhetvenhatban szabad királyi város lett. Kétezerben az Unesco Közép-Európa egyik legteljesebb erődített középkori alaprajzaként jegyezte be.",
+    "pathways": "A falak még tartják a várost. Sáncok, bástyák és kapuk öve, amelyet fél óra alatt meg lehet járni. A külső kör nagyjából egy kilométer kétszáz méter. A Vastag bástya Sárosra néz. Egyes bástyák szezonálisan nyitva, a fal szabadon járható. Ez nem dísz. Ez az öv, amelyet a város még tart.",
+    "lessons": "Öt fejezet. Nyolc század. Egy tér. A Szent Egyed-bazilika tizenegy szárnyas oltárral és hetvenkét méteres toronnyal. Az ezerötszázötös városháza: gótikus alagsor, reneszánsz emelet, ma Sárosi Múzeum. Ötven céh, mindegyiknek telek a téren és szárny a bazilikában. A zsidó külváros a déli falakon túl. És a fürdő a Busov alatti völgyben, öt kilométerre északra. Minden fejezet séta, nem előadás.",
+    "suburb": "A déli falakon túl maradt a zsidó külváros. Zsinagóga, mikve és beth hamidrás a tizennyolcadik századból. Az Unesco kétezerben a térrel együtt jegyezte be, mert nélküle a város képe hazudna. A zsinagóga még tartja a polikrómát a boltozaton. A mikve a terepszint alatt van. A tanulóház közvetlenül mellett állt. Ez nem függelék a gótikához. Ez a bejegyzés másik fele.",
+    "walk": "Válasszák a nap hosszát. Két óra: a tér, a bazilika, a keleti falak. Fél nap hozzáadja a sánc körét és a zsidó külvárost. A teljes nap a kőtől a bártfafürdői forrásig vezet. A tér gyalogos. Az autót a falaknál hagyják.",
+    "eternity": "Amikor Sáros elcsendesül, megmarad az út a tértől a forrásig. Bártfafürdő öt kilométerre északra fekszik, a Busov alatti völgyben. Nyolc forrás, kolonád, Szlovákia legrégebbi skanzenje. Ide jöttek hallgatni, amikor a tér kimondta a magáét. A kapu nem zárul be mögöttük. Soha nem ugyanaz a fény."
+  },
+  "tour": [
+    {
+      "title": "A tér küszöbe",
+      "k": "Macskakő. Vörös oromzat. Egy torony."
+    },
+    {
+      "title": "Városháza, 1505",
+      "k": "Gótikus alagsor, reneszánsz emelet."
+    },
+    {
+      "title": "Szent Egyed",
+      "k": "Tizenegy oltár. Hetvenkét méteres torony."
+    },
+    {
+      "title": "Falak",
+      "k": "Sáncok és bástyák öve, amelyet a város még tart."
+    },
+    {
+      "title": "Bártfa",
+      "k": "A séta kezdődhet."
+    }
+  ],
+  "iters": {
+    "2h": [
+      [
+        "Városháza tér",
+        "Kő, 46 ház, tengely és torony. 20 perc."
+      ],
+      [
+        "Bazilika és torony",
+        "Oltárok és kilátás 72 m-ről. 40 perc."
+      ],
+      [
+        "Falak — kelet",
+        "Bástya és sánc Sáros fölött. 25 perc."
+      ]
+    ],
+    "half": [
+      [
+        "Tér és városháza",
+        "Múzeum az alagsorban. 70 perc."
+      ],
+      [
+        "Bazilika",
+        "Tizenegy oltár, torony. 45 perc."
+      ],
+      [
+        "Falak köre",
+        "1,2 km a sáncon. 35 perc."
+      ],
+      [
+        "Zsidó külváros",
+        "Zsinagóga és mikve. 30 perc."
+      ]
+    ],
+    "full": [
+      [
+        "Reggel a téren",
+        "Városháza és bazilika. 2,5 óra."
+      ],
+      [
+        "Falak és külváros",
+        "Déli kapu a zsinagógához. 1,5 óra."
+      ],
+      [
+        "Ebéd a központban",
+        "Aztán 1-es, 2-es vagy 5-ös busz."
+      ],
+      [
+        "Fürdő",
+        "Kolonád, források, skanzen. 3 óra."
+      ]
+    ]
+  },
+  "wx": {
+    "0": "derült",
+    "3": "fátyolfelhős",
+    "48": "köd",
+    "57": "szitálás",
+    "67": "eső",
+    "77": "hó",
+    "82": "zápor",
+    "99": "zivatar",
+    "today": "Ma {t} °C, {w} · {bas}{hall}",
+    "dusk": "Alkony Sáros fölött · {bas}{hall}",
+    "basOpen": "bazilika nyitva {t}-ig",
+    "basLiturgy": "bazilika ma a liturgia szerint",
+    "hallUntil": ", városháza {t}-ig",
+    "hallClosed": ", városháza zárva"
+  },
+  "hours": {
+    "basWeek": "H–p 10:00–16:00",
+    "basSun": "Vasárnap 11:30–14:30",
+    "basSat": "Szombat 10:00–15:00",
+    "basNote": " (keresztelők és esküvők kivételével)",
+    "hallSummer": "K–v 8:30–16:30",
+    "hallWinter": "K–v 8:30–16:00",
+    "hallMon": "Hétfő zárva"
+  },
+  "cat": {
+    "1241": {
+      "title": "A támadás után",
+      "lead": "A tatárjárás Sároson települést hagy, amelyből a város nő ki.",
+      "body": "Bártfa nem békéből születik. Abból születik, ami marad, amikor a steppe elmegy, és a kő marad.",
+      "mins": "emlék, nem séta",
+      "how": "Ezt a réteget a városháza múzeumában és a tér alaprajzán olvassa."
+    },
+    "1365": {
+      "title": "A kard joga",
+      "lead": "Bártfa ítélkezhet és védekezhet mint királyi test.",
+      "body": "Az ius gladii a szabad város előtti küszöb. Tizenegy évvel később jön a cím, amelyet a tér még visel.",
+      "mins": "fejezet a múzeumban",
+      "how": "Városháza, történeti kiállítás."
+    },
+    "1376": {
+      "title": "Szabad királyi város",
+      "lead": "A tér megszűnik csupán piac lenni, és alaprajzzá válik.",
+      "body": "Negyvenhat telek, falak, céh. Azóta Bártfát 260 × 80 méteres téglalap méri.",
+      "mins": "a tér mindig nyitva",
+      "how": "Lépjen a kőre. Az alaprajz a lábak alatt van."
+    },
+    "1505": {
+      "title": "Városháza a közepére",
+      "lead": "Gótika lent, reneszánsz fent. A város tükröt épít magának.",
+      "body": "Épület, amely sem oltárnak, sem bástyának nem szolgál, hanem a községnek. Ma is a tér tengelyén áll.",
+      "mins": "45 perc a múzeumban",
+      "how": "Radničné námestie 48."
+    },
+    "2000": {
+      "title": "973. bejegyzés",
+      "lead": "Közép-Európa egyik legteljesebb erődített középkori alaprajza.",
+      "body": "A bejegyzés a teret és a zsidó külvárost tartja. Nem díszt — alaprajzot, amelyet még gyalog bejárhat.",
+      "mins": "az egész mag",
+      "how": "Kezdje a téren, fejezze be a zsinagógánál vagy a fürdőben."
+    },
+    "square": {
+      "title": "Városháza tér",
+      "lead": "Kétszázhatvan-szor nyolcvan méter kő. Középen a városháza, északon a torony, három oldalon negyvenhat polgároromzat.",
+      "body": "Ez a tér piac volt a Fekete-tenger és a Balti-tenger közötti úton. 1376-ban szabad királyi város lett. Az UNESCO 2000-ben Közép-Európa egyik legteljesebb erődített alaprajzaként jegyezte be.",
+      "mins": "20 perc a kövön",
+      "how": "Városközpont. A busztól 8 perc a Dlhý radon. A tér gyalogos."
+    },
+    "hall": {
+      "title": "Városháza",
+      "lead": "Gótikus alagsor, reneszánsz emelet. Az első épület Magyarországon, amely a városnak szolgált, nem az egyháznak vagy a falnak.",
+      "body": "Ma Sárosi Múzeum — Szabad királyi város Bártfa kiállítás. Céhládák, címer és terem, ahol még hallani a tanácskozást.",
+      "mins": "45 perc a múzeumban",
+      "how": "A tér közepe, Radničné námestie 48. Az autót a falaknál hagyja."
+    },
+    "basilica": {
+      "title": "Szent Egyed-bazilika",
+      "lead": "Háromhajós gótika és tizenegy szárnyasoltár, amelyek a helyükön maradtak. A torony 72 méter.",
+      "body": "Minden oltár céhet kötött. Az 1878-as neogót főoltár Szlovákia legmagasabbja. A toronyból Sáros nyitott könyv.",
+      "mins": "torony 20 perc · belső 35 perc",
+      "how": "A tér északi széle. Belépés a kőről, torony lépcsőn."
+    },
+    "walls": {
+      "title": "Falak és a Vastag bástya",
+      "lead": "Sáncok, kapuk és bástyák öve, amelyet a város még tart. A mag körüli út kb. 1,2 kilométer.",
+      "body": "A Vastag bástya a legnagyobb szem. A gyilokjáróról látszik, miért fért be a tér, és miért maradt a külváros a falon túl.",
+      "mins": "30 perc kör",
+      "how": "A keleti és déli szakasz a legolvashatóbb. Belépés a bástyáknál, enyhe terep."
+    },
+    "synagogue": {
+      "title": "Zsinagóga",
+      "lead": "Barokk terem festett boltozattal. A zsidó külváros magja, amelyet az UNESCO a térrel együtt jegyzett be.",
+      "body": "E nélkül az épület nélkül a bejegyzés hazudna. A déli falakon túli település nem függelék a gótikához — a város másik fele.",
+      "mins": "25 perc a negyedben",
+      "how": "A térről a déli kapun, Domašínska a zsinagógához. Öt perc gyalog."
+    },
+    "mikve": {
+      "title": "Mikve",
+      "lead": "Rituális fürdő az utca szintje alatt. Víz, amely a közösség naptárát tartja.",
+      "body": "A mikve úgy tartozik a zsinagógához, mint a torony a bazilikához: nélküle a külváros csak homlokzat volna.",
+      "mins": "10 perc",
+      "how": "A zsinagóga mellett, a talaj alatt. Belépés egyeztetéssel a TIK-en.",
+      "year": "pince"
+    },
+    "midrash": {
+      "title": "Beth hamidrás",
+      "lead": "Tanulás háza a zsinagóga mellett. Harmadik pont, amely nélkül a település nem egész.",
+      "body": "A tanulóház szűk udvaron állt. Az UNESCO együttest olvas, nem egyetlen emléket.",
+      "mins": "10 perc",
+      "how": "A zsinagóga mellett, a falaktól délre. Külseje szabad."
+    },
+    "spa": {
+      "title": "Bártfafürdő",
+      "lead": "Öt kilométerre északra, völgy a Busov alatt. Sissi, I. Sándor cár, Marie Louise.",
+      "body": "Nyolc ásványforrás, kolonád és Szlovákia legrégebbi skanzenje. Ide jöttek hallgatni, amikor a tér kimondta a magáét.",
+      "mins": "90 perc a parkban",
+      "how": "1-es, 2-es és 5-ös busz a Slovenskanáról Bardejovské Kúpele, parkovisko. Kb. 15 perc.",
+      "year": "források"
+    },
+    "weavers": {
+      "title": "Takácsok",
+      "lead": "A céh, amely a Születés oltárát tartotta — a bazilika legritkább szárnyait.",
+      "body": "A vászon a térről északra ment, Lengyelországba. A takácsok fizették az oltárt, az oltár tartotta a nevüket.",
+      "mins": "céh a déli homlokzaton",
+      "how": "A takácsok oromzatát a polgárházak déli során keresse."
+    },
+    "potters": {
+      "title": "Fazekasok",
+      "lead": "Szent Erasmus és Miklós oltára. Agyag, tűz és az utak szentjei.",
+      "body": "A fazekascéh piacot és háztartást táplált. Szárnyaik a hajóban maradtak, nem múzeumban.",
+      "mins": "céh a keleti oldalon",
+      "how": "A tér keleti homlokzata, szűk gótikus telkek.",
+      "year": "oltár"
+    },
+    "tailors": {
+      "title": "Szabók",
+      "lead": "Árpád-házi Szent Erzsébet oltára. Tűvel a várost éppúgy összevarrták, mint falakkal.",
+      "body": "A szabók a kereskedelmi utat szolgálták: posztó Magyarországról, szabás Krakkóból.",
+      "mins": "céh a téren",
+      "how": "A városháza a céhládákat a múzeumban tartja."
+    },
+    "carpenters": {
+      "title": "Ácsok",
+      "lead": "Vir Dolorum — Fájdalmak férfia. Fa, amely követ hord.",
+      "body": "Ácsok nélkül a torony, a tető és a városháza rajz maradt volna. Oltáruk 1500–1510-ből való.",
+      "mins": "ácsok céhe",
+      "how": "A városháza és a bazilika tetője az ő aláírásuk, még ha a kőről nem is látszik."
+    },
+    "masons": {
+      "title": "Kőművesek és kőfaragók",
+      "lead": "Pietà kőből. A céh, amely a várost szó szerint felépítette.",
+      "body": "A kőművesek oltára a hajó egyik legértékesebb szobrát tartja — kő Pietàt.",
+      "mins": "a kő céhe",
+      "how": "A falak a nyitott műhelyük. Kör 1,2 km."
+    },
+    "furriers": {
+      "title": "Szűcsök",
+      "lead": "A bunda északra ment az UNESCO szó előtt. A csend és a tél céhe.",
+      "body": "Bártfa kereskedőúton állt. A szűcsök Sárost sűrűbben kötötték Lengyelországhoz, mint a falak.",
+      "mins": "az észak céhe",
+      "how": "A tér északi oldala, a bazilika árnyékában.",
+      "year": "út"
+    },
+    "gold": {
+      "title": "Ötvösök",
+      "lead": "Kehely, pecsét, városi címer. A céh, amely fényt adott a városnak papíron és oltáron.",
+      "body": "Ötvösmunka a városháza múzeumában és a bazilika liturgikus tárgyaiban.",
+      "mins": "céh a múzeumban",
+      "how": "Radničné námestie 48, történeti kiállítás.",
+      "year": "címer"
+    },
+    "sieves": {
+      "title": "Szitakészítők",
+      "lead": "Szent Apollónia oltára. Sziták, liszt és csendes piac céhe.",
+      "body": "A szitakészítők egy kisebb, de teljes szárnyasoltárt tartottak — bizonyíték, hogy a céhnek nem kellett gazdagnak lennie, elég volt kötöttnek.",
+      "mins": "céh a hajóban",
+      "how": "Bazilika, oldalhajó. Apollónia oltára."
+    },
+    "farmers": {
+      "title": "Földművesek",
+      "lead": "A Szent Kereszt oltára. A céh, amely a várost táplálta, amíg a mesterségcéh varrta.",
+      "body": "Földművesoltár 1480–1490-ből. Mezők a falakon túl, kereszt a hajóban.",
+      "mins": "oltár a szentélyben",
+      "how": "Szent Egyed-bazilika, a Kereszt oldaltoltára."
+    },
+    "andrew": {
+      "title": "Szent András oltára",
+      "lead": "A hajó egyik legrégebbi szárnyasoltára.",
+      "body": "András mint az utak apostola illik a városhoz, amely útból élt. A szárnyak még eredeti helyükön állnak.",
+      "mins": "a bazilika hajójában",
+      "how": "Szent Egyed-bazilika, belépés a térről."
+    },
+    "barbara": {
+      "title": "Szent Borbála oltára",
+      "lead": "A tornyok és a villám védőszentje — városban, ahol a torony 72 méter.",
+      "body": "Borbála gótikus tornyot tart a kezében. Bártfa kőben és fában is bírta.",
+      "mins": "a bazilika hajójában",
+      "how": "Oldalhajó, a bejárattól balra."
+    },
+    "elisabeth": {
+      "title": "Árpád-házi Szent Erzsébet oltára",
+      "lead": "A szabók szárnyai. Posztó és irgalom egy szekrényben.",
+      "body": "Erzsébet, a szegények védőszentje, és a szabók céhe — szerződés tű és oltár között.",
+      "mins": "a bazilika hajójában",
+      "how": "Bazilika, a szabók oltára."
+    },
+    "ann": {
+      "title": "Szűz Mária / Szent Anna oltára",
+      "lead": "Mária-szárnyak, korábban Szent Anna oltáraként ismert.",
+      "body": "A két Mária-oltár egyike. Csendesebb, idősebb, még a helyén.",
+      "mins": "a bazilika hajójában",
+      "how": "A bazilika oldalhajója."
+    },
+    "mager": {
+      "title": "Veronica Mager oltára",
+      "lead": "A második Mária-oltár, polgári adományhoz kötve.",
+      "body": "Az adományozó neve a szárnyakon maradt. A város így is aláírta magát — nem csak céhhel.",
+      "mins": "a bazilika hajójában",
+      "how": "Szent Egyed-bazilika."
+    },
+    "cross": {
+      "title": "A Szent Kereszt oltára",
+      "lead": "A földművesek oltára. A predella közepén Veraikon — Krisztus arca.",
+      "body": "Keresztrefeszítés a 15. század végéről. A falakon túli mezőnek keresztje van a hajóban.",
+      "mins": "a bazilika hajójában",
+      "how": "Szentély / a Kereszt oldaltoltára."
+    },
+    "pieta": {
+      "title": "A Pietà oltára",
+      "lead": "Kőművesek és kőfaragók oltára. A szekrényben kő Pietà.",
+      "body": "A bazilika egyik legértékesebb szobra. A kő céhe követ hagyott a hajóban, nem fát.",
+      "mins": "a bazilika hajójában",
+      "how": "A Pietà oldaltoltára."
+    },
+    "apollonia": {
+      "title": "Szent Apollónia oltára",
+      "lead": "A szitakészítők oltára. Kis céh, teljes szárnyak.",
+      "body": "Apollónia a csendes mesterségek védőszentje. Bizonyíték, hogy az oltárnak nem kellett gazdagnak lennie, elég volt ígértnek.",
+      "mins": "a bazilika hajójában",
+      "how": "Oldalhajó, a szitakészítők oltára."
+    },
+    "nativity": {
+      "title": "A Születés oltára",
+      "lead": "A templom legszebb és legértékesebb szárnyai. A takácsok céhe.",
+      "body": "Az 1480–1490-es Születés Szlovákia legritkább késő gót oltárai közé tartozik. A helyén maradt.",
+      "mins": "a bazilika hajójában",
+      "how": "Főhajó, a takácsok oltára — ne hagyja ki."
+    },
+    "erasmus": {
+      "title": "Szent Erasmus és Miklós oltára",
+      "lead": "A fazekasok oltára. Két szent, egy agyag.",
+      "body": "Erasmus és Miklós az utak és tengerészek védői — városban, amelynek nem volt tengere, csak út feléje.",
+      "mins": "a bazilika hajójában",
+      "how": "A fazekasok oldaltoltára.",
+      "year": "céh"
+    },
+    "sorrows": {
+      "title": "A Fájdalmak férfia oltára",
+      "lead": "Az ácsok oltára. A fa bánatot és tetőt is hord.",
+      "body": "Vir Dolorum a századfordulóról. Az ácsok céhe alakot adott a hajónak, amelyet lassan kell megkerülni.",
+      "mins": "a bazilika hajójában",
+      "how": "Oldalhajó, az ácsok oltára."
+    },
+    "18c": {
+      "title": "Külváros a falon túl",
+      "lead": "Zsinagóga, mikve, beth hamidrás. A későbbi bejegyzés másik fele.",
+      "body": "A 18. század a gót maghoz települést adott, amely nélkül az UNESCO 2000-ben hazudott volna.",
+      "mins": "25 perc a negyedben",
+      "how": "Déli kapu a térről."
+    }
+  }
+}

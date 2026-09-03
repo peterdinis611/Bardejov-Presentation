@@ -1,0 +1,44 @@
+[
+  {
+    "id": "sk",
+    "label": "SK",
+    "locale": "sk-SK",
+    "html": "sk",
+    "name": "Slovenčina"
+  },
+  {
+    "id": "cs",
+    "label": "CZ",
+    "locale": "cs-CZ",
+    "html": "cs",
+    "name": "Čeština"
+  },
+  {
+    "id": "en",
+    "label": "EN",
+    "locale": "en-GB",
+    "html": "en",
+    "name": "English"
+  },
+  {
+    "id": "pl",
+    "label": "PL",
+    "locale": "pl-PL",
+    "html": "pl",
+    "name": "Polski"
+  },
+  {
+    "id": "hu",
+    "label": "HU",
+    "locale": "hu-HU",
+    "html": "hu",
+    "name": "Magyar"
+  },
+  {
+    "id": "uk",
+    "label": "UK",
+    "locale": "uk-UA",
+    "html": "uk",
+    "name": "Українська"
+  }
+]

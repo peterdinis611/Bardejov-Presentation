@@ -4,7 +4,9 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig, loadEnv } from 'vite';
 
 const root = dirname(fileURLToPath(import.meta.url));
-const LANGS = ['sk', 'cs', 'en', 'pl', 'hu', 'uk'];
+const LANGS = JSON.parse(readFileSync(resolve(root, 'locales/langs.json'), 'utf8')).map(
+  (l) => l.id
+);
 
 function resolveSite(mode) {
   const fileEnv = loadEnv(mode, root, '');

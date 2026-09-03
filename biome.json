@@ -10,7 +10,7 @@
       "**",
       "!!**/dist",
       "!!**/node_modules",
-      "!!src/lang.js",
+      "!!locales",
       "!!public",
       "!!test-results",
       "!!playwright-report",
