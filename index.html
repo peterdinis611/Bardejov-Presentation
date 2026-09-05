@@ -50,6 +50,11 @@
 {"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"Bardejov UNESCO","url":"__SITE__/","inLanguage":["sk","cs","en","pl","hu","uk"],"description":"Navštívte UNESCO Bardejov: Radničné námestie, bazilika sv. Egídia, mestské hradby, židovské predmestie a Bardejovské Kúpele.","keywords":"Bardejov, UNESCO Bardejov, Radničné námestie, bazilika sv. Egídia, Bardejovské Kúpele, Šariš"},{"@type":"TouristAttraction","name":"Bardejov","alternateName":["UNESCO Bardejov","Bártfa","Bardejów","Бардіїв"],"url":"__SITE__/","image":"__SITE__/assets/square.jpg","description":"Slobodné kráľovské mesto a lokalita UNESCO 973: radničné námestie, bazilika sv. Egídia, hradby, židovské predmestie a Bardejovské Kúpele.","keywords":"Bardejov, UNESCO, Šariš, bazilika sv. Egídia, Bardejovské Kúpele","isAccessibleForFree":true,"touristType":["Cultural tourism","Heritage tourism"],"address":{"@type":"PostalAddress","addressLocality":"Bardejov","addressRegion":"Prešovský kraj","addressCountry":"SK"},"geo":{"@type":"GeoCoordinates","latitude":49.2944,"longitude":21.2758},"sameAs":["https://whc.unesco.org/en/list/973/","https://www.bardejov.sk/"],"containsPlace":[{"@type":"LandmarksOrHistoricalBuildings","name":"Radničné námestie"},{"@type":"LandmarksOrHistoricalBuildings","name":"Bazilika sv. Egídia"},{"@type":"LandmarksOrHistoricalBuildings","name":"Mestská radnica"},{"@type":"LandmarksOrHistoricalBuildings","name":"Mestské hradby"},{"@type":"LandmarksOrHistoricalBuildings","name":"Židovské predmestie"},{"@type":"TouristAttraction","name":"Bardejovské Kúpele"}]}]}
 </script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23120c09'/%3E%3Cpath d='M6 26V12l10-7 10 7v14H6z' fill='%23c44520'/%3E%3Cpath d='M13 26v-8h6v8' fill='%23f0e2cc'/%3E%3C/svg%3E">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Bardejov">
+<meta name="mobile-web-app-capable" content="yes">
 <style>
 html,body{margin:0;background:#100a08;color:#f6ead4}
 body.is-locked{overflow:hidden;height:100dvh}
@@ -165,6 +170,11 @@ document.body.classList.remove('is-locked');
     </div>
   </nav>
   <div class="nav-tools">
+    <button type="button" class="snd" id="snd" aria-pressed="false" data-cursor>
+      <svg class="snd-wick" viewBox="0 0 12 18" fill="none" aria-hidden="true">
+        <path d="M6 17c2.6 0 4.4-2 4.4-4.6C10.4 9 6 3.2 6 3.2S1.6 9 1.6 12.4C1.6 15 3.4 17 6 17z" fill="currentColor"/>
+      </svg>
+    </button>
     <div class="lingua" id="lingua">
       <button type="button" class="lingua-btn" id="lingua-btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="lingua-list" data-cursor>
         <span class="lingua-mark" aria-hidden="true">LINGVA</span>
@@ -280,6 +290,32 @@ document.body.classList.remove('is-locked');
     <button type="button" data-place="nativity" data-cursor><b data-count="11">11</b><span data-i18n="stat2">Gotické oltáre</span></button>
     <button type="button" data-place="square" data-cursor><b data-count="46">46</b><span data-i18n="stat3">Meštianske domy</span></button>
   </div>
+  <figure class="then" id="then" data-rv="up">
+    <div class="then-k lat">TUNC / NUNC</div>
+    <div class="then-frame">
+      <div class="then-stack">
+        <picture class="then-now">
+          <source type="image/avif" srcset="/assets/square-800.avif 800w, /assets/square-1280.avif 1280w, /assets/square.avif 1920w" sizes="(max-width: 820px) 100vw, 72vw">
+          <source type="image/webp" srcset="/assets/square-800.webp 800w, /assets/square-1280.webp 1280w, /assets/square.webp 1920w" sizes="(max-width: 820px) 100vw, 72vw">
+          <img src="/assets/square.jpg" alt="" width="1920" height="1440" loading="lazy" decoding="async">
+        </picture>
+        <div class="then-old">
+          <picture>
+            <source type="image/avif" srcset="/assets/then-800.avif 800w, /assets/then-1280.avif 1280w, /assets/then.avif 1536w" sizes="(max-width: 820px) 100vw, 72vw">
+            <source type="image/webp" srcset="/assets/then-800.webp 800w, /assets/then-1280.webp 1280w, /assets/then.webp 1536w" sizes="(max-width: 820px) 100vw, 72vw">
+            <img src="/assets/then.jpg" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <div class="then-split" aria-hidden="true"><i></i></div>
+        <input class="then-range" id="then-range" type="range" min="4" max="96" value="52" data-i18n="thenAria" data-i18n-attr="aria-label">
+      </div>
+      <div class="then-labs">
+        <b data-i18n="thenThen">Tunc · rytina</b>
+        <i data-i18n="thenNow">Nunc · súmrak</i>
+      </div>
+    </div>
+    <figcaption class="then-cap" data-i18n="thenCred">Fotogravúra námestia podľa súmrakovej dosky. Ťahaj prah medzi vtedy a teraz.</figcaption>
+  </figure>
 </section>
 
 <section class="sec" id="pathways" data-cam="2">
@@ -735,17 +771,23 @@ document.body.classList.remove('is-locked');
   </div>
   <div class="walk-grid">
     <div class="plan" data-rv="up">
+      <div class="plan-tools">
+        <button type="button" class="here-btn" id="here-btn" data-cursor aria-pressed="false">
+          <i></i><span id="here-label" data-i18n="hereAsk">Si tu</span>
+        </button>
+        <p class="plan-here" id="here-cap" hidden></p>
+      </div>
       <svg id="plan" viewBox="0 0 640 420" fill="none" aria-label="Plán pešej trasy Bardejov" data-i18n="planAria" data-i18n-attr="aria-label">
         <rect class="plan-wall" x="118" y="78" width="360" height="248" rx="4"/>
-        <rect class="plan-plaza" x="188" y="118" width="220" height="168"/>
-        <rect class="plan-hall" x="268" y="178" width="60" height="36"/>
-        <path class="plan-nave" d="M248 78 h104 l-12 40 H260 z"/>
-        <circle class="plan-bast" cx="118" cy="78" r="10"/>
-        <circle class="plan-bast" cx="478" cy="78" r="10"/>
-        <circle class="plan-bast" cx="118" cy="326" r="10"/>
-        <circle class="plan-bast" cx="478" cy="326" r="10"/>
-        <rect class="plan-sub" x="86" y="348" width="92" height="48" rx="2"/>
-        <ellipse class="plan-spa" cx="520" cy="64" rx="58" ry="28"/>
+        <rect class="plan-plaza" data-zone="forum" x="188" y="118" width="220" height="168"/>
+        <rect class="plan-hall" data-zone="forum" x="268" y="178" width="60" height="36"/>
+        <path class="plan-nave" data-zone="basilica" d="M248 78 h104 l-12 40 H260 z"/>
+        <circle class="plan-bast" data-zone="walls" cx="118" cy="78" r="10"/>
+        <circle class="plan-bast" data-zone="walls" cx="478" cy="78" r="10"/>
+        <circle class="plan-bast" data-zone="walls" cx="118" cy="326" r="10"/>
+        <circle class="plan-bast" data-zone="walls" cx="478" cy="326" r="10"/>
+        <rect class="plan-sub" data-zone="suburb" x="86" y="348" width="92" height="48" rx="2"/>
+        <ellipse class="plan-spa" data-zone="spa" cx="520" cy="64" rx="58" ry="28"/>
         <path id="plan-path" class="plan-path" d="M298 196 L298 98 L168 98 L132 360"/>
         <g class="plan-stops">
           <g data-stop="square" data-place="square"><circle cx="298" cy="196" r="6"/><text x="310" y="192" data-i18n="planSq">Námestie</text></g>
@@ -755,21 +797,37 @@ document.body.classList.remove('is-locked');
           <g data-stop="suburb" data-place="synagogue"><circle cx="132" cy="360" r="6"/><text x="148" y="378" data-i18n="planSub">Predmestie</text></g>
           <g data-stop="spa" data-place="spa"><circle cx="520" cy="64" r="6"/><text x="486" y="42" data-i18n="planSpa">Kúpele</text></g>
         </g>
+        <g id="here-pin" hidden>
+          <circle class="here-ring" r="16"/>
+          <circle class="here-core" r="5"/>
+        </g>
       </svg>
       <p class="plan-cap lat" id="plan-cap">FORUM · 2 HORAE</p>
     </div>
     <div class="walk-side">
       <ol class="stops" id="stops"></ol>
-      <div class="practical">
-        <h3 data-i18n="practH">Dnes na mieste</h3>
+      <aside class="ticket" id="ticket">
+        <header class="ticket-head">
+          <b class="lat">CISTA</b>
+          <h3 data-i18n="practH">Lístok do vrecka</h3>
+          <span class="ticket-no">973</span>
+        </header>
         <p class="wx" data-wx>Bardejov · súmrak Šariša</p>
         <dl>
           <div><dt data-i18n="practHall">Radnica — múzeum</dt><dd id="hrs-hall">Ut–ne, sezónne 8:30–16:30</dd></div>
+          <div><dt data-i18n="practFee">Vstupné radnica</dt><dd data-i18n="practFeeD">Leto 6 € · zima 5 € · zľava 3 €</dd></div>
           <div><dt data-i18n="practBas">Bazilika a veža</dt><dd id="hrs-bas">Po–pia 10:00–16:00</dd></div>
+          <div><dt data-i18n="practTower">Vstupné veža</dt><dd data-i18n="practTowerD">Interiér 2 € · s vežou 4 €</dd></div>
           <div><dt data-i18n="practPark">Parkovanie</dt><dd data-i18n="practParkD">Námestie je pešie. Autá pri hradbách a na záchytných parkoviskách pri múroch.</dd></div>
           <div><dt data-i18n="practMhd">MHD do kúpeľov</dt><dd data-i18n="practMhdD">Linky 1, 2, 5 · zastávka Bardejovské Kúpele, parkovisko · cca 15 min zo Slovenskej.</dd></div>
         </dl>
-      </div>
+        <nav class="ticket-maps">
+          <a href="https://www.openstreetmap.org/?mlat=49.29442&amp;mlon=21.27575#map=17/49.29442/21.27575" target="_blank" rel="noopener noreferrer" data-cursor data-i18n-ext data-i18n="practMapSq">Námestie</a>
+          <a href="https://www.openstreetmap.org/?mlat=49.29185&amp;mlon=21.27355#map=18/49.29185/21.27355" target="_blank" rel="noopener noreferrer" data-cursor data-i18n-ext data-i18n="practMapSub">Predmestie</a>
+          <a href="https://www.openstreetmap.org/?mlat=49.32715&amp;mlon=21.2692#map=16/49.32715/21.2692" target="_blank" rel="noopener noreferrer" data-cursor data-i18n-ext data-i18n="practMapSpa">Kúpele</a>
+        </nav>
+        <p class="ticket-note" data-i18n="practTik">Ceny podľa TIK Bardejov. Overte pred cestou.</p>
+      </aside>
     </div>
   </div>
 </section>

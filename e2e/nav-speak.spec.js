@@ -5,10 +5,16 @@ test.beforeEach(async ({ page }) => {
   await mockSpeech(page);
 });
 
-test('dusk sound control is gone', async ({ page }) => {
+test('dusk sound control toggles', async ({ page }) => {
   await openSite(page);
-  await expect(page.locator('#snd, .snd')).toHaveCount(0);
-  await expect(page.getByRole('button', { name: /zvuk súmraku/i })).toHaveCount(0);
+  const snd = page.locator('#snd');
+  await expect(snd).toBeVisible();
+  await expect(snd).toHaveAttribute('aria-pressed', 'false');
+  await snd.click();
+  await expect(snd).toHaveAttribute('aria-pressed', 'true');
+  await expect(snd).toHaveAttribute('aria-label', /Vypnúť zvuk súmraku/);
+  await snd.click();
+  await expect(snd).toHaveAttribute('aria-pressed', 'false');
 });
 
 test('nav has a play control for every chapter', async ({ page }) => {

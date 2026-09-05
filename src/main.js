@@ -1,7 +1,11 @@
+import { duckDusk, duskWanted, setDusk, syncDuskButton } from './dusk.js';
 import { loadCyrillicFonts } from './fonts.js';
+import { wireHere } from './here.js';
 import './styles.css';
 import { hasLocale, I18N, LANGS, loadLocale } from './lang.js';
+import { registerPwa } from './pwa.js';
 import { siteUrl } from './site.js';
+import { wireThen } from './then.js';
 
 /* Bardejov — dusk walk through a live UNESCO square */
 (() => {
@@ -93,6 +97,7 @@ import { siteUrl } from './site.js';
   let iterKey = '2h';
   let sheetId = null;
   let wxSnap = null;
+  let hereApi = null;
   const TOUR_LEN = 32000;
   const cursor = $('#cursor');
 
@@ -717,6 +722,7 @@ import { siteUrl } from './site.js';
     ttsUtter = null;
     ttsKey = '';
     clearTtsKeep();
+    duckDusk(false);
     try {
       window.speechSynthesis?.cancel();
     } catch {}
@@ -811,10 +817,12 @@ import { siteUrl } from './site.js';
         ttsUtter = null;
         ttsKey = '';
         clearTtsKeep();
+        duckDusk(false);
         syncSpeakButtons();
       };
       u.onend = done;
       u.onerror = done;
+      duckDusk(true);
       synth.speak(u);
       syncSpeakButtons();
       if (/Chrome|Chromium|Edg\//.test(navigator.userAgent)) {
@@ -1355,6 +1363,8 @@ import { siteUrl } from './site.js';
     if (close) close.setAttribute('aria-label', ui('sheetClose'));
     const rise = $('#rise');
     if (rise) rise.setAttribute('aria-label', ui('toTop'));
+    syncDuskButton($('#snd'), { on: ui('soundOn'), off: ui('soundOff') });
+    if (hereApi) hereApi.refresh();
     $$('#rail button').forEach((b, i) => {
       b.setAttribute('aria-label', `${ui('chapter')} ${i}`);
     });
@@ -1418,6 +1428,7 @@ import { siteUrl } from './site.js';
     applyI18n();
     paintHoursAndWx();
     setIter(iterKey);
+    if (hereApi) hereApi.refresh();
     if (sheetOpen && sheetId) openSheet(sheetId, $('#sheet')?.classList.contains('compact'));
     if (touring) lastCaption = '';
     if (resume) speakChapter(resume, false);
@@ -1661,6 +1672,23 @@ import { siteUrl } from './site.js';
         goToId(map[chip.getAttribute('data-chip')]);
       });
     });
+    const snd = $('#snd');
+    if (snd) {
+      syncDuskButton(snd, { on: ui('soundOn'), off: ui('soundOff') });
+      snd.addEventListener('click', async () => {
+        await setDusk(!snd.classList.contains('is-on'));
+        syncDuskButton(snd, { on: ui('soundOn'), off: ui('soundOff') });
+      });
+      if (duskWanted()) {
+        const arm = async () => {
+          await setDusk(true);
+          syncDuskButton(snd, { on: ui('soundOn'), off: ui('soundOff') });
+        };
+        for (const ev of ['pointerdown', 'touchstart', 'keydown']) {
+          window.addEventListener(ev, arm, { once: true, passive: true });
+        }
+      }
+    }
   }
 
   function openLesson(art) {
@@ -2059,6 +2087,8 @@ import { siteUrl } from './site.js';
     wireTape();
     wireStrips();
     wireGuildWind();
+    wireThen();
+    hereApi = wireHere({ ui, fmt });
     const stats = $('.gate-stats');
     if (stats) {
       const io = new IntersectionObserver(
@@ -2154,6 +2184,7 @@ import { siteUrl } from './site.js';
     setIter('2h');
     const laterWx = window.requestIdleCallback || ((fn) => setTimeout(fn, 2000));
     laterWx(() => loadWeather());
+    registerPwa();
     const hash = (location.hash || '').replace(/^#/, '');
     if (hash) setTimeout(() => goToId(hash, true), 60);
     const armGL = () => {
