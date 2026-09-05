@@ -1,12 +1,11 @@
-import './fonts.js';
+import { loadCyrillicFonts } from './fonts.js';
 import './styles.css';
-import { I18N, LANGS } from './lang.js';
+import { hasLocale, I18N, LANGS, loadLocale } from './lang.js';
 
 /* Bardejov — error gates. Grain, LINGVA, no Three.js. */
 (() => {
   const $ = (s, r) => (r || document).querySelector(s);
   const $$ = (s, r) => [].slice.call((r || document).querySelectorAll(s));
-  const grain = $('#grain');
   let lang = 'sk';
 
   function pack() {
@@ -20,29 +19,12 @@ import { I18N, LANGS } from './lang.js';
     const b = fallbackPack().ui || {};
     return a[key] != null ? a[key] : b[key] || '';
   }
-  function makeGrain() {
-    if (!grain) return;
-    const c = document.createElement('canvas');
-    c.width = 180;
-    c.height = 180;
-    const x = c.getContext('2d');
-    const img = x.createImageData(180, 180);
-    for (let i = 0; i < img.data.length; i += 4) {
-      const v = 80 + Math.random() * 140;
-      img.data[i] = v;
-      img.data[i + 1] = v;
-      img.data[i + 2] = v;
-      img.data[i + 3] = 255;
-    }
-    x.putImageData(img, 0, 0);
-    grain.style.backgroundImage = `url(${c.toDataURL('image/png')})`;
-  }
   function detectLang() {
     const q = new URLSearchParams(location.search).get('lang');
-    if (q && I18N?.[q]) return q;
+    if (q && hasLocale(q)) return q;
     try {
       const saved = localStorage.getItem('bv-lang');
-      if (saved && I18N?.[saved]) return saved;
+      if (saved && hasLocale(saved)) return saved;
     } catch {}
     const n = (navigator.language || 'sk').toLowerCase();
     if (n.startsWith('cs')) return 'cs';
@@ -93,8 +75,10 @@ import { I18N, LANGS } from './lang.js';
     const burger = $('.nav-burger');
     if (burger) burger.setAttribute('aria-label', ui('menu'));
   }
-  function setLang(id) {
-    if (!I18N?.[id]) return;
+  async function setLang(id) {
+    if (!hasLocale(id)) return;
+    await loadLocale(id);
+    if (id === 'uk') loadCyrillicFonts();
     lang = id;
     try {
       localStorage.setItem('bv-lang', id);
@@ -112,11 +96,13 @@ import { I18N, LANGS } from './lang.js';
       if (sel) sel.focus();
     }
   }
-  function wireLang() {
+  async function wireLang() {
     lang = detectLang();
+    await loadLocale(lang);
+    if (lang === 'uk') loadCyrillicFonts();
     try {
       const q = new URLSearchParams(location.search).get('lang');
-      if (q && I18N?.[q]) localStorage.setItem('bv-lang', q);
+      if (q && hasLocale(q)) localStorage.setItem('bv-lang', q);
     } catch {}
     applyI18n();
     const box = $('#lingua');
@@ -194,7 +180,6 @@ import { I18N, LANGS } from './lang.js';
     }
   }
 
-  makeGrain();
   wireLang();
   wireNav();
   const retry = $('#err-retry');

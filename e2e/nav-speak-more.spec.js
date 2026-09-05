@@ -4,6 +4,7 @@ import {
   finishSpeech,
   GATE_COPY,
   LANGS,
+  fireSpeak,
   lastSpoken,
   mockSpeech,
   openSite,
@@ -127,12 +128,13 @@ test('chapter play ends the dusk tour when WebGL is up', async ({ page }) => {
   await mockSpeech(page);
   await openSite(page, '/?lang=sk', { reducedMotion: false, webgl: true });
   await page.locator('#tour-btn').click();
-  const touring = await page.locator('html').evaluate((el) => el.classList.contains('is-tour'));
-  if (!touring) {
+  try {
+    await expect(page.locator('html')).toHaveClass(/is-tour/, { timeout: 8_000 });
+  } catch {
     test.info().annotations.push({ type: 'note', description: 'tour skipped (no WebGL)' });
     return;
   }
-  await page.locator('.nav-speak[data-speak="gate"]').click();
+  await fireSpeak(page, 'gate');
   await expect(page.locator('html')).not.toHaveClass(/is-tour/);
   await expect(page.locator('#tour')).toBeHidden();
   await expect(page.locator('.nav-speak[data-speak="gate"]')).toHaveClass(/is-on/);

@@ -169,7 +169,7 @@ export async function installFastBoot(page, opts = {}) {
       }
       const origTimeout = window.setTimeout;
       window.setTimeout = (fn, ms, ...rest) => {
-        if (ms === 200 || ms === 240 || ms === 280) ms = 0;
+        if (ms === 120 || ms === 200 || ms === 240 || ms === 280) ms = 0;
         return origTimeout(fn, ms, ...rest);
       };
       const origInterval = window.setInterval;

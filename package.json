@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "build:pages": "VITE_BASE=/Bardejov-Presentation/ VITE_SITE_URL=https://peterdinis611.github.io/Bardejov-Presentation vite build",
+    "build": "node scripts/opt-images.mjs && vite build",
+    "images": "node scripts/opt-images.mjs",
+    "build:pages": "node scripts/opt-images.mjs && VITE_BASE=/Bardejov-Presentation/ VITE_SITE_URL=https://peterdinis611.github.io/Bardejov-Presentation vite build",
     "preview": "vite preview",
     "i18n": "node scripts/i18n.mjs",
     "tts": "node scripts/tts.mjs",
@@ -25,6 +26,7 @@
     "@biomejs/biome": "2.5.10",
     "@playwright/test": "^1.55.0",
     "@tailwindcss/vite": "^4.3.3",
+    "sharp": "^0.35.4",
     "tailwindcss": "^4.3.3",
     "vite": "^6.3.5"
   }

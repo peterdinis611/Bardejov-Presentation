@@ -116,7 +116,12 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: true,
       target: 'es2022',
       cssCodeSplit: true,
-      modulePreload: { polyfill: false },
+      modulePreload: {
+        polyfill: false,
+        resolveDependencies(_filename, deps) {
+          return deps.filter((dep) => !dep.includes('three'));
+        },
+      },
       chunkSizeWarningLimit: 600,
       assetsInlineLimit: (filePath, content) => {
         if (String(filePath).replace(/\\/g, '/').includes('/flags/') && filePath.endsWith('.svg')) {
@@ -133,7 +138,6 @@ export default defineConfig(({ mode }) => {
         output: {
           manualChunks(id) {
             if (id.includes('node_modules/three')) return 'three';
-            if (id.includes('@fontsource')) return 'fonts';
           },
         },
       },

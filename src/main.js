@@ -1,11 +1,11 @@
-import './fonts.js';
-import * as THREE from 'three';
+import { loadCyrillicFonts } from './fonts.js';
 import './styles.css';
-import { I18N, LANGS } from './lang.js';
+import { hasLocale, I18N, LANGS, loadLocale } from './lang.js';
 import { siteUrl } from './site.js';
 
 /* Bardejov — dusk walk through a live UNESCO square */
 (() => {
+  let THREE = null;
   const REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const MOBILE = window.matchMedia('(max-width: 1080px), (pointer: coarse)').matches;
   const $ = (s, r) => (r || document).querySelector(s);
@@ -95,7 +95,6 @@ import { siteUrl } from './site.js';
   let wxSnap = null;
   const TOUR_LEN = 32000;
   const cursor = $('#cursor');
-  const grain = $('#grain');
 
   function vpW() {
     return Math.max(1, Math.round(window.visualViewport?.width || window.innerWidth));
@@ -122,23 +121,6 @@ import { siteUrl } from './site.js';
       });
       if (preHint.textContent !== text) preHint.textContent = text;
     }
-  }
-
-  function makeGrain() {
-    const c = document.createElement('canvas');
-    c.width = 180;
-    c.height = 180;
-    const x = c.getContext('2d');
-    const img = x.createImageData(180, 180);
-    for (let i = 0; i < img.data.length; i += 4) {
-      const v = 80 + Math.random() * 140;
-      img.data[i] = v;
-      img.data[i + 1] = v;
-      img.data[i + 2] = v;
-      img.data[i + 3] = 255;
-    }
-    x.putImageData(img, 0, 0);
-    grain.style.backgroundImage = `url(${c.toDataURL('image/png')})`;
   }
 
   /* -------------------------------------------------------------- Three.js */
@@ -911,9 +893,17 @@ import { siteUrl } from './site.js';
     document.documentElement.classList.remove('is-sheet');
   }
 
-  function startTour() {
+  async function startTour() {
     if (touring) return;
     closeNav();
+    if (!renderer && !document.body.classList.contains('no-webgl')) {
+      try {
+        await ensureGL();
+      } catch (err) {
+        console.warn(err);
+        document.body.classList.add('no-webgl');
+      }
+    }
     if (!renderer || document.body.classList.contains('no-webgl')) {
       openSheet('square');
       return;
@@ -1099,6 +1089,21 @@ import { siteUrl } from './site.js';
     return -1;
   }
 
+  let glPending = null;
+  async function ensureGL() {
+    if (renderer || document.body.classList.contains('no-webgl')) return;
+    if (!glPending) {
+      glPending = (async () => {
+        if (!THREE) THREE = await import('three');
+        initGL();
+      })().catch((err) => {
+        glPending = null;
+        throw err;
+      });
+    }
+    await glPending;
+  }
+
   function initGL() {
     if (!THREE) throw new Error('three missing');
     renderer = new THREE.WebGLRenderer({
@@ -1177,9 +1182,13 @@ import { siteUrl } from './site.js';
     );
   }
 
-  const _p = new THREE.Vector3(),
-    _t = new THREE.Vector3();
+  let _p, _t;
   function applyCam(u) {
+    if (!THREE || !curveP || !camera) return;
+    if (!_p) {
+      _p = new THREE.Vector3();
+      _t = new THREE.Vector3();
+    }
     const n = CAM.length - 1;
     const t = clamp(u / n, 0, 1);
     curveP.getPoint(t, _p);
@@ -1381,10 +1390,10 @@ import { siteUrl } from './site.js';
   }
   function detectLang() {
     const q = new URLSearchParams(location.search).get('lang');
-    if (q && I18N?.[q]) return q;
+    if (q && hasLocale(q)) return q;
     try {
       const saved = localStorage.getItem('bv-lang');
-      if (saved && I18N?.[saved]) return saved;
+      if (saved && hasLocale(saved)) return saved;
     } catch {}
     const n = (navigator.language || 'sk').toLowerCase();
     if (n.startsWith('cs')) return 'cs';
@@ -1394,8 +1403,10 @@ import { siteUrl } from './site.js';
     if (n.startsWith('uk')) return 'uk';
     return 'sk';
   }
-  function setLang(id) {
-    if (!I18N?.[id]) return;
+  async function setLang(id) {
+    if (!hasLocale(id)) return;
+    await loadLocale(id);
+    if (id === 'uk') loadCyrillicFonts();
     lang = id;
     try {
       localStorage.setItem('bv-lang', id);
@@ -1422,11 +1433,13 @@ import { siteUrl } from './site.js';
       if (sel) sel.focus();
     }
   }
-  function wireLang() {
+  async function wireLang() {
     lang = detectLang();
+    await loadLocale(lang);
+    if (lang === 'uk') loadCyrillicFonts();
     try {
       const q = new URLSearchParams(location.search).get('lang');
-      if (q && I18N?.[q]) localStorage.setItem('bv-lang', q);
+      if (q && hasLocale(q)) localStorage.setItem('bv-lang', q);
     } catch {}
     applyI18n();
     const box = $('#lingua');
@@ -2093,8 +2106,10 @@ import { siteUrl } from './site.js';
       if (moon) moon.position.x = 8.5 + Math.sin(now * 0.00012) * 0.4;
       try {
         renderer.render(scene, camera);
+        document.documentElement.classList.add('has-gl');
       } catch {
         document.body.classList.add('no-webgl');
+        document.documentElement.classList.remove('has-gl');
       }
     }
   }
@@ -2110,23 +2125,53 @@ import { siteUrl } from './site.js';
     }
   }
 
+  function recoverBrokenPhotos() {
+    $$('picture img').forEach((img) => {
+      img.addEventListener('error', () => {
+        const pic = img.closest('picture');
+        if (pic) {
+          $$('source', pic).forEach((source) => {
+            source.remove();
+          });
+        }
+        const fallback = img.getAttribute('src');
+        if (fallback && img.dataset.fb !== '1') {
+          img.dataset.fb = '1';
+          img.src = fallback;
+        }
+      });
+    });
+  }
+
   function ready() {
     document.body.classList.remove('is-locked');
     preEl.classList.add('done');
+    recoverBrokenPhotos();
     measure();
     onScroll();
     wireReveals();
     wireForeground();
-    loadWeather();
     setIter('2h');
+    const laterWx = window.requestIdleCallback || ((fn) => setTimeout(fn, 2000));
+    laterWx(() => loadWeather());
     const hash = (location.hash || '').replace(/^#/, '');
     if (hash) setTimeout(() => goToId(hash, true), 60);
+    const armGL = () => {
+      ensureGL().catch((err) => {
+        console.warn(err);
+        document.body.classList.add('no-webgl');
+      });
+    };
+    for (const ev of ['pointerdown', 'touchstart', 'wheel', 'keydown']) {
+      window.addEventListener(ev, armGL, { once: true, passive: true });
+    }
+    const laterGL = window.requestIdleCallback || ((fn) => setTimeout(fn, 200));
+    laterGL(armGL, { timeout: 400 });
   }
 
-  function boot() {
-    makeGrain();
+  async function boot() {
     setVW();
-    wireLang();
+    await wireLang();
     wireRail();
     wireRise();
     wireNav();
@@ -2140,23 +2185,17 @@ import { siteUrl } from './site.js';
     const start = () => {
       if (started) return;
       started = true;
-      try {
-        initGL();
-        setLoad(92);
-      } catch (err) {
-        console.warn(err);
-        document.body.classList.add('no-webgl');
-        setLoad(92);
-      }
       requestAnimationFrame(loop);
-      setTimeout(() => {
+      let dismissed = false;
+      const dismiss = () => {
+        if (dismissed) return;
+        dismissed = true;
         setLoad(100);
-        setTimeout(ready, 280);
-      }, 240);
+        setTimeout(ready, 120);
+      };
+      dismiss();
     };
-    if (document.fonts?.ready) document.fonts.ready.then(start);
-    else start();
-    setTimeout(start, 1600);
+    start();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
