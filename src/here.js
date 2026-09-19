@@ -8,6 +8,14 @@ const ZONES = [
   { id: 'spa', lat: 49.32715, lon: 21.2692, r: 280, pin: [520, 64], latin: 'AQUAE' },
 ];
 
+export const ZONE_CHAPTER = {
+  forum: 'gate',
+  basilica: 'lessons',
+  walls: 'pathways',
+  suburb: 'suburb',
+  spa: 'eternity',
+};
+
 const ALIAS = {
   square: 'forum',
   hall: 'forum',
@@ -88,9 +96,11 @@ export function paintHere(ui, fmt) {
   }
 }
 
-function applyZone(zone, ui, fmt) {
+function applyZone(zone, ui, fmt, onEnter) {
+  const prev = lastZone?.id;
   lastZone = zone;
   paintHere(ui, fmt);
+  if (zone?.id && zone.id !== prev && onEnter) onEnter(zone);
 }
 
 function stopWatch() {
@@ -100,25 +110,26 @@ function stopWatch() {
   }
 }
 
-export function wireHere({ ui, fmt }) {
+export function wireHere({ ui, fmt, onEnter }) {
   const btn = document.getElementById('here-btn');
+  const enter = onEnter || (() => {});
   const fake = new URLSearchParams(location.search).get('here');
   if (fake) {
     const zone = zoneFromName(fake);
-    if (zone) applyZone(zone, ui, fmt);
+    if (zone) applyZone(zone, ui, fmt, enter);
   }
 
   const onFix = (pos) => {
-    applyZone(nearestZone(pos.coords.latitude, pos.coords.longitude), ui, fmt);
+    applyZone(nearestZone(pos.coords.latitude, pos.coords.longitude), ui, fmt, enter);
   };
   const onErr = (err) => {
-    if (err?.code === 1) applyZone({ id: 'denied' }, ui, fmt);
-    else if (!lastZone) applyZone({ id: 'off' }, ui, fmt);
+    if (err?.code === 1) applyZone({ id: 'denied' }, ui, fmt, enter);
+    else if (!lastZone) applyZone({ id: 'off' }, ui, fmt, enter);
   };
 
   const ask = () => {
     if (!navigator.geolocation) {
-      applyZone({ id: 'off' }, ui, fmt);
+      applyZone({ id: 'off' }, ui, fmt, enter);
       return;
     }
     stopWatch();

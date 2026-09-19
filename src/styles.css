@@ -584,6 +584,39 @@ h1,h2,h3{ font-family:var(--display); font-weight:600; margin:0; letter-spacing:
   font-size:13px; color:var(--copy);
 }
 
+.plots-head{ display:flex; align-items:baseline; gap:16px; margin:clamp(48px,8vh,88px) 0 18px; }
+.plots-h{ max-width:14ch; margin-bottom:clamp(22px,4vh,36px); }
+.plots{
+  display:grid; grid-template-columns:1.06fr .9fr 1fr;
+  gap:clamp(10px,1.4vw,18px); align-items:end;
+}
+.plot{
+  position:relative; overflow:hidden; display:block; width:100%;
+  padding:42px 22px 22px; text-align:left; cursor:none;
+  background:
+    linear-gradient(180deg, rgba(196,69,32,.2) 0%, rgba(18,12,9,.2) 18%, rgba(18,12,9,.82) 100%);
+  clip-path:polygon(50% 0, 100% 16%, 100% 100%, 0 100%, 0 16%);
+  box-shadow:inset 0 0 0 1px rgba(246,234,212,.12);
+  transition:transform .6s var(--ease-out), box-shadow .4s;
+}
+.plot:nth-child(2){ transform:translateY(-36px); }
+.plot:nth-child(3){ transform:translateY(18px); }
+.plot-nr{
+  position:absolute; right:10px; top:28px;
+  font-family:var(--display); font-size:clamp(42px,4.4vw,72px); font-weight:600;
+  letter-spacing:-.04em; color:rgba(209,74,34,.22); line-height:.8;
+  pointer-events:none;
+}
+.plot .lat{ display:block; font-size:10px; color:var(--gold); margin-bottom:12px; }
+.plot h3{ font-size:clamp(18px,1.7vw,26px); margin:0 0 10px; }
+.plot p{ margin:0; font-size:14px; color:var(--copy); min-height:3.6em; }
+.plot:hover, .plot:focus-visible{
+  box-shadow:inset 0 0 0 1px rgba(224,180,90,.45);
+}
+.plot:nth-child(1):hover, .plot:nth-child(1):focus-visible{ transform:translateY(-8px); }
+.plot:nth-child(2):hover, .plot:nth-child(2):focus-visible{ transform:translateY(-44px); }
+.plot:nth-child(3):hover, .plot:nth-child(3):focus-visible{ transform:translateY(8px); }
+
 .cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(10px,1.4vw,22px); align-items:start; }
 .card{ position:relative; cursor:none; transition:transform .55s var(--ease-out); }
 button.card{ -webkit-appearance:none; appearance:none; background:none; border:0; color:inherit; font:inherit; display:block; width:100%; text-align:left; padding:0; }
@@ -858,6 +891,10 @@ html.is-tour .rise, html.nav-open .rise, html.is-sheet .rise{
   .walk-grid, .sub-grid, .guild-head, .walk-head{ grid-template-columns:1fr; }
   .sub-tri{ grid-template-columns:1fr 1fr; }
   .sub-card:nth-child(2), .sub-card:nth-child(3){ transform:none; }
+  .plots{ grid-template-columns:1fr; }
+  .plot:nth-child(2), .plot:nth-child(3), .plot:hover, .plot:focus-visible{ transform:none; }
+  .iter-bar{ flex-wrap:wrap; gap:8px 16px; }
+  .iter-share{ margin:4px 0 12px; }
   .foot-grid{ grid-template-columns:1fr 1fr; }
   .fg-left,.fg-right,.fg-synagogue{ display:none; }
   .nav-burger{ display:block; }
@@ -1288,7 +1325,19 @@ html.is-tour #grain{ z-index:4; }
 .sub-card span{ display:block; margin-top:18px; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); }
 .sub-card:hover{ outline-color:rgba(240,226,204,.4); transform:translateY(-8px); }
 
-.itabs{ display:flex; gap:0; border-bottom:1px solid var(--line-soft); margin-bottom:clamp(28px,5vh,48px); }
+.itabs{ display:flex; gap:0; }
+.iter-bar{
+  display:flex; align-items:flex-end; justify-content:space-between; gap:16px 24px;
+  border-bottom:1px solid var(--line-soft); margin-bottom:clamp(28px,5vh,48px);
+}
+.iter-share{
+  flex:0 0 auto; margin-bottom:12px;
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--gold); border-bottom:1px solid rgba(224,180,90,.35);
+  padding:0 0 2px;
+}
+.iter-share:hover, .iter-share:focus-visible{ color:var(--ember); border-color:var(--ember); }
+.iter-share.is-done{ color:var(--bone); border-color:transparent; }
 .itab{
   padding:12px 22px 14px; font-size:11px; letter-spacing:.2em; text-transform:uppercase;
   color:var(--muted); cursor:none; position:relative;
@@ -1412,7 +1461,13 @@ html.is-tour #grain{ z-index:4; }
   font-family:var(--display); font-size:28px; color:var(--terracotta);
   letter-spacing:.08em;
 }
-.ticket .wx{ margin:8px 0 16px; }
+.ticket .wx{ margin:8px 0 8px; }
+.dusk-hint{
+  margin:0 0 14px;
+  font-size:13px; color:var(--ember);
+  letter-spacing:.04em;
+}
+.walk-head .dusk-hint{ margin-top:-8px; }
 .ticket dl{ margin:0; }
 .ticket dl div{ display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr); gap:12px; padding:10px 0; border-bottom:1px solid var(--line-soft); }
 .ticket dt{ font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--bone-dim); }

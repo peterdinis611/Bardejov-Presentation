@@ -1,9 +1,10 @@
 import { duckDusk, duskWanted, setDusk, syncDuskButton } from './dusk.js';
 import { loadCyrillicFonts } from './fonts.js';
-import { wireHere } from './here.js';
+import { wireHere, ZONE_CHAPTER } from './here.js';
 import './styles.css';
 import { hasLocale, I18N, LANGS, loadLocale } from './lang.js';
 import { registerPwa } from './pwa.js';
+import { jsonLdFromPack, langFromPathname, langUrl, OG_LOCALE } from './seo.js';
 import { siteUrl } from './site.js';
 import { wireThen } from './then.js';
 
@@ -98,6 +99,13 @@ import { wireThen } from './then.js';
   let sheetId = null;
   let wxSnap = null;
   let hereApi = null;
+  const spokeZones = (() => {
+    try {
+      return new Set(JSON.parse(sessionStorage.getItem('bv-spoke') || '[]'));
+    } catch {
+      return new Set();
+    }
+  })();
   const TOUR_LEN = 32000;
   const cursor = $('#cursor');
 
@@ -974,12 +982,24 @@ import { wireThen } from './then.js';
       el: $(`.hot[data-place="${h.place}"]`),
     })).filter((h) => h.el);
   }
+  function coverHots() {
+    return ['#then', '.plots-head', '#plots'].some((sel) => {
+      const el = $(sel);
+      if (!el) return false;
+      const r = el.getBoundingClientRect();
+      return r.top < vpH() - 80 && r.bottom > 96;
+    });
+  }
   function updateHots() {
     const wrap = $('#hots');
     if (!wrap || !camera || !hotVecs.length) return;
     if (!_hp) _hp = new THREE.Vector3();
     const show =
-      !touring && !sheetOpen && RIG.smooth < 1.65 && !document.body.classList.contains('no-webgl');
+      !touring &&
+      !sheetOpen &&
+      RIG.smooth < 1.65 &&
+      !coverHots() &&
+      !document.body.classList.contains('no-webgl');
     wrap.classList.toggle('show', show);
     hotVecs.forEach((h) => {
       _hp.copy(h.v).project(camera);
@@ -1041,21 +1061,105 @@ import { wireThen } from './then.js';
     if (wxSnap)
       setWxLine(fmt(wx.today, { t: wxSnap.t, w: wxWord(wxSnap.code), bas: basBit, hall: hallBit }));
     else setWxLine(fmt(wx.dusk, { bas: basBit, hall: hallBit }) || ui('wxFallback'));
+    paintDuskHint();
+  }
+  function isWet(code) {
+    if (code == null) return false;
+    return (code >= 51 && code <= 67) || (code >= 71 && code <= 77) || code >= 80;
+  }
+  function paintDuskHint() {
+    const wx = pack().wx || fallbackPack().wx || {};
+    let line = '';
+    if (wxSnap && isWet(wxSnap.code)) line = wx.duskRain || '';
+    else if (wxSnap?.sunset) {
+      const mins = Math.round((wxSnap.sunset - Date.now()) / 60000);
+      if (mins <= 0) line = wx.duskDown || '';
+      else if (mins <= 90) line = fmt(wx.duskTower, { m: String(mins) });
+      else line = wx.duskLong || '';
+    }
+    $$('.dusk-hint').forEach((el) => {
+      el.hidden = !line;
+      el.textContent = line;
+    });
   }
   function loadWeather() {
     paintHoursAndWx();
     fetch(
-      'https://api.open-meteo.com/v1/forecast?latitude=49.2944&longitude=21.2758&current=temperature_2m,weather_code&timezone=Europe%2FBratislava'
+      'https://api.open-meteo.com/v1/forecast?latitude=49.2944&longitude=21.2758&current=temperature_2m,weather_code&daily=sunset&forecast_days=1&timezone=Europe%2FBratislava'
     )
       .then((r) => r.json())
       .then((j) => {
-        wxSnap = { t: Math.round(j.current.temperature_2m), code: j.current.weather_code };
+        const sun = j.daily?.sunset?.[0];
+        wxSnap = {
+          t: Math.round(j.current.temperature_2m),
+          code: j.current.weather_code,
+          sunset: sun ? Date.parse(sun) : 0,
+        };
         paintHoursAndWx();
       })
       .catch(() => {
         wxSnap = null;
         paintHoursAndWx();
       });
+  }
+
+  function iterFromQuery() {
+    const key = new URLSearchParams(location.search).get('iter');
+    return ITERS[key] ? key : '2h';
+  }
+  function walkSearch() {
+    const next = new URLSearchParams();
+    next.set('iter', iterKey);
+    next.set('lang', lang);
+    for (const [k, v] of new URLSearchParams(location.search)) {
+      if (k !== 'iter' && k !== 'lang') next.append(k, v);
+    }
+    return next;
+  }
+  function walkHref() {
+    const u = new URL(location.href);
+    return `${u.pathname}?${walkSearch()}#walk`;
+  }
+  function syncWalkQuery() {
+    const u = new URL(location.href);
+    const next = `${u.pathname}?${walkSearch()}${u.hash}`;
+    if (`${location.pathname}${location.search}${location.hash}` !== next) {
+      history.replaceState(null, '', next);
+    }
+  }
+  async function shareIter() {
+    const btn = $('#iter-share');
+    const url = `${location.origin}${walkHref()}`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: ui('walkH'), text: ui('shareIter'), url });
+        if (btn) {
+          btn.textContent = ui('shareSent');
+          btn.classList.add('is-done');
+        }
+        return;
+      }
+    } catch (err) {
+      if (err?.name === 'AbortError') return;
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      history.replaceState(null, '', walkHref());
+    }
+    if (btn) {
+      btn.textContent = ui('shareCopied');
+      btn.classList.add('is-done');
+    }
+  }
+  function enterZone(zone) {
+    const chapter = ZONE_CHAPTER[zone?.id];
+    if (!chapter || spokeZones.has(zone.id)) return;
+    spokeZones.add(zone.id);
+    try {
+      sessionStorage.setItem('bv-spoke', JSON.stringify([...spokeZones]));
+    } catch {}
+    speakChapter(chapter, false);
   }
 
   function setIter(key) {
@@ -1085,6 +1189,12 @@ import { wireThen } from './then.js';
       b.classList.toggle('on', on);
       b.setAttribute('aria-selected', on ? 'true' : 'false');
     });
+    const share = $('#iter-share');
+    if (share) {
+      share.classList.remove('is-done');
+      share.textContent = ui('shareIter');
+    }
+    syncWalkQuery();
   }
 
   function navIndex(sec) {
@@ -1254,21 +1364,22 @@ import { wireThen } from './then.js';
   }
   function applySeo(metaPack, spec) {
     const SITE = siteUrl();
-    const pageUrl = SITE + (lang === 'sk' ? '' : `?lang=${lang}`);
-    const ogLoc = { sk: 'sk_SK', cs: 'cs_CZ', en: 'en_GB', pl: 'pl_PL', hu: 'hu_HU', uk: 'uk_UA' };
+    const pageUrl = langUrl(SITE, lang);
+    const cover = `${SITE}assets/square.jpg`;
     if (metaPack.title) document.title = metaPack.title;
     setHead('meta[name="description"]', 'content', metaPack.description);
     setHead('meta[name="keywords"]', 'content', metaPack.keywords);
     setHead('meta[property="og:site_name"]', 'content', metaPack.siteName);
-    setHead('meta[property="og:locale"]', 'content', ogLoc[lang] || 'sk_SK');
+    setHead('meta[property="og:locale"]', 'content', OG_LOCALE[lang] || 'sk_SK');
     setHead('meta[property="og:title"]', 'content', metaPack.title);
     setHead('meta[property="og:description"]', 'content', metaPack.description);
     setHead('meta[property="og:url"]', 'content', pageUrl);
-    setHead('meta[property="og:image"]', 'content', `${SITE}assets/square.jpg`);
+    setHead('meta[property="og:image"]', 'content', cover);
     setHead('meta[property="og:image:alt"]', 'content', metaPack.imageAlt);
+    setHead('link[rel="image_src"]', 'href', cover);
     setHead('meta[name="twitter:title"]', 'content', metaPack.title);
     setHead('meta[name="twitter:description"]', 'content', metaPack.description);
-    setHead('meta[name="twitter:image"]', 'content', `${SITE}assets/square.jpg`);
+    setHead('meta[name="twitter:image"]', 'content', cover);
     setHead('meta[name="twitter:image:alt"]', 'content', metaPack.imageAlt);
     const canonical = document.querySelector('link[rel="canonical"]');
     if (canonical) canonical.setAttribute('href', pageUrl);
@@ -1276,47 +1387,13 @@ import { wireThen } from './then.js';
     setHead('link[rel="sitemap"]', 'href', `${SITE}sitemap.xml`);
     $$('link[rel="alternate"][hreflang]').forEach((el) => {
       const hl = el.getAttribute('hreflang');
-      el.setAttribute('href', hl === 'x-default' ? SITE : `${SITE}?lang=${hl}`);
+      el.setAttribute(
+        'href',
+        hl === 'x-default' || hl === 'sk' ? langUrl(SITE, 'sk') : langUrl(SITE, hl)
+      );
     });
     const ld = document.getElementById('ld-json');
-    if (!ld) return;
-    const places = (metaPack.places || []).map((name, i, arr) => ({
-      '@type': i === arr.length - 1 ? 'TouristAttraction' : 'LandmarksOrHistoricalBuildings',
-      name,
-    }));
-    ld.textContent = JSON.stringify({
-      '@context': 'https://schema.org',
-      '@graph': [
-        {
-          '@type': 'WebSite',
-          name: metaPack.siteName || 'Bardejov UNESCO',
-          url: SITE,
-          inLanguage: spec?.html || lang,
-          description: metaPack.description,
-          keywords: metaPack.keywords,
-        },
-        {
-          '@type': 'TouristAttraction',
-          name: 'Bardejov',
-          alternateName: ['UNESCO Bardejov', 'Bártfa', 'Bardejów', 'Бардіїв'],
-          url: pageUrl,
-          image: `${SITE}assets/square.jpg`,
-          description: metaPack.description,
-          keywords: metaPack.keywords,
-          isAccessibleForFree: true,
-          touristType: ['Cultural tourism', 'Heritage tourism'],
-          address: {
-            '@type': 'PostalAddress',
-            addressLocality: 'Bardejov',
-            addressRegion: 'Prešovský kraj',
-            addressCountry: 'SK',
-          },
-          geo: { '@type': 'GeoCoordinates', latitude: 49.2944, longitude: 21.2758 },
-          sameAs: ['https://whc.unesco.org/en/list/973/', 'https://www.bardejov.sk/'],
-          containsPlace: places,
-        },
-      ],
-    });
+    if (ld) ld.textContent = JSON.stringify(jsonLdFromPack(SITE, lang, pack(), spec?.html || lang));
   }
   function applyI18n() {
     const shown = $$('.rv-in');
@@ -1363,6 +1440,8 @@ import { wireThen } from './then.js';
     if (close) close.setAttribute('aria-label', ui('sheetClose'));
     const rise = $('#rise');
     if (rise) rise.setAttribute('aria-label', ui('toTop'));
+    const share = $('#iter-share');
+    if (share && !share.classList.contains('is-done')) share.textContent = ui('shareIter');
     syncDuskButton($('#snd'), { on: ui('soundOn'), off: ui('soundOff') });
     if (hereApi) hereApi.refresh();
     $$('#rail button').forEach((b, i) => {
@@ -1401,6 +1480,8 @@ import { wireThen } from './then.js';
   function detectLang() {
     const q = new URLSearchParams(location.search).get('lang');
     if (q && hasLocale(q)) return q;
+    const pathLang = langFromPathname(location.pathname);
+    if (pathLang && hasLocale(pathLang)) return pathLang;
     try {
       const saved = localStorage.getItem('bv-lang');
       if (saved && hasLocale(saved)) return saved;
@@ -2035,7 +2116,7 @@ import { wireThen } from './then.js';
     });
     $$('[data-guild]').forEach((el) => {
       el.addEventListener('click', (e) => {
-        if (GWALL.moved > 8) {
+        if (el.classList.contains('gld') && GWALL.moved > 8) {
           e.preventDefault();
           return;
         }
@@ -2088,7 +2169,9 @@ import { wireThen } from './then.js';
     wireStrips();
     wireGuildWind();
     wireThen();
-    hereApi = wireHere({ ui, fmt });
+    hereApi = wireHere({ ui, fmt, onEnter: enterZone });
+    const share = $('#iter-share');
+    if (share) share.addEventListener('click', () => shareIter());
     const stats = $('.gate-stats');
     if (stats) {
       const io = new IntersectionObserver(
@@ -2181,9 +2264,9 @@ import { wireThen } from './then.js';
     onScroll();
     wireReveals();
     wireForeground();
-    setIter('2h');
+    setIter(iterFromQuery());
     const laterWx = window.requestIdleCallback || ((fn) => setTimeout(fn, 2000));
-    laterWx(() => loadWeather());
+    laterWx(() => loadWeather(), { timeout: 2500 });
     registerPwa();
     const hash = (location.hash || '').replace(/^#/, '');
     if (hash) setTimeout(() => goToId(hash, true), 60);

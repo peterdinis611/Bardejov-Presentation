@@ -14,12 +14,12 @@
 <meta name="tdm-reservation" content="1">
 <link rel="tdm-policy" href="__SITE__/tdm-policy.txt">
 <link rel="canonical" href="__SITE__/">
-<link rel="alternate" hreflang="sk" href="__SITE__/?lang=sk">
-<link rel="alternate" hreflang="cs" href="__SITE__/?lang=cs">
-<link rel="alternate" hreflang="en" href="__SITE__/?lang=en">
-<link rel="alternate" hreflang="pl" href="__SITE__/?lang=pl">
-<link rel="alternate" hreflang="hu" href="__SITE__/?lang=hu">
-<link rel="alternate" hreflang="uk" href="__SITE__/?lang=uk">
+<link rel="alternate" hreflang="sk" href="__SITE__/">
+<link rel="alternate" hreflang="cs" href="__SITE__/cs">
+<link rel="alternate" hreflang="en" href="__SITE__/en">
+<link rel="alternate" hreflang="pl" href="__SITE__/pl">
+<link rel="alternate" hreflang="hu" href="__SITE__/hu">
+<link rel="alternate" hreflang="uk" href="__SITE__/uk">
 <link rel="alternate" hreflang="x-default" href="__SITE__/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Bardejov UNESCO">
@@ -36,6 +36,8 @@
 <meta property="og:image:width" content="1920">
 <meta property="og:image:height" content="1440">
 <meta property="og:image:alt" content="Radničné námestie v Bardejove, lokalita UNESCO, za súmraku">
+<link rel="image_src" href="__SITE__/assets/square.jpg">
+<meta property="og:image:type" content="image/jpeg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Bardejov UNESCO — námestie, bazilika sv. Egídia a kúpele">
 <meta name="twitter:description" content="Navštívte UNESCO Bardejov: Radničné námestie, bazilika sv. Egídia, mestské hradby, židovské predmestie a Bardejovské Kúpele.">
@@ -297,13 +299,13 @@ document.body.classList.remove('is-locked');
         <picture class="then-now">
           <source type="image/avif" srcset="/assets/square-800.avif 800w, /assets/square-1280.avif 1280w, /assets/square.avif 1920w" sizes="(max-width: 820px) 100vw, 72vw">
           <source type="image/webp" srcset="/assets/square-800.webp 800w, /assets/square-1280.webp 1280w, /assets/square.webp 1920w" sizes="(max-width: 820px) 100vw, 72vw">
-          <img src="/assets/square.jpg" alt="" width="1920" height="1440" loading="lazy" decoding="async">
+          <img src="/assets/square.jpg" alt="Radničné námestie dnes" width="1920" height="1440" loading="lazy" decoding="async" data-i18n="thenNow" data-i18n-attr="alt">
         </picture>
         <div class="then-old">
           <picture>
             <source type="image/avif" srcset="/assets/then-800.avif 800w, /assets/then-1280.avif 1280w, /assets/then.avif 1536w" sizes="(max-width: 820px) 100vw, 72vw">
             <source type="image/webp" srcset="/assets/then-800.webp 800w, /assets/then-1280.webp 1280w, /assets/then.webp 1536w" sizes="(max-width: 820px) 100vw, 72vw">
-            <img src="/assets/then.jpg" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+            <img src="/assets/then.jpg" alt="Radničné námestie vtedy" width="1536" height="1024" loading="lazy" decoding="async" data-i18n="thenThen" data-i18n-attr="alt">
           </picture>
         </div>
         <div class="then-split" aria-hidden="true"><i></i></div>
@@ -316,6 +318,30 @@ document.body.classList.remove('is-locked');
     </div>
     <figcaption class="then-cap" data-i18n="thenCred">Fotogravúra námestia podľa súmrakovej dosky. Ťahaj prah medzi vtedy a teraz.</figcaption>
   </figure>
+  <div class="sec-head plots-head" data-rv="fade">
+    <span class="k"><b>01b</b> — <span data-i18n="plotK">Tri parcely</span></span><span class="rule"></span><span class="k lat">PARCELLAE</span>
+  </div>
+  <h2 class="display h-sec plots-h" data-rv="up" data-i18n="plotH">Štíty, ktoré cech ešte drží.</h2>
+  <div class="plots" id="plots">
+    <button class="plot" type="button" data-guild="weavers" data-rv="up" data-cursor>
+      <span class="plot-nr" aria-hidden="true">VII</span>
+      <b class="lat" data-i18n="plot0g">č. 7 · južná fronta · Narodenie</b>
+      <h3 data-i18n="plot0t">Štít tkáčov</h3>
+      <p data-i18n="plot0p">Plátno šlo na sever skôr ako slovo UNESCO. Táto parcela platila najkrajšie krídla v lodi.</p>
+    </button>
+    <button class="plot" type="button" data-guild="gold" data-rv="up" data-cursor>
+      <span class="plot-nr" aria-hidden="true">XXIV</span>
+      <b class="lat" data-i18n="plot1g">č. 24 · východ · erb a kalich</b>
+      <h3 data-i18n="plot1t">Zlatnícky dvor</h3>
+      <p data-i18n="plot1p">Pečať mesta sa rodila tu. Zlatník šil lesk na papier aj na oltár.</p>
+    </button>
+    <button class="plot" type="button" data-guild="furriers" data-rv="up" data-cursor>
+      <span class="plot-nr" aria-hidden="true">XLI</span>
+      <b class="lat" data-i18n="plot2g">č. 41 · sever, v tieni veže</b>
+      <h3 data-i18n="plot2t">Kožušnícky rad</h3>
+      <p data-i18n="plot2p">Kožuch šiel do Poľska hustejšie ako hradby. Cech ticha a zimy.</p>
+    </button>
+  </div>
 </section>
 
 <section class="sec" id="pathways" data-cam="2">
@@ -337,7 +363,7 @@ document.body.classList.remove('is-locked');
         <picture>
           <source type="image/avif" srcset="/assets/square-wide-800.avif 800w, /assets/square-wide.avif 1920w" sizes="(max-width:820px) 92vw, 28vw">
           <source type="image/webp" srcset="/assets/square-wide-800.webp 800w, /assets/square-wide.webp 1920w" sizes="(max-width:820px) 92vw, 28vw">
-          <img class="card-shot" src="/assets/square-wide.jpg" alt="" width="1920" height="1440" loading="lazy" decoding="async">
+          <img class="card-shot" src="/assets/square-wide.jpg" alt="Radničné námestie" width="1920" height="1440" loading="lazy" decoding="async" data-i18n="cardSqMeta" data-i18n-attr="alt">
         </picture>
         <span class="card-ar"><svg aria-hidden="true" viewBox="0 0 14 14" fill="none"><path d="M3 11 11 3M5 3h6v6" stroke="#f0e2cc" stroke-width="1.3"/></svg></span>
         <i class="glow" style="--gx:72%; --gy:22%; --gr:24%; --gt:6.1s; --gt2:9.7s; --gc1:rgba(232,106,58,.55); --gc2:rgba(196,69,32,.28)"></i>
@@ -350,7 +376,7 @@ document.body.classList.remove('is-locked');
         <picture>
           <source type="image/avif" srcset="/assets/basilica-800.avif 800w, /assets/basilica.avif 1920w" sizes="(max-width:820px) 92vw, 28vw">
           <source type="image/webp" srcset="/assets/basilica-800.webp 800w, /assets/basilica.webp 1920w" sizes="(max-width:820px) 92vw, 28vw">
-          <img class="card-shot" src="/assets/basilica.jpg" alt="" width="1920" height="2880" loading="lazy" decoding="async">
+          <img class="card-shot" src="/assets/basilica.jpg" alt="Sv. Egídius" width="1920" height="2880" loading="lazy" decoding="async" data-i18n="cardBasMeta" data-i18n-attr="alt">
         </picture>
         <span class="card-ar"><svg aria-hidden="true" viewBox="0 0 14 14" fill="none"><path d="M3 11 11 3M5 3h6v6" stroke="#f0e2cc" stroke-width="1.3"/></svg></span>
         <i class="glow glow--flame" style="--gx:48%; --gy:38%; --gr:16%; --gt:3.7s; --gt2:5.3s; --gc1:rgba(255,198,124,.62); --gc2:rgba(201,162,74,.32)"></i>
@@ -363,7 +389,7 @@ document.body.classList.remove('is-locked');
         <picture>
           <source type="image/avif" srcset="/assets/walls-800.avif 800w, /assets/walls.avif 1920w" sizes="(max-width:820px) 92vw, 28vw">
           <source type="image/webp" srcset="/assets/walls-800.webp 800w, /assets/walls.webp 1920w" sizes="(max-width:820px) 92vw, 28vw">
-          <img class="card-shot" src="/assets/walls.jpg" alt="" width="1920" height="1280" loading="lazy" decoding="async">
+          <img class="card-shot" src="/assets/walls.jpg" alt="Hrubá bašta" width="1920" height="1280" loading="lazy" decoding="async" data-i18n="cardWallMeta" data-i18n-attr="alt">
         </picture>
         <span class="card-ar"><svg aria-hidden="true" viewBox="0 0 14 14" fill="none"><path d="M3 11 11 3M5 3h6v6" stroke="#f0e2cc" stroke-width="1.3"/></svg></span>
         <i class="glow" style="--gx:30%; --gy:18%; --gr:20%; --gt:7.3s; --gt2:11.2s; --gc1:rgba(240,226,204,.42); --gc2:rgba(138,122,104,.22)"></i>
@@ -656,57 +682,57 @@ document.body.classList.remove('is-locked');
     <button class="altar" type="button" data-altar="andrew" data-cursor><picture>
       <source type="image/avif" srcset="/assets/altars/andrew.avif">
       <source type="image/webp" srcset="/assets/altars/andrew.webp">
-      <img class="altar-shot" src="/assets/altars/andrew.jpg" alt="" width="480" height="720" loading="lazy" decoding="async">
+      <img class="altar-shot" src="/assets/altars/andrew.jpg" alt="sv. Ondrej" width="480" height="720" loading="lazy" decoding="async" data-i18n="aAndrew" data-i18n-attr="alt">
     </picture><i>01</i><b data-i18n="aAndrew">sv. Ondrej</b><span>1440–1460</span></button>
     <button class="altar" type="button" data-altar="barbara" data-cursor><picture>
       <source type="image/avif" srcset="/assets/altars/barbara.avif">
       <source type="image/webp" srcset="/assets/altars/barbara.webp">
-      <img class="altar-shot" src="/assets/altars/barbara.jpg" alt="" width="480" height="720" loading="lazy" decoding="async">
+      <img class="altar-shot" src="/assets/altars/barbara.jpg" alt="sv. Barbora" width="480" height="720" loading="lazy" decoding="async" data-i18n="aBarbara" data-i18n-attr="alt">
     </picture><i>02</i><b data-i18n="aBarbara">sv. Barbora</b><span>1450–1470</span></button>
     <button class="altar" type="button" data-altar="elisabeth" data-cursor><picture>
       <source type="image/avif" srcset="/assets/altars/elisabeth.avif">
       <source type="image/webp" srcset="/assets/altars/elisabeth.webp">
-      <img class="altar-shot" src="/assets/altars/elisabeth.jpg" alt="" width="480" height="720" loading="lazy" decoding="async">
+      <img class="altar-shot" src="/assets/altars/elisabeth.jpg" alt="sv. Alžbeta" width="480" height="720" loading="lazy" decoding="async" data-i18n="aElis" data-i18n-attr="alt">
     </picture><i>03</i><b data-i18n="aElis">sv. Alžbeta</b><span data-i18n="aElisSub">1480 · krajčíri</span></button>
     <button class="altar" type="button" data-altar="ann" data-cursor><picture>
       <source type="image/avif" srcset="/assets/altars/ann.avif">
       <source type="image/webp" srcset="/assets/altars/ann.webp">
-      <img class="altar-shot" src="/assets/altars/ann.jpg" alt="" width="480" height="720" loading="lazy" decoding="async">
+      <img class="altar-shot" src="/assets/altars/ann.jpg" alt="Panna Mária" width="480" height="720" loading="lazy" decoding="async" data-i18n="aAnn" data-i18n-attr="alt">
     </picture><i>04</i><b data-i18n="aAnn">Panna Mária</b><span data-i18n="aAnnSub">1485 · Anna</span></button>
     <button class="altar" type="button" data-altar="mager" data-cursor><picture>
       <source type="image/avif" srcset="/assets/altars/mager.avif">
       <source type="image/webp" srcset="/assets/altars/mager.webp">
-      <img class="altar-shot" src="/assets/altars/mager.jpg" alt="" width="480" height="720" loading="lazy" decoding="async">
+      <img class="altar-shot" src="/assets/altars/mager.jpg" alt="Veronica Mager" width="480" height="720" loading="lazy" decoding="async" data-i18n="aMager" data-i18n-attr="alt">
     </picture><i>05</i><b data-i18n="aMager">Veronica Mager</b><span>1489</span></button>
     <button class="altar" type="button" data-altar="cross" data-cursor><picture>
       <source type="image/avif" srcset="/assets/altars/cross.avif">
       <source type="image/webp" srcset="/assets/altars/cross.webp">
-      <img class="altar-shot" src="/assets/altars/cross.jpg" alt="" width="480" height="720" loading="lazy" decoding="async">
+      <img class="altar-shot" src="/assets/altars/cross.jpg" alt="Svätý kríž" width="480" height="720" loading="lazy" decoding="async" data-i18n="aCross" data-i18n-attr="alt">
     </picture><i>06</i><b data-i18n="aCross">Svätý kríž</b><span data-i18n="aCrossSub">1480 · roľníci</span></button>
     <button class="altar" type="button" data-altar="pieta" data-cursor><picture>
       <source type="image/avif" srcset="/assets/altars/pieta.avif">
       <source type="image/webp" srcset="/assets/altars/pieta.webp">
-      <img class="altar-shot" src="/assets/altars/pieta.jpg" alt="" width="480" height="720" loading="lazy" decoding="async">
+      <img class="altar-shot" src="/assets/altars/pieta.jpg" alt="Pieta" width="480" height="720" loading="lazy" decoding="async" data-i18n="aPieta" data-i18n-attr="alt">
     </picture><i>07</i><b data-i18n="aPieta">Pieta</b><span data-i18n="aPietaSub">1480 · murári</span></button>
     <button class="altar" type="button" data-altar="apollonia" data-cursor><picture>
       <source type="image/avif" srcset="/assets/altars/apollonia.avif">
       <source type="image/webp" srcset="/assets/altars/apollonia.webp">
-      <img class="altar-shot" src="/assets/altars/apollonia.jpg" alt="" width="480" height="720" loading="lazy" decoding="async">
+      <img class="altar-shot" src="/assets/altars/apollonia.jpg" alt="sv. Apolónia" width="480" height="720" loading="lazy" decoding="async" data-i18n="aApol" data-i18n-attr="alt">
     </picture><i>08</i><b data-i18n="aApol">sv. Apolónia</b><span data-i18n="aApolSub">1485 · sitári</span></button>
     <button class="altar" type="button" data-altar="nativity" data-cursor><picture>
       <source type="image/avif" srcset="/assets/altars/nativity.avif">
       <source type="image/webp" srcset="/assets/altars/nativity.webp">
-      <img class="altar-shot" src="/assets/altars/nativity.jpg" alt="" width="480" height="720" loading="lazy" decoding="async">
+      <img class="altar-shot" src="/assets/altars/nativity.jpg" alt="Narodenie" width="480" height="720" loading="lazy" decoding="async" data-i18n="aNat" data-i18n-attr="alt">
     </picture><i>09</i><b data-i18n="aNat">Narodenie</b><span data-i18n="aNatSub">1480 · tkáči</span></button>
     <button class="altar" type="button" data-altar="erasmus" data-cursor><picture>
       <source type="image/avif" srcset="/assets/altars/erasmus.avif">
       <source type="image/webp" srcset="/assets/altars/erasmus.webp">
-      <img class="altar-shot" src="/assets/altars/erasmus.jpg" alt="" width="480" height="720" loading="lazy" decoding="async">
+      <img class="altar-shot" src="/assets/altars/erasmus.jpg" alt="Erázmus" width="480" height="720" loading="lazy" decoding="async" data-i18n="aEras" data-i18n-attr="alt">
     </picture><i>10</i><b data-i18n="aEras">Erázmus</b><span data-i18n="aErasSub">hrnčiari</span></button>
     <button class="altar" type="button" data-altar="sorrows" data-cursor><picture>
       <source type="image/avif" srcset="/assets/altars/sorrows.avif">
       <source type="image/webp" srcset="/assets/altars/sorrows.webp">
-      <img class="altar-shot" src="/assets/altars/sorrows.jpg" alt="" width="480" height="720" loading="lazy" decoding="async">
+      <img class="altar-shot" src="/assets/altars/sorrows.jpg" alt="Vir Dolorum" width="480" height="720" loading="lazy" decoding="async" data-i18n="aSor" data-i18n-attr="alt">
     </picture><i>11</i><b data-i18n="aSor">Vir Dolorum</b><span data-i18n="aSorSub">1500 · tesári</span></button>
     </div>
   </div>
@@ -763,11 +789,15 @@ document.body.classList.remove('is-locked');
   <div class="walk-head">
     <h2 class="display h-sec" data-rv="up" data-i18n="walkH">Jedna dlažba. Tri dĺžky dňa.</h2>
     <p class="wx walk-wx" data-wx data-rv="fade">Bardejov · súmrak Šariša</p>
+    <p class="dusk-hint" id="dusk-hint" hidden></p>
   </div>
-  <div class="itabs" role="tablist" data-rv="up">
-    <button class="itab on" type="button" role="tab" aria-selected="true" data-iter="2h" data-cursor data-i18n="iter2h">2 hodiny</button>
-    <button class="itab" type="button" role="tab" aria-selected="false" data-iter="half" data-cursor data-i18n="iterHalf">Pol dňa</button>
-    <button class="itab" type="button" role="tab" aria-selected="false" data-iter="full" data-cursor data-i18n="iterFull">Celý deň</button>
+  <div class="iter-bar" data-rv="up">
+    <div class="itabs" role="tablist">
+      <button class="itab on" type="button" role="tab" aria-selected="true" data-iter="2h" data-cursor data-i18n="iter2h">2 hodiny</button>
+      <button class="itab" type="button" role="tab" aria-selected="false" data-iter="half" data-cursor data-i18n="iterHalf">Pol dňa</button>
+      <button class="itab" type="button" role="tab" aria-selected="false" data-iter="full" data-cursor data-i18n="iterFull">Celý deň</button>
+    </div>
+    <button type="button" class="iter-share" id="iter-share" data-cursor data-i18n="shareIter">Pošli dĺžku dňa</button>
   </div>
   <div class="walk-grid">
     <div class="plan" data-rv="up">
@@ -813,11 +843,13 @@ document.body.classList.remove('is-locked');
           <span class="ticket-no">973</span>
         </header>
         <p class="wx" data-wx>Bardejov · súmrak Šariša</p>
+        <p class="dusk-hint" data-dusk-hint hidden></p>
         <dl>
           <div><dt data-i18n="practHall">Radnica — múzeum</dt><dd id="hrs-hall">Ut–ne, sezónne 8:30–16:30</dd></div>
           <div><dt data-i18n="practFee">Vstupné radnica</dt><dd data-i18n="practFeeD">Leto 6 € · zima 5 € · zľava 3 €</dd></div>
           <div><dt data-i18n="practBas">Bazilika a veža</dt><dd id="hrs-bas">Po–pia 10:00–16:00</dd></div>
           <div><dt data-i18n="practTower">Vstupné veža</dt><dd data-i18n="practTowerD">Interiér 2 € · s vežou 4 €</dd></div>
+          <div><dt data-i18n="practAccess">Bez veže</dt><dd data-i18n="practAccessD">Dlažba rovina. Veža 72 m schodov. Predmestie 5 min bez stúpania. Kolonáda v kúpeľoch voľne.</dd></div>
           <div><dt data-i18n="practPark">Parkovanie</dt><dd data-i18n="practParkD">Námestie je pešie. Autá pri hradbách a na záchytných parkoviskách pri múroch.</dd></div>
           <div><dt data-i18n="practMhd">MHD do kúpeľov</dt><dd data-i18n="practMhdD">Linky 1, 2, 5 · zastávka Bardejovské Kúpele, parkovisko · cca 15 min zo Slovenskej.</dd></div>
         </dl>

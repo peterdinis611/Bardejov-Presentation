@@ -5,6 +5,13 @@
   "outputDirectory": "dist",
   "cleanUrls": false,
   "trailingSlash": false,
+  "rewrites": [
+    { "source": "/cs", "destination": "/cs/index.html" },
+    { "source": "/en", "destination": "/en/index.html" },
+    { "source": "/pl", "destination": "/pl/index.html" },
+    { "source": "/hu", "destination": "/hu/index.html" },
+    { "source": "/uk", "destination": "/uk/index.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)",

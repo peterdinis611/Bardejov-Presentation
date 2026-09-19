@@ -186,7 +186,17 @@ export async function openSite(page, path = '/?lang=sk', opts = {}) {
   const motion = opts.reducedMotion === false ? 'no-preference' : 'reduce';
   await installFastBoot(page, opts);
   await page.route(/fonts\.(googleapis|gstatic)\.com/, (route) => route.abort());
-  await page.route('https://api.open-meteo.com/**', (route) => route.abort());
+  if (opts.weather) {
+    await page.route('https://api.open-meteo.com/**', (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(opts.weather),
+      })
+    );
+  } else {
+    await page.route('https://api.open-meteo.com/**', (route) => route.abort());
+  }
   await page.emulateMedia({ reducedMotion: motion });
   await page.goto(path);
   await page.locator('#pre').waitFor({ state: 'hidden', timeout: 8_000 });
