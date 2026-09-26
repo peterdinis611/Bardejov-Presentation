@@ -164,6 +164,9 @@ document.body.classList.remove('is-locked');
       </button>
     </div>
     <div class="nav-item">
+      <a class="nav-link" href="#walk" data-cursor><span data-i18n="navWalk">Itinerár</span><span class="alt">ITER</span></a>
+    </div>
+    <div class="nav-item">
       <a class="nav-link" href="#eternity" data-cursor><span data-i18n="navSpa">Kúpele</span><span class="alt">AQUAE</span></a>
       <button type="button" class="nav-speak" data-speak="eternity" aria-pressed="false" data-cursor>
         <svg class="ico-play" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 1.2v9.6L11 6z"/></svg>
@@ -237,7 +240,11 @@ document.body.classList.remove('is-locked');
       </div>
       <div class="chip" data-chip="3" data-rv="up" data-cursor>
         <span class="num">04</span>
-        <span class="tx"><b data-i18n="chip3t">Kúpele</b><p data-i18n="chip3p">Pramene, ktoré sa prebúdzajú, keď deň stíchne.</p></span>
+        <span class="tx"><b data-i18n="chip3t">Deň</b><p data-i18n="chip3p">Jedna dlažba. Tri dĺžky, kým ešte svieti.</p></span>
+      </div>
+      <div class="chip" data-chip="4" data-rv="up" data-cursor>
+        <span class="num">05</span>
+        <span class="tx"><b data-i18n="chip4t">Kúpele</b><p data-i18n="chip4p">Pramene, ktoré sa prebúdzajú, keď deň stíchne.</p></span>
       </div>
     </div>
   </div>
@@ -286,6 +293,14 @@ document.body.classList.remove('is-locked');
       </a>
     </div>
   </div>
+  <a class="slip" id="slip" href="#walk" data-cursor data-rv="up">
+    <b class="lat" data-i18n="slipLat">CISTA</b>
+    <span class="slip-wx">
+      <span class="wx" data-wx>Bardejov · súmrak Šariša</span>
+      <span class="dusk-hint" hidden></span>
+    </span>
+    <i data-i18n="slipOpen">Otvoriť itinerár</i>
+  </a>
   <div class="gate-stats" data-rv="up">
     <button type="button" data-place="square" data-cursor><b data-count="1376">1376</b><span data-i18n="stat0">Kráľovské mesto</span></button>
     <button type="button" data-place="2000" data-cursor><b data-count="2000">2000</b><span data-i18n="stat1">UNESCO</span></button>
@@ -413,6 +428,11 @@ document.body.classList.remove('is-locked');
   <div class="sec-head" data-rv="fade">
     <span class="k"><b>03</b> — <span data-i18n="lesK">Pamäť mesta</span></span><span class="rule"></span><span class="k lat">MEMORIA</span>
   </div>
+  <nav class="mem-jump" aria-label="Pamäť" data-i18n="navMemory" data-i18n-attr="aria-label">
+    <a href="#annals" data-cursor data-i18n="memAnn">Letopis</a>
+    <a href="#guilds" data-cursor data-i18n="memGld">Cechy</a>
+    <a href="#altars" data-cursor data-i18n="memAlt">Oltáre</a>
+  </nav>
   <div class="cur-head">
     <h2 class="display h-sec" data-rv="up" data-i18n="lesH">Päť kapitol. Osem storočí. Jedno námestie.</h2>
     <p class="body-lg" data-rv="up" data-i18n="lesIntro">Každá kapitola je prechádzka, nie prednáška. Prídete k bráne, vystúpite na vežu, sadnete si k prameňu a odídete s jednou vecou, ktorú oplatí si nechať.</p>

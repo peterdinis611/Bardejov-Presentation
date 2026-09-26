@@ -1,10 +1,12 @@
 /* Bardejov — keep the dusk walk on the square when the signal drops. */
-const CACHE = 'bv-dusk-1';
+const CACHE = 'bv-dusk-2';
+const LANGS = ['en', 'cs', 'pl', 'hu', 'uk'];
 const PRECACHE = [
   './',
   './index.html',
   './manifest.webmanifest',
   './icon.svg',
+  ...LANGS.map((id) => `./${id}/`),
   './assets/square-wide-800.avif',
   './assets/square-800.avif',
   './assets/then-800.avif',
@@ -23,8 +25,7 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches
       .open(CACHE)
-      .then((cache) => cache.addAll(PRECACHE))
-      .catch(() => {})
+      .then((cache) => Promise.all(PRECACHE.map((u) => cache.add(u).catch(() => {}))))
       .then(() => self.skipWaiting())
   );
 });
@@ -60,6 +61,27 @@ function isKeep(url) {
   );
 }
 
+function langShell(url) {
+  const path = url.pathname.replace(/\/+$/, '');
+  const m = path.match(/\/(en|cs|pl|hu|uk)(?:\/index\.html)?$/);
+  return m ? `./${m[1]}/` : './index.html';
+}
+
+async function matchPage(cache, request, url) {
+  const tries = [
+    request,
+    url.pathname,
+    url.pathname.endsWith('/') ? url.pathname.slice(0, -1) : `${url.pathname}/`,
+    langShell(url),
+    `${String(langShell(url)).replace(/\/$/, '')}/index.html`,
+  ];
+  for (const key of tries) {
+    const hit = await cache.match(key);
+    if (hit) return hit;
+  }
+  return (await cache.match('./index.html')) || (await cache.match('./'));
+}
+
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
@@ -70,11 +92,15 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       fetch(req)
         .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE).then((c) => c.put('./index.html', copy));
+          const byReq = res.clone();
+          const byLang = res.clone();
+          caches.open(CACHE).then((c) => {
+            c.put(req, byReq);
+            c.put(langShell(url), byLang).catch(() => {});
+          });
           return res;
         })
-        .catch(() => caches.match('./index.html'))
+        .catch(() => caches.open(CACHE).then((c) => matchPage(c, req, url)))
     );
     return;
   }

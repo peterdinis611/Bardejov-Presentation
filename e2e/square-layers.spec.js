@@ -81,6 +81,22 @@ test('three burgher plots open a guild sheet', async ({ page }) => {
   await expect(page.locator('#sheet-title')).toHaveText(/Tkáči/);
 });
 
+test('itinerary sits in the menu, chips and memory anchors', async ({ page }) => {
+  await openSite(page);
+  await expect(page.locator('.nav-link[href="#walk"]')).toBeVisible();
+  await expect(page.locator('.nav-speak')).toHaveCount(5);
+  await expect(page.locator('.chip')).toHaveCount(5);
+  await expect(page.locator('.mem-jump a')).toHaveCount(3);
+  await expect(page.locator('.mem-jump a[href="#annals"]')).toBeVisible();
+  await expect(page.locator('#slip')).toHaveAttribute('href', '#walk');
+  await page.locator('.mem-jump a[href="#altars"]').click();
+  await expect(page.locator('#altars')).toBeInViewport();
+  await page.locator('.chip[data-chip="3"]').click();
+  await expect(page.locator('#walk')).toBeInViewport();
+  await page.locator('.chip[data-chip="4"]').click();
+  await expect(page.locator('#eternity')).toBeInViewport();
+});
+
 test('PWA manifest and service worker are published', async ({ page }) => {
   await openSite(page);
   await expect(page.locator('link[rel="manifest"]')).toHaveAttribute(
@@ -93,4 +109,8 @@ test('PWA manifest and service worker are published', async ({ page }) => {
   expect(body.short_name).toMatch(/Bardejov/);
   const sw = await page.request.get('/sw.js');
   expect(sw.ok()).toBeTruthy();
+  const swText = await sw.text();
+  expect(swText).toMatch(/bv-dusk-2/);
+  expect(swText).toMatch(/LANGS/);
+  expect(swText).toMatch(/\$\{id\}/);
 });
